@@ -63,10 +63,10 @@ class Config(object):
         self.endpoint = endpoint or const.CDA_ADDRESS
 
 
-class ClientException(Exception):
+class ApiException(Exception):
     def __init__(self, result, message=None):
         self.result = result
-        super(ClientException, self).__init__(
+        super(ApiException, self).__init__(
             message or result.text or 'Request failed with status \"{0}\".'.format(result.status_code))
 
 
@@ -85,7 +85,7 @@ class Dispatcher(object):
         if 200 <= r.status_code < 300:
             return self.resource_factory.from_json(r.json())
         else:
-            raise ClientException(r)
+            raise ApiException(r)
 
     def get_headers(self):
         return {'Authorization': 'Bearer {0}'.format(self.config.access_token)}
