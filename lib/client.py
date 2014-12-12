@@ -1,5 +1,6 @@
 import requests
 import const
+from lib.errors import ErrorMapping, ApiError
 from lib.serialization import ResourceFactory
 from resources import Entry, Asset, ContentType
 
@@ -63,13 +64,6 @@ class Config(object):
         self.endpoint = endpoint or const.CDA_ADDRESS
 
 
-class ApiException(Exception):
-    def __init__(self, result, message=None):
-        self.result = result
-        super(ApiException, self).__init__(
-            message or result.text or 'Request failed with status \"{0}\".'.format(result.status_code))
-
-
 class Dispatcher(object):
     def __init__(self, config):
         super(Dispatcher, self).__init__()
@@ -85,7 +79,10 @@ class Dispatcher(object):
         if 200 <= r.status_code < 300:
             return self.resource_factory.from_json(r.json())
         else:
-            raise ApiException(r)
+            if r.status_code in ErrorMapping.mapping:
+                raise ErrorMapping.mapping[r.status_code](r)
+            else:
+                raise ApiError(r)
 
     def get_headers(self):
         return {'Authorization': 'Bearer {0}'.format(self.config.access_token)}
