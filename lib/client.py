@@ -100,8 +100,9 @@ class RequestBase(object):
 
 
 class RequestSingle(RequestBase):
-    def first(self):
-        return self.dispatcher.invoke(self)
+    def __init__(self, dispatcher, remote_path, params=None):
+        super(RequestSingle, self).__init__(dispatcher, remote_path, params)
+        self.dispatcher.invoke(self)
 
 
 class RequestArray(RequestBase):
