@@ -25,7 +25,7 @@ class Client(object):
             if not issubclass(clazz, Entry):
                 raise Exception(
                     'Provided class \"{0}\" must be a subclass of Entry.'.format(clazz.__name__))
-            elif clazz.__name__ == 'Entry':
+            elif clazz.__name__ == Entry.__name__:
                 raise Exception('Cannot register "Entry" as a custom entry class.')
 
     def fetch(self, resource_type):
@@ -112,5 +112,5 @@ class RequestArray(RequestBase):
         return result.items[0] if result.total > 0 else None
 
     def where(self, params):
-        self.params = dict(params + self.params)  # TODO check for conflicts
+        self.params = dict(params.items() + self.params.items())  # TODO check for conflicts
         return self
