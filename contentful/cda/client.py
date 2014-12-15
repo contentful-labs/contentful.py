@@ -1,7 +1,8 @@
 import requests
+
 import const
-from lib.errors import ErrorMapping, ApiError
-from lib.serialization import ResourceFactory
+from errors import ErrorMapping, ApiError
+from serialization import ResourceFactory
 from resources import Entry, Asset, ContentType
 
 

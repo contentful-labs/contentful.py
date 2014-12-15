@@ -1,6 +1,7 @@
 from unittest import TestCase
-from lib.client import Client, Config
-from lib.resources import Entry
+
+from contentful.cda.client import Client, Config
+from contentful.cda.resources import Entry
 from test import BaseTestCase
 
 

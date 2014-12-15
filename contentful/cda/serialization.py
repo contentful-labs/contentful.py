@@ -1,4 +1,4 @@
-from lib.resources import ResourceType, Array, Entry, Asset, Space, ContentType
+from resources import ResourceType, Array, Entry, Asset, Space, ContentType
 
 
 class ResourceFactory(object):
