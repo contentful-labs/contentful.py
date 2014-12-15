@@ -11,7 +11,9 @@ class ApiError(Exception):
 
 def api_exception(http_code):
     def wrapper(*args):
-        ErrorMapping.mapping[http_code] = args[0]
+        code = args[0]
+        ErrorMapping.mapping[http_code] = code
+        return code
     return wrapper
 
 
