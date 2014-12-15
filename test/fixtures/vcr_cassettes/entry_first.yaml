@@ -1,0 +1,51 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Authorization: [Bearer b4c0n73n7fu1]
+      Connection: [keep-alive]
+      User-Agent: [python-requests/2.4.3 CPython/2.7.6 Darwin/14.0.0]
+    method: GET
+    uri: https://cdn.contentful.com:443/spaces/cfexampleapi/entries?limit=1
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA61VS3PaMBC+8ysYnQuW/MJwY9pO2qFtDk6m6SMHjyxAYMseWy6QDP+9etggGxMu
+        0cXe1Wpf+r7V62A4BOWhBLPhq/gVAj/kREhgXhTRAQjd8YO04RmPEqFHSInlluZCgkpIaEq53FMS
+        5SSV/v4of9prJ4gKVOYRlpEaC600UpEKpWxS+kbZFsgY5yVis+1DnXKoPHYMaCyrwUuyj9I8IVFO
+        ZVHNOp7+VZl6nQJ+Zrw4GA4BzhgnjNcB3y/zj4bf3vzjbHU7bV2qv2A8+vUUfQkPX3fBd59ktn+/
+        MKsoyD9a0oyJxthG1bggESfxXF4lsCFyRgiNoP8ApzPXm9mTsTvxfpt+qjy+PIACeQA5M2cyDmDQ
+        OpBkOEoUuggbPYZNRafWgyUlSXwGo7wOwKJUHfmUrczLBTSNhOI98TMvS8L78YP2cJ8/VW4e3oXu
+        fbUNDz/vHhe3ryQmJS5oznW3QVnh9XBTZuwv22W7U/0KeRKKz5pBDCeVOHkqDujMGk6dWdXDqyvM
+        6rVU/X2DXWL3Fr+EydsM04XVzNLDpBHOs+ai8bXTK203KQIMNPutjbfxjOAYQmjCU5TSg2h7JBAt
+        4GxPZsgdT9Gkc+QKpuu5qUvtw7XsPOWaDR1oi60lVTvmhKm1P2o6iIlAxpt81cVre0RpllibnFwY
+        xoRHNGmTrU63j1r11o7GfC0y8wKohn97gTWhq7UcIK7jwc62MWFrZyV9kVV6tj11nZZ1xxZUhXx8
+        gGWp1MpxXeWySsRvapnj3eoHjYUxsp0p9p3Ac+2ALG1/6aIAoin0HDtAgXXqqPk+tBDVYTOjmAxz
+        inlVkPMoaJ4U/X0Wzo6D4+A/xCXqHWkHAAA=
+    headers:
+      accept-ranges: [bytes]
+      access-control-allow-headers: ['Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation']
+      access-control-allow-methods: ['GET,HEAD,OPTIONS']
+      access-control-allow-origin: ['*']
+      access-control-expose-headers: [Etag]
+      access-control-max-age: ['86400']
+      age: ['8864']
+      cache-control: [max-age=0]
+      connection: [Keep-Alive]
+      content-encoding: [gzip]
+      content-length: ['653']
+      content-type: [application/vnd.contentful.delivery.v1+json]
+      date: ['Mon, 15 Dec 2014 16:55:28 GMT']
+      etag: ['"9b4b36da779709630f04fa47434736e8"']
+      keep-alive: ['timeout=10, max=50']
+      server: [nginx]
+      vary: [Accept-Encoding]
+      via: [1.1 varnish]
+      x-cache: [HIT]
+      x-cache-hits: ['1']
+      x-contentful-request-id: [f1c-651777941]
+      x-served-by: [cache-fra1246-FRA]
+    status: {code: 200, message: OK}
+version: 1

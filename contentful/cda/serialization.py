@@ -73,6 +73,9 @@ class ResourceFactory(object):
             del field['id']
             result.fields[field_id] = field
 
+        result.name = json['name']
+        result.display_field = json.get('displayField')
+
         return result
 
     @staticmethod

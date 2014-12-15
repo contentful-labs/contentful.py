@@ -1,8 +1,9 @@
 from unittest import TestCase
 
 from contentful.cda.client import Client, Config
-from contentful.cda.resources import Entry
+from contentful.cda.resources import Entry, Asset, ContentType
 from test import BaseTestCase
+from test import utils
 
 
 class ClientConfigTestCase(TestCase):
@@ -36,21 +37,20 @@ class ClientTestCase(BaseTestCase):
         super(ClientTestCase, self).setUp()
         self.client = Client(Config('cfexampleapi', 'b4c0n73n7fu1'))
 
+    def test_asset_all(self):
+        utils.fetch_array_and_assert(self, Asset, 'asset_all', 'assets')
+
+    def test_asset_first(self):
+        utils.fetch_first_and_assert(self, Asset, 'asset_first', 'assets')
+
+    def test_content_type_all(self):
+        utils.fetch_array_and_assert(self, ContentType, 'content_type_all', 'content_types')
+
+    def test_content_type_first(self):
+        utils.fetch_first_and_assert(self, ContentType, 'content_type_first', 'content_types')
+
     def test_entry_all(self):
-        with self.use_cassette('entry_all') as cass:
-            # response
-            result = self.client.fetch(Entry).all()
-            self.assertTrue(result.total > 0)
-            self.assertEqual(result.total, len(result.items))
-            self.assertEqual(0, result.skip)
-            self.assertEqual(100, result.limit)
+        utils.fetch_array_and_assert(self, Entry, 'entry_all', 'entries')
 
-            for entry in result.items:
-                self.assertTrue(isinstance(entry, Entry))
-                self.assertTrue('id' in entry.sys)
-                self.assertTrue(len(entry.fields) > 0)
-
-            # request
-            request = cass.requests[0]
-            self.assertEqual('GET', request.method)
-            self.assertEqual('/spaces/cfexampleapi/entries', request.path)
+    def test_entry_first(self):
+        utils.fetch_first_and_assert(self, Entry, 'entry_first', 'entries')
