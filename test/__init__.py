@@ -1,5 +1,7 @@
 from unittest import TestCase
-import vcr
+import vcr as vcr_base
+
+vcr = vcr_base.VCR(match_on=('method', 'scheme', 'host', 'port', 'path', 'query', 'headers'))
 
 
 class BaseTestCase(TestCase):

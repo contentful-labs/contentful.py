@@ -34,7 +34,7 @@ class ClientConfigTestCase(TestCase):
 class ClientTestCase(BaseTestCase):
     def setUp(self):
         super(ClientTestCase, self).setUp()
-        self.client = Client(Config('cfexampleapi', 'b4c0n73n7fu1'))
+        self.client = Client(Config('cfexampleapi', 'b4c0n73n27fu1'))
 
     def test_entry_all(self):
         with self.use_cassette('entry_all') as cass:
