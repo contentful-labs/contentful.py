@@ -58,13 +58,13 @@ interactions:
       access-control-allow-origin: ['*']
       access-control-expose-headers: [Etag]
       access-control-max-age: ['86400']
-      age: ['1382']
+      age: ['1716']
       cache-control: [max-age=0]
       connection: [Keep-Alive]
       content-encoding: [gzip]
       content-length: ['2170']
       content-type: [application/vnd.contentful.delivery.v1+json]
-      date: ['Mon, 15 Dec 2014 13:04:34 GMT']
+      date: ['Mon, 15 Dec 2014 13:10:08 GMT']
       etag: ['"474a1d8a1e34ebf8e98f420724e24f17"']
       keep-alive: ['timeout=10, max=50']
       server: [nginx]
@@ -73,6 +73,6 @@ interactions:
       x-cache: [HIT]
       x-cache-hits: ['1']
       x-contentful-request-id: [85f-1335062443]
-      x-served-by: [cache-fra1233-FRA]
+      x-served-by: [cache-fra1243-FRA]
     status: {code: 200, message: OK}
 version: 1

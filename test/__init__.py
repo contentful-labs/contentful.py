@@ -1,7 +1,13 @@
 from unittest import TestCase
 import vcr as vcr_base
 
-vcr = vcr_base.VCR(match_on=('method', 'scheme', 'host', 'port', 'path', 'query', 'headers'))
+
+def before_record_cb(request):
+    assert request.headers.get('Authorization') == 'Bearer b4c0n73n7fu1'
+    return request
+
+
+vcr = vcr_base.VCR(before_record=before_record_cb)
 
 
 class BaseTestCase(TestCase):
