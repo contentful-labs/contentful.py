@@ -1,4 +1,5 @@
 from enum import Enum
+import itertools
 
 from fields import FieldOwner
 
@@ -28,6 +29,9 @@ class Array(Resource):
 
     def __iter__(self):
         return iter(self.items)
+
+    def __getitem__(self, index):
+        return self.items[index]
 
 
 class Asset(Resource):
