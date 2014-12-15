@@ -1,5 +1,6 @@
 from enum import Enum
-from lib.fields import FieldOwner
+
+from fields import FieldOwner
 
 
 # Resources
