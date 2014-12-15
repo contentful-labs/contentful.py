@@ -33,7 +33,7 @@ def fetch_array_and_assert(test_case, resource_type, cassette_name, last_path_se
         test_case.assertEqual(0, result.skip)
         test_case.assertEqual(100, result.limit)
 
-        for resource in result.items:
+        for resource in result:
             assert_resource(test_case, resource, resource_type)
 
         # request

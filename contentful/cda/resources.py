@@ -24,7 +24,10 @@ class Array(Resource):
         self.limit = None
         self.skip = None
         self.total = None
-        self.items = None
+        self.items = []
+
+    def __iter__(self):
+        return iter(self.items)
 
 
 class Asset(Resource):
