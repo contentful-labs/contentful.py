@@ -79,10 +79,6 @@ class ClientTestCase(BaseTestCase):
         self.assertEqual(1, len(result.likes))
         self.assertEqual('cheezburger', result.likes[0])
         self.assertIsInstance(result.birthday, date)
-        self.assertEqual(2003, result.birthday.year)
-        self.assertEqual(10, result.birthday.month)
-        self.assertEqual(28, result.birthday.day)
-        self.assertEqual(23, result.birthday.hour)
 
         self.assertIsNotNone(result.best_friend)
         self.assertIsInstance(result.best_friend, dict)
