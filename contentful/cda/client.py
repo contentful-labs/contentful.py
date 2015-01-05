@@ -2,18 +2,18 @@
 
 Classes provided include:
 
-:class:`.client.Client` - Core client class for
+:class:`.Client` - Core client class for
 connecting and retrieving resources from the Contentful Delivery API.
 
-:class:`.client.Config` - Client configuration container.
+:class:`.Config` - Client configuration container.
 
-:class:`.client.Dispatcher` - Class responsible for
+:class:`.Dispatcher` - Class responsible for
 invoking requests.
 
-:class:`.client.Request` - Represents a future invokable
+:class:`.Request` - Represents a future invokable
 API request.
 
-:class:`.client.RequestArray` - Represents a type of request
+:class:`.RequestArray` - Represents a type of request
 whose response may contain multiple resources.
 """
 
@@ -68,7 +68,7 @@ class Client(object):
                 raise Exception('Cannot register "Entry" as a custom entry class.')
 
     def fetch(self, resource_type):
-        """Returns a :class:`.client.Request` according to the given parameters.
+        """Returns a :class:`.Request` according to the given parameters.
 
         If used with a custom Entry class the Content Type ID will be inferred and provided with the request.
 
@@ -112,7 +112,7 @@ class Client(object):
 
 
 class Config(object):
-    """Configuration container to provide when creating :class:`.client.Client` objects."""
+    """Configuration container to provide when creating :class:`.Client` objects."""
     def __init__(self, space_id, access_token, custom_entries=None, secure=True, endpoint=None):
         """Config constructor.
 
@@ -135,7 +135,7 @@ class Config(object):
 
 
 class Dispatcher(object):
-    """Responsible for invoking :class:`.client.Request` instances and delegating result processing.
+    """Responsible for invoking :class:`.Request` instances and delegating result processing.
 
     Attributes:
       config (Config): Configuration settings.
@@ -158,11 +158,11 @@ class Dispatcher(object):
         self.base_url = '{0}://{1}/spaces/{2}'.format(scheme, config.endpoint, config.space_id)
 
     def invoke(self, request):
-        """Invokes the given :class:`.client.Request` using the associated :class:`.client.Dispatcher`
+        """Invokes the given :class:`.Request` using the associated :class:`.Dispatcher`
 
         :param request: Request instance to invoke.
         :return: Result object, depending on the request type, could either
-          be a :class:`.client.Array` or a single resource.
+          be a :class:`.Array` or a single resource.
 
         """
         url = '{0}/{1}'.format(self.base_url, request.remote_path)
@@ -185,7 +185,7 @@ class Dispatcher(object):
 
 
 class Request(object):
-    """Represents a single request, later to be invoked by a :class:`.client.Dispatcher` instance."""
+    """Represents a single request, later to be invoked by a :class:`.Dispatcher` instance."""
     def __init__(self, dispatcher, remote_path, params=None):
         """Request constructor.
 
