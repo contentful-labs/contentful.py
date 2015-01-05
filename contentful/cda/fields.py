@@ -57,10 +57,6 @@ class Date(FieldType):
     pass
 
 
-class Integer(FieldType):
-    pass
-
-
 class Link(FieldType):
     pass
 
@@ -82,6 +78,10 @@ class Symbol(FieldType):
 
 
 class Text(FieldType):
+    pass
+
+
+class List(FieldType):
     pass
 
 

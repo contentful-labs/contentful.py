@@ -1,3 +1,5 @@
+from dateutil import parser
+from fields import Boolean, Date, Number, Object, Symbol, Text, List, MultipleAssets, MultipleEntries
 from resources import ResourceType, Array, Entry, Asset, Space, ContentType
 
 
@@ -47,7 +49,9 @@ class ResourceFactory(object):
             result = clazz()
 
             for k, v in clazz.__entry_fields__.items():
-                setattr(result, k, fields[v.field_id])
+                field_value = fields.get(v.field_id)
+                if field_value is not None:
+                    setattr(result, k, ResourceFactory.convert_value(field_value, v))
         else:
             result = Entry()
 
@@ -82,3 +86,34 @@ class ResourceFactory(object):
         result = Space(json['sys'])
         result.name = json['name']
         return result
+
+    @staticmethod
+    def convert_value(value, field):
+        clz = field.field_type.__name__
+
+        if clz == Boolean.__name__:
+            if not isinstance(value, bool):
+                return bool(value)
+
+        elif clz == Date.__name__:
+            if not isinstance(value, str):
+                value = str(value)
+            return parser.parse(value)
+
+        elif clz == Number.__name__:
+            if not isinstance(value, int):
+                return int(value)
+
+        elif clz == Object.__name__:
+            if not isinstance(value, dict):
+                return dict(value)
+
+        elif clz == Text.__name__ or clz == Symbol.__name__:
+            if not isinstance(value, str):
+                return str(value)
+
+        elif clz == List.__name__ or clz == MultipleAssets.__name__ or clz == MultipleEntries.__name__:
+            if not isinstance(value, list):
+                return list(value)
+
+        return value

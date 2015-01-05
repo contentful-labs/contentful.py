@@ -1,7 +1,9 @@
+from datetime import date
 from contentful.cda.client import Client, Config
 from contentful.cda.resources import Entry, Asset, ContentType
 from test import BaseTestCase
 from test import utils
+from test.utils import Cat
 
 
 class ClientConfigTestCase(BaseTestCase):
@@ -52,3 +54,38 @@ class ClientTestCase(BaseTestCase):
 
     def test_entry_first(self):
         utils.fetch_first_and_assert(self, Entry, 'entry_first', 'entries')
+
+    def test_entry_custom_class_mixed(self):
+        cli = Client(Config('cfexampleapi', 'b4c0n73n7fu1', [Cat]))
+        result = utils.fetch_array_and_assert(self, Entry, 'entry_custom_class_mixed', 'entries', cli)
+        for resource in [result[2], result[4], result[5]]:
+            self.assertIsInstance(resource, Cat)
+
+    def test_entry_custom_class_explicit_all(self):
+        cli = Client(Config('cfexampleapi', 'b4c0n73n7fu1', [Cat]))
+        result = utils.fetch_array_and_assert(self, Cat, 'entry_custom_class_explicit_all', 'entries', cli)
+        for resource in result:
+            self.assertIsInstance(resource, Cat)
+
+    def test_entry_custom_class_explicit_first(self):
+        cli = Client(Config('cfexampleapi', 'b4c0n73n7fu1', [Cat]))
+        result = utils.fetch_first_and_assert(self, Cat, 'entry_custom_class_explicit_first', 'entries', cli)
+        self.assertIsInstance(result, Cat)
+
+        self.assertEqual('Happy Cat', result.name)
+        self.assertEqual('gray', result.color)
+        self.assertEqual(1, result.lives)
+        self.assertIsInstance(result.likes, list)
+        self.assertEqual(1, len(result.likes))
+        self.assertEqual('cheezburger', result.likes[0])
+        self.assertIsInstance(result.birthday, date)
+        self.assertEqual(2003, result.birthday.year)
+        self.assertEqual(10, result.birthday.month)
+        self.assertEqual(28, result.birthday.day)
+        self.assertEqual(23, result.birthday.hour)
+
+        self.assertIsNotNone(result.best_friend)
+        self.assertIsInstance(result.best_friend, dict)
+        self.assertEqual('Link', result.best_friend['sys']['type'])
+        self.assertEqual('Entry', result.best_friend['sys']['linkType'])
+        self.assertEqual('nyancat', result.best_friend['sys']['id'])
