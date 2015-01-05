@@ -29,14 +29,12 @@ class Client(object):
 
     Attributes:
       dispatcher (Dispatcher): Dispatcher for invoking requests.
-
     """
     def __init__(self, config):
         """Client constructor.
 
         :param config: Configuration settings.
         :return: Client instance.
-
         """
         super(Client, self).__init__()
         self.validate_config(config)
@@ -50,7 +48,6 @@ class Client(object):
         an exception.
 
         :param config: Configuration container as passed to the constructor.
-
         """
         if config is None:
             raise Exception('Config parameter must not be empty.')
@@ -80,7 +77,6 @@ class Client(object):
 
         :param resource_type: The type of resource to be fetched.
         :return: Request instance.
-
         """
         if issubclass(resource_type, Entry):
             params = None
@@ -106,7 +102,6 @@ class Client(object):
         """Fetch the Space associated with this client.
 
         :return: :class:`.resources.Space` result instance.
-
         """
         return Request(self.dispatcher, '').invoke()
 
@@ -124,7 +119,6 @@ class Config(object):
         :param secure: Indicates whether the connection should be encrypted or not.
         :param endpoint: Allows configuring a custom remote API endpoint.
         :return: Config instance.
-
         """
         super(Config, self).__init__()
         self.space_id = space_id
@@ -141,14 +135,12 @@ class Dispatcher(object):
       config (Config): Configuration settings.
       resource_factory (ResourceFactory): Factory to use for generating resources out of JSON responses.
       base_url (str): Represents the base URL of the remote endpoint.
-
     """
     def __init__(self, config):
         """Dispatcher constructor.
 
         :param config: Configuration settings.
         :return: Dispatcher instance.
-
         """
         super(Dispatcher, self).__init__()
         self.config = config
@@ -163,7 +155,6 @@ class Dispatcher(object):
         :param request: Request instance to invoke.
         :return: Result object, depending on the request type, could either
           be a :class:`.Array` or a single resource.
-
         """
         url = '{0}/{1}'.format(self.base_url, request.remote_path)
         r = requests.get(url, params=request.params, headers=self.get_headers())
@@ -179,7 +170,6 @@ class Dispatcher(object):
         """Create and return a base set of headers to be carried with all requests.
 
         :return: Dictionary containing header values.
-
         """
         return {'Authorization': 'Bearer {0}'.format(self.config.access_token)}
 
@@ -193,7 +183,6 @@ class Request(object):
         :param remote_path: str representing the API path to point this request to.
         :param params: Optional dictionary of query parameters to provide with the request.
         :return: Request instance.
-
         """
         super(Request, self).__init__()
         self.dispatcher = dispatcher
@@ -204,7 +193,6 @@ class Request(object):
         """Invoke request instance using the associated Dispatcher.
 
         :return: Result instance as returned by the Dispatcher.
-
         """
         return self.dispatcher.invoke(self)
 
@@ -215,7 +203,6 @@ class RequestArray(Request):
         """Attempt to retrieve all available resources matching this request.
 
         :return: Result instance as returned by the Dispatcher.
-
         """
         return self.invoke()
 
@@ -223,7 +210,6 @@ class RequestArray(Request):
         """Attempt to retrieve only the first resource matching this request.
 
         :return: Result resource, or None if there are no matching resources.
-
         """
         self.params['limit'] = 1
         result = self.invoke()
@@ -234,7 +220,6 @@ class RequestArray(Request):
 
         :param params: dict containing a collection of key-value properties to pass with this request.
         :return: this RequestArray instance for convenience.
-
         """
         self.params = dict(params.items() + self.params.items())  # TODO check for conflicts
         return self
