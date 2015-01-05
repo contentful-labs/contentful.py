@@ -44,7 +44,7 @@ class Client(object):
 
     @staticmethod
     def validate_config(config):
-        """Validates the given Config parameter for sane values.
+        """Validate the given Config parameter for sane values.
 
         This will complete silently if validations pass, otherwise will raise
         an exception.
@@ -68,7 +68,7 @@ class Client(object):
                 raise Exception('Cannot register "Entry" as a custom entry class.')
 
     def fetch(self, resource_type):
-        """Returns a :class:`.Request` according to the given parameters.
+        """Return a :class:`.Request` according to the given parameters.
 
         If used with a custom Entry class the Content Type ID will be inferred and provided with the request.
 
@@ -103,7 +103,7 @@ class Client(object):
             return RequestArray(self.dispatcher, remote_path)
 
     def fetch_space(self):
-        """Fetches the Space associated with this client.
+        """Fetch the Space associated with this client.
 
         :return: :class:`.resources.Space` result instance.
 
@@ -158,7 +158,7 @@ class Dispatcher(object):
         self.base_url = '{0}://{1}/spaces/{2}'.format(scheme, config.endpoint, config.space_id)
 
     def invoke(self, request):
-        """Invokes the given :class:`.Request` using the associated :class:`.Dispatcher`
+        """Invoke a given :class:`.Request` using the associated :class:`.Dispatcher`
 
         :param request: Request instance to invoke.
         :return: Result object, depending on the request type, could either
@@ -176,7 +176,7 @@ class Dispatcher(object):
                 raise ApiError(r)
 
     def get_headers(self):
-        """Creates and returns a base set of headers to be carried with all requests.
+        """Create and return a base set of headers to be carried with all requests.
 
         :return: Dictionary containing header values.
 
@@ -201,7 +201,7 @@ class Request(object):
         self.params = params or {}
 
     def invoke(self):
-        """Invokes this request instance with the associated Dispatcher.
+        """Invoke request instance using the associated Dispatcher.
 
         :return: Result instance as returned by the Dispatcher.
 
@@ -212,7 +212,7 @@ class Request(object):
 class RequestArray(Request):
     """Represents a single request for retrieving multiple resources from the Delivery API."""
     def all(self):
-        """Attempts to retrieve all available resources matching this request.
+        """Attempt to retrieve all available resources matching this request.
 
         :return: Result instance as returned by the Dispatcher.
 
@@ -220,7 +220,7 @@ class RequestArray(Request):
         return self.invoke()
 
     def first(self):
-        """Attempts to retrieve only the first resource matching this request.
+        """Attempt to retrieve only the first resource matching this request.
 
         :return: Result resource, or None if there are no matching resources.
 
@@ -230,7 +230,7 @@ class RequestArray(Request):
         return result.items[0] if result.total > 0 else None
 
     def where(self, params):
-        """Sets a dict of parameters to be passed to the Delivery API when invoking this request.
+        """Set a dict of parameters to be passed to the Delivery API when invoking this request.
 
         :param params: dict containing a collection of key-value properties to pass with this request.
         :return: this RequestArray instance for convenience.
