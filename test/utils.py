@@ -1,5 +1,11 @@
+from contentful.cda.client import Config
 from contentful.cda.fields import Field, Text, Number, List, Date, Link
 from contentful.cda.resources import Asset, ContentType, Entry
+
+
+class DemoConfig(Config):
+    def __init__(self, custom_entries=None, secure=True, endpoint=None):
+        super(DemoConfig, self).__init__('cfexampleapi', 'b4c0n73n7fu1', custom_entries, secure, endpoint)
 
 
 def assert_resource(test_case, resource, resource_type):

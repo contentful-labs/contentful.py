@@ -9,11 +9,11 @@ class ResourceFactoryTests(BaseTestCase):
     def test_convert_boolean(self):
         field = Field(Boolean)
         self.assertIs(ResourceFactory.convert_value('', field), False)
-        self.assertIs(ResourceFactory.convert_value('true', field), True)
         self.assertIs(ResourceFactory.convert_value(False, field), False)
+        self.assertIs(ResourceFactory.convert_value(0, field), False)
+        self.assertIs(ResourceFactory.convert_value('true', field), True)
         self.assertIs(ResourceFactory.convert_value(True, field), True)
         self.assertIs(ResourceFactory.convert_value(1, field), True)
-        self.assertIs(ResourceFactory.convert_value(0, field), False)
 
     def test_convert_date(self):
         dt = ResourceFactory.convert_value('2013-11-18T09:13:37.808Z', Field(Date))

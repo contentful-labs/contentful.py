@@ -3,7 +3,7 @@ from contentful.cda.client import Client, Config
 from contentful.cda.resources import Entry, Asset, ContentType
 from test import BaseTestCase
 from test import utils
-from test.utils import Cat
+from test.utils import Cat, DemoConfig
 
 
 class ClientConfigTestCase(BaseTestCase):
@@ -35,7 +35,7 @@ class ClientConfigTestCase(BaseTestCase):
 class ClientTestCase(BaseTestCase):
     def setUp(self):
         super(ClientTestCase, self).setUp()
-        self.client = Client(Config('cfexampleapi', 'b4c0n73n7fu1'))
+        self.client = Client(DemoConfig())
 
     def test_asset_all(self):
         utils.fetch_array_and_assert(self, Asset, 'asset_all', 'assets')
@@ -56,19 +56,19 @@ class ClientTestCase(BaseTestCase):
         utils.fetch_first_and_assert(self, Entry, 'entry_first', 'entries')
 
     def test_entry_custom_class_mixed(self):
-        cli = Client(Config('cfexampleapi', 'b4c0n73n7fu1', [Cat]))
+        cli = Client(DemoConfig([Cat]))
         result = utils.fetch_array_and_assert(self, Entry, 'entry_custom_class_mixed', 'entries', cli)
         for resource in [result[2], result[4], result[5]]:
             self.assertIsInstance(resource, Cat)
 
     def test_entry_custom_class_explicit_all(self):
-        cli = Client(Config('cfexampleapi', 'b4c0n73n7fu1', [Cat]))
+        cli = Client(DemoConfig([Cat]))
         result = utils.fetch_array_and_assert(self, Cat, 'entry_custom_class_explicit_all', 'entries', cli)
         for resource in result:
             self.assertIsInstance(resource, Cat)
 
     def test_entry_custom_class_explicit_first(self):
-        cli = Client(Config('cfexampleapi', 'b4c0n73n7fu1', [Cat]))
+        cli = Client(DemoConfig([Cat]))
         result = utils.fetch_first_and_assert(self, Cat, 'entry_custom_class_explicit_first', 'entries', cli)
         self.assertIsInstance(result, Cat)
 
