@@ -17,6 +17,7 @@ API request.
 whose response may contain multiple resources.
 """
 
+
 import requests
 import const
 from errors import ErrorMapping, ApiError
