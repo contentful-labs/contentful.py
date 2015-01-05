@@ -34,7 +34,6 @@ class Client(object):
             params = None
             content_type = getattr(resource_type, '__content_type__', None)
             if content_type is not None:
-                # TODO ensure custom entry class was registered
                 params = {'content_type': resource_type.__content_type__}
             return RequestArray(self.dispatcher, 'entries', params=params)
 
@@ -52,7 +51,7 @@ class Client(object):
             return RequestArray(self.dispatcher, remote_path)
 
     def fetch_space(self):
-        return self.dispatcher.invoke(RequestSingle(self.dispatcher, ''))
+        return Request(self.dispatcher, '').invoke()
 
 
 class Config(object):
@@ -89,27 +88,24 @@ class Dispatcher(object):
         return {'Authorization': 'Bearer {0}'.format(self.config.access_token)}
 
 
-class RequestBase(object):
+class Request(object):
     def __init__(self, dispatcher, remote_path, params=None):
-        super(RequestBase, self).__init__()
+        super(Request, self).__init__()
         self.dispatcher = dispatcher
         self.remote_path = remote_path
         self.params = params or {}
 
-
-class RequestSingle(RequestBase):
-    def __init__(self, dispatcher, remote_path, params=None):
-        super(RequestSingle, self).__init__(dispatcher, remote_path, params)
-        self.dispatcher.invoke(self)
-
-
-class RequestArray(RequestBase):
-    def all(self):
+    def invoke(self):
         return self.dispatcher.invoke(self)
+
+
+class RequestArray(Request):
+    def all(self):
+        return self.invoke()
 
     def first(self):
         self.params['limit'] = 1
-        result = self.dispatcher.invoke(self)
+        result = self.invoke()
         return result.items[0] if result.total > 0 else None
 
     def where(self, params):

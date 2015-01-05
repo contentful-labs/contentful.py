@@ -17,7 +17,7 @@ class ResourceFactory(object):
         if ResourceType.Array.value == res_type:
             return self.create_array(json)
         elif ResourceType.Entry.value == res_type:
-            return self.create_entry(json, self.entries_mapping)
+            return self.create_entry(json)
         elif ResourceType.Asset.value == res_type:
             return ResourceFactory.create_asset(json)
         elif ResourceType.ContentType.value == res_type:
@@ -37,14 +37,13 @@ class ResourceFactory(object):
 
         return result
 
-    @staticmethod
-    def create_entry(json, entries_mapping):
+    def create_entry(self, json):
         sys = json['sys']
         ct = sys['contentType']['sys']['id']
         fields = json['fields']
 
-        if ct in entries_mapping:
-            clazz = entries_mapping[ct]
+        if ct in self.entries_mapping:
+            clazz = self.entries_mapping[ct]
             result = clazz()
 
             for k, v in clazz.__entry_fields__.items():

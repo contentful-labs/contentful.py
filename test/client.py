@@ -1,12 +1,10 @@
-from unittest import TestCase
-
 from contentful.cda.client import Client, Config
 from contentful.cda.resources import Entry, Asset, ContentType
 from test import BaseTestCase
 from test import utils
 
 
-class ClientConfigTestCase(TestCase):
+class ClientConfigTestCase(BaseTestCase):
     def test_fails_empty_config(self):
         self.assertRaisesRegexp(Exception, '^Config parameter must not be empty\\.$', Client, None)
 
