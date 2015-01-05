@@ -1,3 +1,4 @@
+import ast
 from dateutil import parser
 from fields import Boolean, Date, Number, Object, Symbol, Text, List, MultipleAssets, MultipleEntries
 from resources import ResourceType, Array, Entry, Asset, Space, ContentType
@@ -102,11 +103,11 @@ class ResourceFactory(object):
 
         elif clz == Number.__name__:
             if not isinstance(value, int):
-                return int(value)
+                return long(value)
 
         elif clz == Object.__name__:
             if not isinstance(value, dict):
-                return dict(value)
+                return ast.literal_eval(value)
 
         elif clz == Text.__name__ or clz == Symbol.__name__:
             if not isinstance(value, str):
@@ -114,6 +115,6 @@ class ResourceFactory(object):
 
         elif clz == List.__name__ or clz == MultipleAssets.__name__ or clz == MultipleEntries.__name__:
             if not isinstance(value, list):
-                return list(value)
+                return [value]
 
         return value
