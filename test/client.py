@@ -1,4 +1,5 @@
 from datetime import date
+from contentful.cda import const
 from contentful.cda.client import Client, Config
 from contentful.cda.resources import Entry, Asset, ContentType
 from test import BaseTestCase
@@ -38,38 +39,38 @@ class ClientTestCase(BaseTestCase):
         self.client = Client(DemoConfig())
 
     def test_asset_all(self):
-        utils.fetch_array_and_assert(self, Asset, 'asset_all', 'assets')
+        utils.fetch_array_and_assert(self, Asset, 'asset_all', const.PATH_ASSETS)
 
     def test_asset_first(self):
-        utils.fetch_first_and_assert(self, Asset, 'asset_first', 'assets')
+        utils.fetch_first_and_assert(self, Asset, 'asset_first', const.PATH_ASSETS)
 
     def test_content_type_all(self):
-        utils.fetch_array_and_assert(self, ContentType, 'content_type_all', 'content_types')
+        utils.fetch_array_and_assert(self, ContentType, 'content_type_all', const.PATH_CONTENT_TYPES)
 
     def test_content_type_first(self):
-        utils.fetch_first_and_assert(self, ContentType, 'content_type_first', 'content_types')
+        utils.fetch_first_and_assert(self, ContentType, 'content_type_first', const.PATH_CONTENT_TYPES)
 
     def test_entry_all(self):
-        utils.fetch_array_and_assert(self, Entry, 'entry_all', 'entries')
+        utils.fetch_array_and_assert(self, Entry, 'entry_all', const.PATH_ENTRIES)
 
     def test_entry_first(self):
-        utils.fetch_first_and_assert(self, Entry, 'entry_first', 'entries')
+        utils.fetch_first_and_assert(self, Entry, 'entry_first', const.PATH_ENTRIES)
 
     def test_entry_custom_class_mixed(self):
         cli = Client(DemoConfig([Cat]))
-        result = utils.fetch_array_and_assert(self, Entry, 'entry_custom_class_mixed', 'entries', cli)
+        result = utils.fetch_array_and_assert(self, Entry, 'entry_custom_class_mixed', const.PATH_ENTRIES, cli)
         for resource in [result[2], result[4], result[5]]:
             self.assertIsInstance(resource, Cat)
 
     def test_entry_custom_class_explicit_all(self):
         cli = Client(DemoConfig([Cat]))
-        result = utils.fetch_array_and_assert(self, Cat, 'entry_custom_class_explicit_all', 'entries', cli)
+        result = utils.fetch_array_and_assert(self, Cat, 'entry_custom_class_explicit_all', const.PATH_ENTRIES, cli)
         for resource in result:
             self.assertIsInstance(resource, Cat)
 
     def test_entry_custom_class_explicit_first(self):
         cli = Client(DemoConfig([Cat]))
-        result = utils.fetch_first_and_assert(self, Cat, 'entry_custom_class_explicit_first', 'entries', cli)
+        result = utils.fetch_first_and_assert(self, Cat, 'entry_custom_class_explicit_first', const.PATH_ENTRIES, cli)
         self.assertIsInstance(result, Cat)
 
         self.assertEqual('Happy Cat', result.name)

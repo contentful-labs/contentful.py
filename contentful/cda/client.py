@@ -84,15 +84,15 @@ class Client(object):
             content_type = getattr(resource_type, '__content_type__', None)
             if content_type is not None:
                 params = {'content_type': resource_type.__content_type__}
-            return RequestArray(self.dispatcher, 'entries', params=params)
+            return RequestArray(self.dispatcher, const.PATH_ENTRIES, params=params)
 
         else:
             remote_path = None
 
             if issubclass(resource_type, Asset):
-                remote_path = 'assets'
+                remote_path = const.PATH_ASSETS
             elif issubclass(resource_type, ContentType):
-                remote_path = 'content_types'
+                remote_path = const.PATH_CONTENT_TYPES
 
             if remote_path is None:
                 raise Exception('Invalid resource type \"{0}\".'.format(resource_type))
