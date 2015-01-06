@@ -26,7 +26,7 @@ class Resource(object):
     def __init__(self, sys=None):
         """Resource constructor.
 
-        :param sys: dict containing the resource's remote system attributes
+        :param sys: dict containing the resource's remote system attributes.
         :return: Resource instance.
         """
         super(Resource, self).__init__()
@@ -63,7 +63,7 @@ class Array(Resource):
     def __init__(self, sys=None):
         """Array constructor.
 
-        :param sys: dict containing the resource's remote system attributes
+        :param sys: dict containing the resource's remote system attributes.
         :return: Array instance.
         """
         super(Array, self).__init__(sys)
@@ -92,7 +92,7 @@ class Asset(Resource):
     def __init__(self, sys=None):
         """Asset constructor.
 
-        :param sys: dict containing the resource's remote system attributes
+        :param sys: dict containing the resource's remote system attributes.
         :return: Asset instance.
         """
         super(Asset, self).__init__(sys)
@@ -113,7 +113,7 @@ class ContentType(Resource):
     def __init__(self, sys=None):
         """Content Type constructor.
 
-        :param sys: dict containing the resource's remote system attributes
+        :param sys: dict containing the resource's remote system attributes.
         :return: ContentType instance.
         """
         super(ContentType, self).__init__(sys)
@@ -147,7 +147,7 @@ class Entry(Resource):
     def __init__(self, sys=None):
         """Entry constructor.
 
-        :param sys: dict containing the resource's remote system attributes
+        :param sys: dict containing the resource's remote system attributes.
         :return: Entry instance.
         """
         super(Entry, self).__init__(sys)
@@ -163,7 +163,7 @@ class Space(Resource):
     def __init__(self, sys=None):
         """Space constructor.
 
-        :param sys: dict containing the resource's remote system attributes
+        :param sys: dict containing the resource's remote system attributes.
         :return: Space instance.
         """
         super(Space, self).__init__(sys)

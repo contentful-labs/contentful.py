@@ -23,8 +23,8 @@ class ApiError(Exception):
 def api_exception(http_code):
     """Convenience decorator to associate HTTP status codes with :class:`.ApiError` subclasses.
 
-    :param http_code: HTTP status code
-    :return: ...
+    :param http_code: HTTP status code.
+    :return: wrapper function.
     """
     def wrapper(*args):
         code = args[0]

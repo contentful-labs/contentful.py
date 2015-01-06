@@ -112,8 +112,8 @@ class Config(object):
     def __init__(self, space_id, access_token, custom_entries=None, secure=True, endpoint=None):
         """Config constructor.
 
-        :param space_id: Space ID
-        :param access_token: Access Token
+        :param space_id: Space ID.
+        :param access_token: Access Token.
         :param custom_entries: Optional list of subclasses of the :class:`.resources.Entry` class. Provide
           this parameter in order to register custom Entry subclasses to be instantiated by the client
           when Entries of the given Content Type are retrieved from the server.
