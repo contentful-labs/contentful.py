@@ -179,7 +179,7 @@ class ResourceFactory(object):
                 return [value]
 
         # No need to convert :class:`.fields.Link` types as the expected value
-        # should be of type :class:`.ResourceLink` for links.
+        # should be of type :class:`.resources.ResourceLink` for links.
 
         return value
 
