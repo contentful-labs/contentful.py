@@ -5,9 +5,10 @@ Classes provided include:
 :class:`ResourceFactory` - Factory for generating :class:`.resources.Resource` subclasses out of JSON data.
 """
 import ast
+import copy
 from dateutil import parser
-from fields import Boolean, Date, Number, Object, Symbol, Text, List, MultipleAssets, MultipleEntries
-from resources import ResourceType, Array, Entry, Asset, Space, ContentType
+from fields import Boolean, Date, Number, Object, Symbol, Text, List, MultipleAssets, MultipleEntries, Link
+from resources import ResourceType, Array, Entry, Asset, Space, ContentType, ResourceLink
 
 
 class ResourceFactory(object):
@@ -49,22 +50,15 @@ class ResourceFactory(object):
         elif ResourceType.Space.value == res_type:
             return ResourceFactory.create_space(json)
 
-    def create_array(self, json):
-        """Create :class:`.resources.Array` from JSON.
+    @staticmethod
+    def _extract_link(sys):
+        if sys is None:
+            return None
 
-        :param json: JSON dict.
-        :return: Array instance.
-        """
-        result = Array(json['sys'])
-        result.total = json['total']
-        result.skip = json['skip']
-        result.limit = json['limit']
+        if sys is not None and isinstance(sys, dict) and sys.get('type') == ResourceType.Link.value:
+            return ResourceLink(sys)
 
-        result.items = items = []
-        for item in json['items']:
-            items.append(self.from_json(item))
-
-        return result
+        return None
 
     def create_entry(self, json):
         """Create :class:`.resources.Entry` from JSON.
@@ -75,6 +69,18 @@ class ResourceFactory(object):
         sys = json['sys']
         ct = sys['contentType']['sys']['id']
         fields = json['fields']
+        raw_fields = copy.deepcopy(fields)
+
+        # Replace links with :class:`.resources.ResourceLink` objects.
+        for k, v in fields.items():
+            link = ResourceFactory._extract_link(v.get('sys')) if isinstance(v, dict) else None
+            if link is not None:
+                fields[k] = link
+            elif isinstance(v, list):
+                for idx, ele in enumerate(v):
+                    link = ResourceFactory._extract_link(ele.get('sys')) if isinstance(ele, dict) else None
+                    if link is not None:
+                        list[idx] = link
 
         if ct in self.entries_mapping:
             clazz = self.entries_mapping[ct]
@@ -89,6 +95,8 @@ class ResourceFactory(object):
 
         result.sys = sys
         result.fields = fields
+        result.raw_fields = raw_fields
+
         return result
 
     @staticmethod
@@ -170,4 +178,63 @@ class ResourceFactory(object):
             if not isinstance(value, list):
                 return [value]
 
+        # No need to convert :class:`.fields.Link` types as the expected value
+        # should be of type :class:`.ResourceLink` for links.
+
         return value
+
+    # Array
+    def process_array_items(self, array, json):
+        """Iterate through all `items` and create a resource for each.
+
+        In addition map the resources under the `items_mapped` by the resource id and type.
+
+        :param array: Array resource.
+        :param json: Raw JSON dictionary.
+        """
+        for item in json['items']:
+            key = None
+            processed = self.from_json(item)
+
+            if issubclass(type(processed), Asset):
+                key = 'Asset'
+            elif issubclass(type(processed), Entry):
+                key = 'Entry'
+
+            if key is not None:
+                array.items_mapped[key][processed.sys['id']] = processed
+
+            array.items.append(processed)
+
+    def process_array_includes(self, array, json):
+        """Iterate through all `includes` and create a resource for every item.
+
+        In addition map the resources under the `items_mapped` by the resource id and type.
+
+        :param array: Array resource.
+        :param json: Raw JSON dictionary.
+        """
+        includes = json.get('includes') or {}
+        for key in array.items_mapped.keys():
+            if key in includes:
+                for resource in includes[key]:
+                    processed = self.from_json(resource)
+                    array.items_mapped[key][processed.sys['id']] = processed
+
+    def create_array(self, json):
+        """Create :class:`.resources.Array` from JSON.
+
+        :param json: JSON dict.
+        :return: Array instance.
+        """
+        result = Array(json['sys'])
+        result.total = json['total']
+        result.skip = json['skip']
+        result.limit = json['limit']
+        result.items = []
+        result.items_mapped = {'Asset': {}, 'Entry': {}}
+
+        self.process_array_items(result, json)
+        self.process_array_includes(result, json)
+
+        return result

@@ -71,6 +71,7 @@ class Array(Resource):
         self.skip = None
         self.total = None
         self.items = []
+        self.items_mapped = {}
 
     def __iter__(self):
         # Proxy to the `items` attribute
@@ -152,6 +153,7 @@ class Entry(Resource):
         """
         super(Entry, self).__init__(sys)
         self.fields = {}
+        self.raw_fields = {}
 
 
 class Space(Resource):
@@ -178,3 +180,17 @@ class ResourceType(Enum):
     Entry = 'Entry'
     Link = 'Link'
     Space = 'Space'
+
+
+class ResourceLink(object):
+    """Represents a link to a CDA resource."""
+    def __init__(self, sys):
+        """ResourceLink constructor.
+
+        :param sys: dict containing the resource's remote system attributes.
+        :return: ResourceLink instance.
+        """
+        super(ResourceLink, self).__init__()
+
+        self.resource_id = sys['id']
+        self.link_type = sys['linkType']

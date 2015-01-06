@@ -1,7 +1,7 @@
 from datetime import date
 from contentful.cda import const
 from contentful.cda.client import Client, Config
-from contentful.cda.resources import Entry, Asset, ContentType
+from contentful.cda.resources import Entry, Asset, ContentType, ResourceLink, Array
 from test import BaseTestCase
 from test import utils
 from test.utils import Cat, DemoConfig
@@ -81,8 +81,42 @@ class ClientTestCase(BaseTestCase):
         self.assertEqual('cheezburger', result.likes[0])
         self.assertIsInstance(result.birthday, date)
 
-        self.assertIsNotNone(result.best_friend)
-        self.assertIsInstance(result.best_friend, dict)
-        self.assertEqual('Link', result.best_friend['sys']['type'])
-        self.assertEqual('Entry', result.best_friend['sys']['linkType'])
-        self.assertEqual('nyancat', result.best_friend['sys']['id'])
+        self.assertIsInstance(result.best_friend, ResourceLink)
+        self.assertEqual('nyancat', result.best_friend.resource_id)
+        self.assertEqual('Entry', result.best_friend.link_type)
+
+    def test_mapped_items(self):
+        result = utils.fetch_array_and_assert(self, Entry, 'mapped_items', const.PATH_ENTRIES, query={'limit': '2'})
+
+        self.assertEqual(2, len(result.items))
+        self.assertEqual(1, len(result.items_mapped['Asset']))
+        self.assertTrue(isinstance(result.items_mapped['Asset']['1x0xpXu4pSGS4OukSyWGUK'], Asset))
+        self.assertEqual(2, len(result.items_mapped['Entry']))
+
+        for item in result:
+            self.assertTrue(result.items_mapped['Entry'][item.sys['id']] is item)
+            
+    def test_resolve_entry_link(self):
+        cli = Client(DemoConfig([Cat]))
+        result = utils.fetch_first_and_assert(self, Cat, 'resolve_entry_link', const.PATH_ENTRIES, cli)
+
+        best_friend = result.best_friend
+        self.assertIsInstance(best_friend, ResourceLink)
+        self.assertIsInstance(self.client.resolve(best_friend.link_type, best_friend.resource_id), Entry)
+
+    def test_resolve_array_links(self):
+        cli = Client(DemoConfig([Cat]))
+        result = utils.fetch_array_and_assert(self, Entry, 'resolve_array_links', const.PATH_ENTRIES, cli)
+        cli.resolve_array_links(result)
+
+        self.assertIsInstance(result.items_mapped['Entry']['6KntaYXaHSyIw8M6eo26OK'].fields['image'], Asset)
+        happy_cat = result.items_mapped['Entry']['happycat']
+        self.assertIsInstance(happy_cat.best_friend, Cat)
+        self.assertIsInstance(happy_cat.fields['bestFriend'], Cat)
+        self.assertIsInstance(happy_cat._cf_cda['bestFriend'], Cat)
+        nyan_cat = result.items_mapped['Entry']['nyancat']
+        self.assertIsInstance(nyan_cat.best_friend, Cat)
+        self.assertIs(happy_cat, nyan_cat.best_friend)
+        self.assertIs(nyan_cat, happy_cat.best_friend)
+        jake = result.items_mapped['Entry']['jake']
+        self.assertIsInstance(jake.fields['image'], Asset)

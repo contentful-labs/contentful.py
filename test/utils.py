@@ -9,7 +9,6 @@ class DemoConfig(Config):
 
 
 def assert_resource(test_case, resource, resource_type):
-    test_case.assertIsNotNone(resource)
     test_case.assertIsInstance(resource, resource_type)
     test_case.assertTrue('id' in resource.sys)
 
@@ -31,18 +30,17 @@ def assert_content_type(test_case, content_type):
     test_case.assertTrue(len(content_type.fields) > 0)
 
 
-def fetch_array_and_assert(test_case, resource_type, cassette_name, last_path_segment, client=None):
+def fetch_array_and_assert(test_case, resource_type, cassette_name, last_path_segment, client=None, query=None):
     if client is None:
         client = test_case.client
 
     with test_case.use_cassette(cassette_name) as cass:
         # response
-        result = client.fetch(resource_type).all()
-        test_case.assertTrue(result.total > 0)
-        test_case.assertEqual(result.total, len(result.items))
-        test_case.assertEqual(0, result.skip)
-        test_case.assertEqual(100, result.limit)
+        req = client.fetch(resource_type)
+        if query is not None:
+            req.where(query)
 
+        result = req.all()
         for resource in result:
             assert_resource(test_case, resource, resource_type)
 

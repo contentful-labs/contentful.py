@@ -17,7 +17,6 @@ class ResourceFactoryTests(BaseTestCase):
 
     def test_convert_date(self):
         dt = ResourceFactory.convert_value('2013-11-18T09:13:37.808Z', Field(Date))
-        self.assertIsNotNone(dt)
         self.assertIsInstance(dt, date)
         self.assertEqual(2013, dt.year)
         self.assertEqual(11, dt.month)
@@ -30,13 +29,11 @@ class ResourceFactoryTests(BaseTestCase):
     def test_convert_number(self):
         value = long(1234567890)
         num = ResourceFactory.convert_value(str(value), Field(Number))
-        self.assertIsNotNone(num)
         self.assertIsInstance(num, long)
         self.assertEqual(value, num)
 
     def test_convert_object(self):
         dct = ResourceFactory.convert_value("{'ct' : 'di', 'nary' : 'io'}", Field(Object))
-        self.assertIsNotNone(dct)
         self.assertIsInstance(dct, dict)
         self.assertEqual('di', dct['ct'])
         self.assertEqual('io', dct['nary'])
@@ -44,14 +41,12 @@ class ResourceFactoryTests(BaseTestCase):
     def test_convert_text(self):
         value = 31337
         txt = ResourceFactory.convert_value(31337, Field(Text))
-        self.assertIsNotNone(txt)
         self.assertIsInstance(txt, str)
         self.assertEqual(str(value), txt)
 
     def test_convert_list(self):
         item = 'item'
         lst = ResourceFactory.convert_value(item, Field(List))
-        self.assertIsNotNone(lst)
         self.assertIsInstance(lst, list)
         self.assertEqual(1, len(lst))
         self.assertEqual(item, lst[0])

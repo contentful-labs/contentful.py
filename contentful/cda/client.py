@@ -20,9 +20,11 @@ whose response may contain multiple resources.
 
 import requests
 import const
+from contentful.cda import utils
+from contentful.cda.fields import MultipleAssets, MultipleEntries
 from errors import ErrorMapping, ApiError
 from serialization import ResourceFactory
-from resources import Entry, Asset, ContentType
+from resources import Entry, ResourceLink
 
 
 class Client(object):
@@ -65,7 +67,7 @@ class Client(object):
             elif clazz.__name__ == Entry.__name__:
                 raise Exception('Cannot register "Entry" as a custom entry class.')
 
-    def fetch(self, resource_type):
+    def fetch(self, resource_class):
         """Return a :class:`.Request` according to the given parameters.
 
         If used with a custom Entry class the Content Type ID will be inferred and provided with the request.
@@ -76,26 +78,20 @@ class Client(object):
           client.fetch(ContentType)
           client.fetch(CustomEntryClass)
 
-        :param resource_type: The type of resource to be fetched.
+        :param resource_class: The type of resource to be fetched.
         :return: Request instance.
         """
-        if issubclass(resource_type, Entry):
+        if issubclass(resource_class, Entry):
             params = None
-            content_type = getattr(resource_type, '__content_type__', None)
+            content_type = getattr(resource_class, '__content_type__', None)
             if content_type is not None:
-                params = {'content_type': resource_type.__content_type__}
-            return RequestArray(self.dispatcher, const.PATH_ENTRIES, params=params)
+                params = {'content_type': resource_class.__content_type__}
+            return RequestArray(self.dispatcher, utils.path_for_class(resource_class), params=params)
 
         else:
-            remote_path = None
-
-            if issubclass(resource_type, Asset):
-                remote_path = const.PATH_ASSETS
-            elif issubclass(resource_type, ContentType):
-                remote_path = const.PATH_CONTENT_TYPES
-
+            remote_path = utils.path_for_class(resource_class)
             if remote_path is None:
-                raise Exception('Invalid resource type \"{0}\".'.format(resource_type))
+                raise Exception('Invalid resource type \"{0}\".'.format(resource_class))
 
             return RequestArray(self.dispatcher, remote_path)
 
@@ -105,6 +101,76 @@ class Client(object):
         :return: :class:`.resources.Space` result instance.
         """
         return Request(self.dispatcher, '').invoke()
+
+    def resolve(self, link_resource_type, resource_id, array=None):
+        """Resolve a link to a CDA resource.
+
+        Given an `array` argument, attempt to retrieve the resource from the `mapped_items`
+        section of that array (containing both included and regular resources), in case the
+        resource cannot be found in the array or if no `array` is provided - attempt to fetch
+        the resource from the API by issuing a network request.
+
+        :param link_resource_type: Resource type as str.
+        :param resource_id: Remote ID of the linked resource.
+        :param array: Optional array resource to attempt fetching the item from.
+        :return: Resource object, None if it cannot be retrieved.
+        """
+        result = None
+
+        if array is not None:
+            container = array.items_mapped.get(link_resource_type)
+            result = container.get(resource_id)
+
+        if result is None:
+            clz = utils.class_for_type(link_resource_type)
+            result = self.fetch(clz).where({'sys.id': resource_id}).first()
+
+        return result
+
+    def resolve_resource_link(self, resource_link, array=None):
+        """Convenience method for resolving links given a :class:`.resources.ResourceLink` object.
+
+        Extract the proper values and pass those to the `resolve` method of this class.
+
+        :param resource_link: ResourceLink instance.
+        :param array: Optional array resource to attempt fetching the item from.
+        :return: Resource object, None if it cannot be retrieved.
+        """
+        return self.resolve(resource_link.link_type, resource_link.resource_id, array)
+
+    def resolve_dict_link(self, dct, array=None):
+        """Convenience method for resolving links given a dict object.
+
+        Extract the proper values and pass those to the `resolve` method of this class.
+
+        :param dct: Dictionary with the link data.
+        :param array: Optional array resource to attempt fetching the item from.
+        :return: Resource object, None if it cannot be retrieved.
+        """
+        return self.resolve(dct['linkType'], dct['id'], array)
+
+    # noinspection PyProtectedMember
+    def resolve_array_links(self, array):
+        """Attempt to resolve all links contained within an :class:`.resources.Array` object.
+
+        :param array: Array instance.
+        """
+        for resource in array.items_mapped['Entry'].values():
+            if issubclass(type(resource), Entry):
+                for dct in [getattr(resource, '_cf_cda', {}), resource.fields]:
+                    for k, v in dct.items():
+                        if isinstance(v, ResourceLink):
+                            resolved = self.resolve_resource_link(v, array)
+                            if resolved is not None:
+                                dct[k] = resolved
+                        elif isinstance(v, (MultipleAssets, MultipleEntries, list)):
+                            for idx, ele in enumerate(v):
+                                if not isinstance(ele, ResourceLink):
+                                    break
+
+                                resolved = self.resolve_resource_link(ele, array)
+                                if resolved is not None:
+                                    v[idx] = resolved
 
 
 class Config(object):
