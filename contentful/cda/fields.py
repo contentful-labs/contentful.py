@@ -1,6 +1,48 @@
-# Fields
+"""Fields module.
+
+Classes provided include:
+
+:class:`.Field` - Class representing a single Entry field.
+
+:class:`.FieldOwner` - meta-class enabling usage of Field-type fields.
+
+:class:`.FieldType` - Class representing a type of a field.
+
+:class:`.Boolean` - Field holding a boolean value.
+
+:class:`.Date` - Field holding a date value.
+
+:class:`.Link` - Field holding a link value.
+
+:class:`.Location` - Field holding a location value.
+
+:class:`.Number` - Field holding a numeric value.
+
+:class:`.Object` - Field holding an object value.
+
+:class:`.Symbol` - Field holding a symbol value.
+
+:class:`.Text` - Field holding a text value.
+
+:class:`.List` - Field holding a list value.
+
+:class:`.MultipleAssets` - Field holding multiple Assets as a value.
+
+:class:`.MultipleEntries` - Field holding multiple Entries as a value.
+"""
+
+
 class Field(object):
+    """Class representing a single Entry field."""
+
     def __init__(self, field_type, field_id=None):
+        """
+
+        :param field_type: :class:`.FieldType` type of field.
+        :param field_id: Custom ID to set for this field, by default this will
+          be inferred by the name of the attribute.
+        :return: Field instance.
+        """
         self.field_type = field_type
         self.field_id = field_id
 
@@ -22,8 +64,13 @@ class Field(object):
 
 
 class FieldOwner(type):
-    registry = {}
+    """Metaclass for the :class:`.resources.Entry` class.
 
+    For any subclass (i.e. representing a custom Entry class), ensure the extending class has
+    a valid `__content_type__` attribute specified, otherwise raise an exception.
+    In addition, iterate through all of the class attributes, identify any :class:`.Field` typed
+    attributes and keep those in a dictionary under the class's `__entry_fields__` attribute.
+    """
     def __new__(mcs, name, bases, attrs):
         is_custom = name != 'Entry'
         content_type_id = None
@@ -46,48 +93,48 @@ class FieldOwner(type):
 
 # Field Types
 class FieldType(object):
-    pass
+    """Base field type."""
 
 
 class Boolean(FieldType):
-    pass
+    """Boolean typed field"""
 
 
 class Date(FieldType):
-    pass
+    """Date typed field."""
 
 
 class Link(FieldType):
-    pass
+    """Link typed field."""
 
 
 class Location(FieldType):
-    pass
+    """Location typed field."""
 
 
 class Number(FieldType):
-    pass
+    """Number typed field."""
 
 
 class Object(FieldType):
-    pass
+    """Object typed field."""
 
 
 class Symbol(FieldType):
-    pass
+    """Symbol typed field."""
 
 
 class Text(FieldType):
-    pass
+    """Text typed field."""
 
 
 class List(FieldType):
-    pass
+    """List typed field."""
 
 
 class MultipleAssets(FieldType):
-    pass
+    """Multiple Assets typed field."""
 
 
 class MultipleEntries(FieldType):
-    pass
+    """Multiple Entries typed field."""

@@ -35,35 +35,29 @@ def api_exception(http_code):
 
 @api_exception(400)
 class BadRequest(ApiError):
-    """BadRequest, malformed data sent by the client."""
-    pass
+    """Bad Request"""
 
 
 @api_exception(401)
 class Unauthorized(ApiError):
-    """Unauthorized error, raised when providing invalid credentials."""
-    pass
+    """Unauthorized"""
 
 
 @api_exception(403)
 class AccessDenied(ApiError):
-    """AccessDenied, raised when referencing a resource without proper credentials."""
-    pass
+    """Access Denied"""
 
 
 @api_exception(404)
 class NotFound(ApiError):
-    """NotFound error, raised when referencing a missing resource."""
-    pass
+    """Not Found"""
 
 
 @api_exception(500)
 class ServerError(ApiError):
-    """ServerError, raised when the server fails internally."""
-    pass
+    """Internal Server Error"""
 
 
 @api_exception(503)
 class ServiceUnavailable(ApiError):
-    """ServiceUnavailable error, raised when the server overloads."""
-    pass
+    """Service Unavailable Error"""
