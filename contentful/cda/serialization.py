@@ -1,3 +1,9 @@
+"""serialization module.
+
+Classes provided include:
+
+:class:`ResourceFactory` - Factory for generating :class:`.resources.Resource` subclasses out of JSON data.
+"""
 import ast
 from dateutil import parser
 from fields import Boolean, Date, Number, Object, Symbol, Text, List, MultipleAssets, MultipleEntries
@@ -5,7 +11,17 @@ from resources import ResourceType, Array, Entry, Asset, Space, ContentType
 
 
 class ResourceFactory(object):
+    """Factory for generating :class:`.resources.Resource` subclasses out of JSON data.
+
+    Attributes:
+      entries_mapping (dict): Mapping of Content Type IDs to custom Entry subclasses.
+    """
     def __init__(self, custom_entries):
+        """ResourceFactory constructor.
+
+        :param custom_entries: list of custom Entry subclasses.
+        :return: ResourceFactory instance.
+        """
         super(ResourceFactory, self).__init__()
 
         self.entries_mapping = {}
@@ -15,6 +31,11 @@ class ResourceFactory(object):
                 self.entries_mapping[ct] = c
 
     def from_json(self, json):
+        """Create resource out of JSON data.
+
+        :param json: JSON dict.
+        :return: Resource with a type defined by the given JSON data.
+        """
         res_type = json['sys']['type']
 
         if ResourceType.Array.value == res_type:
@@ -29,6 +50,11 @@ class ResourceFactory(object):
             return ResourceFactory.create_space(json)
 
     def create_array(self, json):
+        """Create :class:`.resources.Array` from JSON.
+
+        :param json: JSON dict.
+        :return: Array instance.
+        """
         result = Array(json['sys'])
         result.total = json['total']
         result.skip = json['skip']
@@ -41,6 +67,11 @@ class ResourceFactory(object):
         return result
 
     def create_entry(self, json):
+        """Create :class:`.resources.Entry` from JSON.
+
+        :param json: JSON dict.
+        :return: Entry instance.
+        """
         sys = json['sys']
         ct = sys['contentType']['sys']['id']
         fields = json['fields']
@@ -62,6 +93,11 @@ class ResourceFactory(object):
 
     @staticmethod
     def create_asset(json):
+        """Create :class:`.resources.Asset` from JSON.
+
+        :param json: JSON dict.
+        :return: Asset instance.
+        """
         result = Asset(json['sys'])
         file_dict = json['fields']['file']
         result.url = file_dict['url']
@@ -70,6 +106,11 @@ class ResourceFactory(object):
 
     @staticmethod
     def create_content_type(json):
+        """Create :class:`.resource.ContentType` from JSON.
+
+        :param json: JSON dict.
+        :return: ContentType instance.
+        """
         result = ContentType(json['sys'])
 
         for field in json['fields']:
@@ -84,12 +125,24 @@ class ResourceFactory(object):
 
     @staticmethod
     def create_space(json):
+        """Create :class:`.resources.Space` from JSON.
+
+        :param json: JSON dict.
+        :return: Space instance.
+        """
         result = Space(json['sys'])
         result.name = json['name']
         return result
 
     @staticmethod
     def convert_value(value, field):
+        """Given a :class:`.fields.Field` and a value, ensure that the value matches the given type, otherwise
+        attempt to convert it.
+
+        :param value: field value.
+        :param field: :class:`.fields.Field` instance.
+        :return: Result value.
+        """
         clz = field.field_type.__name__
 
         if clz == Boolean.__name__:
