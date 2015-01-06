@@ -1,4 +1,4 @@
-"""Errors module."""
+"""errors module."""
 
 
 class ErrorMapping(object):

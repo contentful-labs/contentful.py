@@ -1,4 +1,4 @@
-"""Fields module.
+"""fields module.
 
 Classes provided include:
 

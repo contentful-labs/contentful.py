@@ -135,7 +135,7 @@ class Dispatcher(object):
     Attributes:
       config (Config): Configuration settings.
       resource_factory (ResourceFactory): Factory to use for generating resources out of JSON responses.
-      base_url (str): Represents the base URL of the remote endpoint.
+      base_url (str): Base URL of the remote endpoint.
     """
     def __init__(self, config):
         """Dispatcher constructor.
