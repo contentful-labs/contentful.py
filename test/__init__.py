@@ -5,8 +5,7 @@ from test.lib.utils import DemoConfig, SDKSpaceConfig
 
 
 def before_record_cb(request):
-    space_id = request.path.split('/')[1]
-
+    space_id = request.path.split('/')[2]
     cfg_demo = DemoConfig()
     cfg_sdk = SDKSpaceConfig()
 
