@@ -147,7 +147,8 @@ class Client(object):
         :param array: Optional array resource to attempt fetching the item from.
         :return: Resource object, None if it cannot be retrieved.
         """
-        return self.resolve(dct['linkType'], dct['id'], array)
+        sys = dct.get('sys')
+        return self.resolve(sys['linkType'], sys['id'], array) if sys is not None else None
 
     # noinspection PyProtectedMember
     def resolve_array_links(self, array):

@@ -96,13 +96,17 @@ class ClientTestCase(BaseTestCase):
         for item in result:
             self.assertTrue(result.items_mapped['Entry'][item.sys['id']] is item)
             
-    def test_resolve_entry_link(self):
+    def test_resolve_resource_link(self):
         cli = Client(DemoConfig([Cat]))
-        result = utils.fetch_first_and_assert(self, Cat, 'resolve_entry_link', const.PATH_ENTRIES, cli)
+        result = utils.fetch_first_and_assert(self, Cat, 'resolve_resource_link', const.PATH_ENTRIES, cli)
 
         best_friend = result.best_friend
         self.assertIsInstance(best_friend, ResourceLink)
-        self.assertIsInstance(self.client.resolve(best_friend.link_type, best_friend.resource_id), Entry)
+        self.assertIsInstance(self.client.resolve_resource_link(best_friend), Entry)
+
+    def test_resolve_dict_link(self):
+        dct = {'sys': {'linkType': 'Entry', 'type': 'Link', 'id': 'nyancat'}}
+        self.assertIsInstance(self.client.resolve_dict_link(dct), Entry)
 
     def test_resolve_array_links(self):
         cli = Client(DemoConfig([Cat]))
