@@ -51,11 +51,12 @@ class ResourceFactory(object):
             return ResourceFactory.create_space(json)
 
     @staticmethod
-    def _extract_link(sys):
-        if sys is None:
+    def _extract_link(obj):
+        if not isinstance(obj, dict):
             return None
 
-        if sys is not None and isinstance(sys, dict) and sys.get('type') == ResourceType.Link.value:
+        sys = obj.get('sys')
+        if isinstance(sys, dict) and sys.get('type') == ResourceType.Link.value:
             return ResourceLink(sys)
 
         return None
@@ -73,12 +74,12 @@ class ResourceFactory(object):
 
         # Replace links with :class:`.resources.ResourceLink` objects.
         for k, v in fields.items():
-            link = ResourceFactory._extract_link(v.get('sys')) if isinstance(v, dict) else None
+            link = ResourceFactory._extract_link(v)
             if link is not None:
                 fields[k] = link
             elif isinstance(v, list):
                 for idx, ele in enumerate(v):
-                    link = ResourceFactory._extract_link(ele.get('sys')) if isinstance(ele, dict) else None
+                    link = ResourceFactory._extract_link(ele)
                     if link is not None:
                         list[idx] = link
 
