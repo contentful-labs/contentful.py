@@ -1,8 +1,9 @@
 from datetime import date
+from mock import Mock
 
 from contentful.cda import const
 from contentful.cda.client import Client, Config
-from contentful.cda.errors import ApiError
+from contentful.cda.errors import ApiError, Unauthorized
 from contentful.cda.resources import Entry, Asset, ContentType, ResourceLink, Space
 from test import BaseTestCase
 from test.lib import utils
@@ -136,6 +137,11 @@ class ClientTestCase(BaseTestCase):
         self.assertEqual('Contentful Example API', space.name)
         self.assertIsNotNone(space.sys)
 
-    def test_raises_apierror(self):
+    def test_raises_mapped_apierror(self):
         cli = Client(Config('', ''))
+        self.assertRaises(Unauthorized, cli.fetch_space)
+
+    def test_raises_general_apierror(self):
+        cli = Client(Config('', ''))
+        cli.dispatcher.httpclient = Mock(side_effect=Exception('...'))
         self.assertRaises(ApiError, cli.fetch_space)

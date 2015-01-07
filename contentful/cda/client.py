@@ -16,8 +16,6 @@ API request.
 :class:`.RequestArray` - Represents a type of request
 whose response may contain multiple resources.
 """
-
-
 import requests
 import const
 from contentful.cda import utils
@@ -41,7 +39,7 @@ class Client(object):
         """
         super(Client, self).__init__()
         self.validate_config(config)
-        self.dispatcher = Dispatcher(config)
+        self.dispatcher = Dispatcher(config, requests)
 
     @staticmethod
     def validate_config(config):
@@ -204,15 +202,17 @@ class Dispatcher(object):
       resource_factory (ResourceFactory): Factory to use for generating resources out of JSON responses.
       base_url (str): Base URL of the remote endpoint.
     """
-    def __init__(self, config):
+    def __init__(self, config, httpclient):
         """Dispatcher constructor.
 
         :param config: Configuration settings.
+        :param httpclient: HTTP client.
         :return: Dispatcher instance.
         """
         super(Dispatcher, self).__init__()
         self.config = config
         self.resource_factory = ResourceFactory(config.custom_entries)
+        self.httpclient = httpclient
 
         scheme = 'https' if config.secure else 'http'
         self.base_url = '{0}://{1}/spaces/{2}'.format(scheme, config.endpoint, config.space_id)
@@ -225,7 +225,7 @@ class Dispatcher(object):
           be a :class:`.Array` or a single resource.
         """
         url = '{0}/{1}'.format(self.base_url, request.remote_path)
-        r = requests.get(url, params=request.params, headers=self.get_headers())
+        r = self.httpclient.get(url, params=request.params, headers=self.get_headers())
         if 200 <= r.status_code < 300:
             return self.resource_factory.from_json(r.json())
         else:
