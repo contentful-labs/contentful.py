@@ -7,7 +7,7 @@ Classes provided include:
 import ast
 import copy
 from dateutil import parser
-from fields import Boolean, Date, Number, Object, Symbol, Text, List, MultipleAssets, MultipleEntries, Link
+from fields import Boolean, Date, Number, Object, Symbol, Text, List, MultipleAssets, MultipleEntries
 from resources import ResourceType, Array, Entry, Asset, Space, ContentType, ResourceLink
 
 
