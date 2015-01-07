@@ -7,7 +7,7 @@ from contentful.cda.errors import ApiError, Unauthorized
 from contentful.cda.resources import Entry, Asset, ContentType, ResourceLink, Space
 from test import BaseTestCase
 from test.lib import utils
-from test.lib.utils import Cat, DemoConfig
+from test.lib.utils import Cat, DemoConfig, SDKSpaceConfig
 
 
 class ClientConfigTestCase(BaseTestCase):
@@ -130,6 +130,14 @@ class ClientTestCase(BaseTestCase):
         self.assertIs(nyan_cat, happy_cat.best_friend)
         jake = result.items_mapped['Entry']['jake']
         self.assertIsInstance(jake.fields['image'], Asset)
+
+    def test_resolve_list_of_links(self):
+        cli = Client(SDKSpaceConfig())
+
+        with self.use_cassette('test_resolve_list_of_links') as cass:
+            result = cli.fetch(Entry).where({'sys.id': '399PKHUiJOsMuOGAcAsWmg'}).all()
+            cli.resolve_array_links(result)
+            self.assertIsInstance(result[0].fields['entries'][0], Entry)
 
     def test_space(self):
         space = self.client.fetch_space()

@@ -81,7 +81,7 @@ class ResourceFactory(object):
                 for idx, ele in enumerate(v):
                     link = ResourceFactory._extract_link(ele)
                     if link is not None:
-                        list[idx] = link
+                        v[idx] = link
 
         if ct in self.entries_mapping:
             clazz = self.entries_mapping[ct]
