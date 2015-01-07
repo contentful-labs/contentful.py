@@ -40,6 +40,9 @@ class ClientTestCase(BaseTestCase):
         super(ClientTestCase, self).setUp()
         self.client = Client(DemoConfig())
 
+    def test_fails_fetch_invalid_resource(self):
+        self.assertRaisesRegexp(Exception, '^Invalid resource type \\\"<type \\\'int\\\'>\\\".', self.client.fetch, int)
+
     def test_asset_all(self):
         utils.fetch_array_and_assert(self, Asset, 'asset_all', const.PATH_ASSETS)
 
