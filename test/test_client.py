@@ -1,10 +1,11 @@
 from datetime import date
+
 from contentful.cda import const
 from contentful.cda.client import Client, Config
 from contentful.cda.resources import Entry, Asset, ContentType, ResourceLink
 from test import BaseTestCase
-from test import utils
-from test.utils import Cat, DemoConfig
+from test.lib import utils
+from test.lib.utils import Cat, DemoConfig
 
 
 class ClientConfigTestCase(BaseTestCase):
