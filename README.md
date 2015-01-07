@@ -13,7 +13,7 @@ Setup
 Installation via pip:
 
 ```bash
-pip install cf-cda
+pip install contentful-cda
 ```
 
 Usage
@@ -57,7 +57,7 @@ for resource in array[2:4]:
 
 #### Providing a custom query:
 
-Custom query can be provided by invoking the `where()` method of a `Request` object, for example:
+Custom queries can be provided by invoking the `where()` method of a `Request` object, for example:
 
 ```python
 client.fetch(Entry).where({'sys.id': 'MyEntry'}).first()
