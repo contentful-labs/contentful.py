@@ -2,7 +2,7 @@ from datetime import date
 
 from contentful.cda import const
 from contentful.cda.client import Client, Config
-from contentful.cda.resources import Entry, Asset, ContentType, ResourceLink
+from contentful.cda.resources import Entry, Asset, ContentType, ResourceLink, Space
 from test import BaseTestCase
 from test.lib import utils
 from test.lib.utils import Cat, DemoConfig
@@ -125,3 +125,9 @@ class ClientTestCase(BaseTestCase):
         self.assertIs(nyan_cat, happy_cat.best_friend)
         jake = result.items_mapped['Entry']['jake']
         self.assertIsInstance(jake.fields['image'], Asset)
+
+    def test_space(self):
+        space = self.client.fetch_space()
+        self.assertIsInstance(space, Space)
+        self.assertEqual('Contentful Example API', space.name)
+        self.assertIsNotNone(space.sys)
