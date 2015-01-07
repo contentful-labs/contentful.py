@@ -1,0 +1,2 @@
+pytest-cov==1.8.1
+python-coveralls==2.4.3
