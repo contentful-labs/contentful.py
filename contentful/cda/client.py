@@ -30,17 +30,26 @@ class Client(object):
 
     Attributes:
       dispatcher (Dispatcher): Dispatcher for invoking requests.
+      config (Config): :class:`.Config` instance.
     """
-    def __init__(self, space_id, access_token, custom_entries=None, secure=True, endpoint=None):
+    def __init__(self, space_id, access_token, custom_entries=None, secure=True, endpoint=None, resolve_links=True):
         """Client constructor.
 
-        :param config: Configuration settings.
+        :param space_id: Space ID.
+        :param access_token: Access Token.
+        :param custom_entries: Optional list of subclasses of the :class:`.resources.Entry` class. Provide
+          this parameter in order to register custom Entry subclasses to be instantiated by the client
+          when Entries of the given Content Type are retrieved from the server.
+        :param secure: Indicates whether the connection should be encrypted or not.
+        :param endpoint: Allows configuring a custom remote API endpoint.
+        :param resolve_links: Indicates whether or not to resolve links automatically.
         :return: Client instance.
         """
         super(Client, self).__init__()
-        cfg = Config(space_id, access_token, custom_entries, secure, endpoint)
-        self.validate_config(cfg)
-        self.dispatcher = Dispatcher(cfg, requests)
+        config = Config(space_id, access_token, custom_entries, secure, endpoint, resolve_links)
+        self.config = config
+        self.validate_config(config)
+        self.dispatcher = Dispatcher(config, requests)
 
     @staticmethod
     def validate_config(config):
@@ -82,14 +91,15 @@ class Client(object):
             content_type = getattr(resource_class, '__content_type__', None)
             if content_type is not None:
                 params = {'content_type': resource_class.__content_type__}
-            return RequestArray(self.dispatcher, utils.path_for_class(resource_class), params=params)
+            return RequestArray(self.dispatcher, utils.path_for_class(resource_class), self.config.resolve_links,
+                                params=params)
 
         else:
             remote_path = utils.path_for_class(resource_class)
             if remote_path is None:
                 raise Exception('Invalid resource type \"{0}\".'.format(resource_class))
 
-            return RequestArray(self.dispatcher, remote_path)
+            return RequestArray(self.dispatcher, remote_path, self.config.resolve_links)
 
     def fetch_space(self):
         """Fetch the Space associated with this client.
@@ -146,33 +156,10 @@ class Client(object):
         sys = dct.get('sys')
         return self.resolve(sys['linkType'], sys['id'], array) if sys is not None else None
 
-    # noinspection PyProtectedMember
-    def resolve_array_links(self, array):
-        """Attempt to resolve all links contained within an :class:`.resources.Array` object.
-
-        :param array: Array instance.
-        """
-        for resource in array.items_mapped['Entry'].values():
-            if issubclass(type(resource), Entry):
-                for dct in [getattr(resource, '_cf_cda', {}), resource.fields]:
-                    for k, v in dct.items():
-                        if isinstance(v, ResourceLink):
-                            resolved = self.resolve_resource_link(v, array)
-                            if resolved is not None:
-                                dct[k] = resolved
-                        elif isinstance(v, (MultipleAssets, MultipleEntries, list)):
-                            for idx, ele in enumerate(v):
-                                if not isinstance(ele, ResourceLink):
-                                    break
-
-                                resolved = self.resolve_resource_link(ele, array)
-                                if resolved is not None:
-                                    v[idx] = resolved
-
 
 class Config(object):
     """Configuration container to provide when creating :class:`.Client` objects."""
-    def __init__(self, space_id, access_token, custom_entries=None, secure=True, endpoint=None):
+    def __init__(self, space_id, access_token, custom_entries, secure, endpoint, resolve_links):
         """Config constructor.
 
         :param space_id: Space ID.
@@ -182,6 +169,7 @@ class Config(object):
           when Entries of the given Content Type are retrieved from the server.
         :param secure: Indicates whether the connection should be encrypted or not.
         :param endpoint: Allows configuring a custom remote API endpoint.
+        :param resolve_links: Indicates whether or not to resolve links automatically.
         :return: Config instance.
         """
         super(Config, self).__init__()
@@ -190,6 +178,7 @@ class Config(object):
         self.custom_entries = custom_entries or []
         self.secure = secure
         self.endpoint = endpoint or const.CDA_ADDRESS
+        self.resolve_links = resolve_links
 
 
 class Dispatcher(object):
@@ -265,12 +254,21 @@ class Request(object):
 
 class RequestArray(Request):
     """Represents a single request for retrieving multiple resources from the Delivery API."""
+
+    def __init__(self, dispatcher, remote_path, resolve_links, params=None):
+        super(RequestArray, self).__init__(dispatcher, remote_path, params)
+        self.resolve_links = resolve_links
+
     def all(self):
         """Attempt to retrieve all available resources matching this request.
 
         :return: Result instance as returned by the Dispatcher.
         """
-        return self.invoke()
+        result = self.invoke()
+        if self.resolve_links:
+            result.resolve_links()
+
+        return result
 
     def first(self):
         """Attempt to retrieve only the first resource matching this request.

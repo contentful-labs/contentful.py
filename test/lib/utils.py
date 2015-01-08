@@ -10,13 +10,15 @@ SDK_ACCESS_TOKEN = '5476537f4690baefad813b3b0f2e151693d57b1ac150d45b89df310ec097
 
 
 class DemoClient(Client):
-    def __init__(self, custom_entries=None, secure=True, endpoint=None):
-        super(DemoClient, self).__init__(DEMO_SPACE_ID, DEMO_ACCESS_TOKEN, custom_entries, secure, endpoint)
+    def __init__(self, custom_entries=None, secure=True, endpoint=None, resolve_links=True):
+        super(DemoClient, self).__init__(DEMO_SPACE_ID, DEMO_ACCESS_TOKEN, custom_entries, secure, endpoint,
+                                         resolve_links)
 
 
 class SDKClient(Client):
-    def __init__(self, custom_entries=None, secure=True, endpoint=None):
-        super(SDKClient, self).__init__(SDK_SPACE_ID, SDK_ACCESS_TOKEN, custom_entries, secure, endpoint)
+    def __init__(self, custom_entries=None, secure=True, endpoint=None, resolve_links=True):
+        super(SDKClient, self).__init__(SDK_SPACE_ID, SDK_ACCESS_TOKEN, custom_entries, secure, endpoint,
+                                        resolve_links)
 
 
 def assert_resource(test_case, resource, resource_type):

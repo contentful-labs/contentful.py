@@ -18,7 +18,7 @@ Classes provided include:
 """
 
 from enum import Enum
-from fields import FieldOwner
+from fields import FieldOwner, MultipleAssets, MultipleEntries
 
 
 class Resource(object):
@@ -80,6 +80,35 @@ class Array(Resource):
     def __getitem__(self, index):
         # Proxy to the `items` attribute
         return self.items[index]
+
+    def _resolve_resource_link(self, link):
+        return self.items_mapped[link.link_type].get(link.resource_id)
+
+    def resolve_links(self):
+        """Attempt to resolve all internal links (locally).
+
+         In case the linked resources are found either as members of the array or within
+         the `includes` element, those will be replaced and reference the actual resources.
+         No additional network calls will be made.
+        """
+        for resource in self.items_mapped['Entry'].values():
+            if not issubclass(type(resource), Entry):
+                continue
+
+            for dct in [getattr(resource, '_cf_cda', {}), resource.fields]:
+                for k, v in dct.items():
+                    if isinstance(v, ResourceLink):
+                        resolved = self._resolve_resource_link(v)
+                        if resolved is not None:
+                            dct[k] = resolved
+                    elif isinstance(v, (MultipleAssets, MultipleEntries, list)):
+                        for idx, ele in enumerate(v):
+                            if not isinstance(ele, ResourceLink):
+                                break
+
+                            resolved = self._resolve_resource_link(ele)
+                            if resolved is not None:
+                                v[idx] = resolved
 
 
 class Asset(Resource):

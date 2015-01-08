@@ -110,7 +110,6 @@ class ClientTestCase(BaseTestCase):
     def test_resolve_array_links(self):
         cli = DemoClient([Cat])
         result = utils.fetch_array_and_assert(self, Entry, 'resolve_array_links', const.PATH_ENTRIES, cli)
-        cli.resolve_array_links(result)
 
         self.assertIsInstance(result.items_mapped['Entry']['6KntaYXaHSyIw8M6eo26OK'].fields['image'], Asset)
         happy_cat = result.items_mapped['Entry']['happycat']
@@ -129,7 +128,6 @@ class ClientTestCase(BaseTestCase):
 
         with self.use_cassette('test_resolve_list_of_links') as cass:
             result = cli.fetch(Entry).where({'sys.id': '399PKHUiJOsMuOGAcAsWmg'}).all()
-            cli.resolve_array_links(result)
             self.assertIsInstance(result[0].fields['entries'][0], Entry)
 
     def test_space(self):
