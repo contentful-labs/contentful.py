@@ -152,30 +152,30 @@ class ResourceFactory(object):
         :param field: :class:`.fields.Field` instance.
         :return: Result value.
         """
-        clz = field.field_type.__name__
+        clz = field.field_type
 
-        if clz == Boolean.__name__:
+        if clz is Boolean:
             if not isinstance(value, bool):
                 return bool(value)
 
-        elif clz == Date.__name__:
+        elif clz is Date:
             if not isinstance(value, str):
                 value = str(value)
             return parser.parse(value)
 
-        elif clz == Number.__name__:
+        elif clz is Number:
             if not isinstance(value, int):
                 return long(value)
 
-        elif clz == Object.__name__:
+        elif clz is Object:
             if not isinstance(value, dict):
                 return ast.literal_eval(value)
 
-        elif clz == Text.__name__ or clz == Symbol.__name__:
+        elif clz is Text or clz is Symbol:
             if not isinstance(value, str):
                 return str(value)
 
-        elif clz == List.__name__ or clz == MultipleAssets.__name__ or clz == MultipleEntries.__name__:
+        elif clz is List or clz is MultipleAssets or clz is MultipleEntries:
             if not isinstance(value, list):
                 return [value]
 

@@ -62,7 +62,7 @@ class Client(object):
             if not issubclass(clazz, Entry):
                 raise Exception(
                     'Provided class \"{0}\" must be a subclass of Entry.'.format(clazz.__name__))
-            elif clazz.__name__ == Entry.__name__:
+            elif clazz is Entry:
                 raise Exception('Cannot register "Entry" as a custom entry class.')
 
     def fetch(self, resource_class):
