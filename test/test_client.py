@@ -98,7 +98,6 @@ class ClientTestCase(BaseTestCase):
     def test_resolve_resource_link(self):
         cli = DemoClient([Cat])
         result = utils.fetch_first_and_assert(self, Cat, 'resolve_resource_link', const.PATH_ENTRIES, cli)
-
         best_friend = result.best_friend
         self.assertIsInstance(best_friend, ResourceLink)
         self.assertIsInstance(self.client.resolve_resource_link(best_friend), Entry)
@@ -110,7 +109,6 @@ class ClientTestCase(BaseTestCase):
     def test_resolve_array_links(self):
         cli = DemoClient([Cat])
         result = utils.fetch_array_and_assert(self, Entry, 'resolve_array_links', const.PATH_ENTRIES, cli)
-
         self.assertIsInstance(result.items_mapped['Entry']['6KntaYXaHSyIw8M6eo26OK'].fields['image'], Asset)
         happy_cat = result.items_mapped['Entry']['happycat']
         self.assertIsInstance(happy_cat.best_friend, Cat)
@@ -122,6 +120,15 @@ class ClientTestCase(BaseTestCase):
         self.assertIs(nyan_cat, happy_cat.best_friend)
         jake = result.items_mapped['Entry']['jake']
         self.assertIsInstance(jake.fields['image'], Asset)
+
+    def test_resolve_resource_link_from_array(self):
+        cli = DemoClient([Cat])
+        result = utils.fetch_array_and_assert(self, Entry, 'resolve_array_links', const.PATH_ENTRIES, cli)
+
+        bad_client = Client('', '')
+        link = ResourceLink({'linkType': 'Entry', 'type': 'Link', 'id': 'nyancat'})
+        resolved = bad_client.resolve_resource_link(link, result)
+        self.assertIsInstance(resolved, Cat)
 
     def test_resolve_list_of_links(self):
         cli = SDKClient()
