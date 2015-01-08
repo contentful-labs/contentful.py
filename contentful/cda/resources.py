@@ -2,19 +2,19 @@
 
 Classes provided include:
 
-:class:`Resource` - Base CDA resource class.
+- :class:`Resource` - Base CDA resource.
 
-:class:`Array` - A collection of zero or more CDA resources.
+- :class:`Array` - Collection of multiple :class:`.Resource` instances.
 
-:class:`Asset` - CDA resource of type Asset.
+- :class:`Asset` - CDA Asset.
 
-:class:`ContentType` - CDA resource of type Content Type.
+- :class:`ContentType` - CDA Content Type.
 
-:class:`Entry` - CDA resource of type Entry.
+- :class:`Entry` - CDA Entry.
 
-:class:`Space` - CDA resource of type Space.
+- :class:`Space` - CDA Space.
 
-:class:`ResourceType` - Enum of CDA resource types.
+- :class:`ResourceType` - Enum of CDA resource types.
 """
 
 from enum import Enum
@@ -26,8 +26,8 @@ class Resource(object):
     def __init__(self, sys=None):
         """Resource constructor.
 
-        :param sys: dict containing the resource's remote system attributes.
-        :return: Resource instance.
+        :param sys: (dict) resource system attributes.
+        :return: :class:`.Resource` instance.
         """
         super(Resource, self).__init__()
         self.sys = sys or {}
@@ -52,19 +52,21 @@ class Resource(object):
 
 
 class Array(Resource):
-    """A collection of zero or more CDA resources.
+    """Collection of multiple :class:`.Resource` instances.
 
-    Attributes:
-      limit (int): `limit` value as sent to the API.
-      skip (int): `skip` value as sent to the API.
-      total (int): Total number of resources returned from the API.
-      items (list): List of resources contained within the response.
+    **Attributes**:
+
+    - limit (int): `limit` parameter.
+    - skip (int): `skip` parameter.
+    - total (int): Total number of resources returned from the API.
+    - items (list): Resources contained within the response.
+    - items_mapped (dict): All contained resources mapped by Assets/Entries using the resource ID.
     """
     def __init__(self, sys=None):
         """Array constructor.
 
-        :param sys: dict containing the resource's remote system attributes.
-        :return: Array instance.
+        :param sys: (dict) resource system attributes.
+        :return: :class:`.Array` instance.
         """
         super(Array, self).__init__(sys)
         self.limit = None
@@ -89,7 +91,7 @@ class Array(Resource):
 
          In case the linked resources are found either as members of the array or within
          the `includes` element, those will be replaced and reference the actual resources.
-         No additional network calls will be made.
+         No network calls will be performed.
         """
         for resource in self.items_mapped['Entry'].values():
             if not issubclass(type(resource), Entry):
@@ -114,16 +116,17 @@ class Array(Resource):
 class Asset(Resource):
     """CDA resource of type Asset.
 
-    Attributes:
-      fields (dict): Raw field values as returned from the API.
-      url (str): URL associated with the Asset.
-      mimeType (str): MIME type of the Asset.
+    **Attributes**:
+
+    - fields (dict): Raw field values as returned from the API.
+    - url (str): URL.
+    - mimeType (str): MIME type.
     """
     def __init__(self, sys=None):
         """Asset constructor.
 
-        :param sys: dict containing the resource's remote system attributes.
-        :return: Asset instance.
+        :param sys: (dict) resource system attributes.
+        :return: :class:`.Asset` instance.
         """
         super(Asset, self).__init__(sys)
         self.fields = {}
@@ -134,17 +137,18 @@ class Asset(Resource):
 class ContentType(Resource):
     """CDA resource of type Content Type.
 
-    Attributes:
-      display_field (str): Identifier of the Field which should be displayed as a title for Entries.
-      name (str): Name of the Content Type.
-      user_description (str): Description of the Content Type.
-      fields (dict): Content Type fields, mapped by field IDs.
+    **Attributes**:
+
+    - display_field (str): Identifier of the field which should be displayed as a title for Entries.
+    - name (str): Name of the Content Type.
+    - user_description (str): Description of the Content Type.
+    - fields (dict): Content Type fields, mapped by field IDs.
     """
     def __init__(self, sys=None):
         """Content Type constructor.
 
-        :param sys: dict containing the resource's remote system attributes.
-        :return: ContentType instance.
+        :param sys: (dict) resource system attributes.
+        :return: :class:`.ContentType` instance.
         """
         super(ContentType, self).__init__(sys)
         self.display_field = None
@@ -156,10 +160,11 @@ class ContentType(Resource):
 class Entry(Resource):
     """CDA resource of type Entry.
 
-    Attributes:
-      fields (dict): Entry fields.
+    **Attributes**:
 
-    It is possible to define custom Entry models using the following syntax::
+    - fields (dict): Entry fields.
+
+    It is possible to define custom :class:`.Entry` models using the following syntax::
 
         class Cat(Entry):
             __content_type__ = 'cat'
@@ -170,7 +175,12 @@ class Entry(Resource):
             likes = Field(List)
             birthday = Field(Date)
             best_friend = Field(Link, field_id='bestFriend')
-    ::
+
+    .. note::
+
+        `field_id` is set explicitly for the `best_friend` field (which otherwise would be
+        inferred from the field's, as in the other fields).
+
     """
     __metaclass__ = FieldOwner
 

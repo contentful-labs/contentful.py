@@ -7,13 +7,13 @@ class ErrorMapping(object):
 
 
 class ApiError(Exception):
-    """Class representing an error returned by the remote API."""
+    """Class representing an error returned by the API."""
     def __init__(self, result, message=None):
         """ApiError constructor.
 
         :param result: Raw result object.
-        :param message: Optional message to provide with the exception.
-        :return: ApiError instance.
+        :param message: (str) Optional message.
+        :return: :class:`.ApiError` instance.
         """
         self.result = result
         super(ApiError, self).__init__(
@@ -23,7 +23,7 @@ class ApiError(Exception):
 def api_exception(http_code):
     """Convenience decorator to associate HTTP status codes with :class:`.ApiError` subclasses.
 
-    :param http_code: HTTP status code.
+    :param http_code: (int) HTTP status code.
     :return: wrapper function.
     """
     def wrapper(*args):

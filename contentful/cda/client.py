@@ -2,19 +2,15 @@
 
 Classes provided include:
 
-:class:`.Client` - Core client class for
-connecting and retrieving resources from the Contentful Delivery API.
+- :class:`.Client` - Interface for retrieving resources from the Contentful Delivery API.
 
-:class:`.Config` - Client configuration container.
+- :class:`.Config` - Configuration container for :class:`.Client` objects.
 
-:class:`.Dispatcher` - Class responsible for
-invoking requests.
+- :class:`.Dispatcher` - Class responsible for invoking :class:`.Request` instances.
 
-:class:`.Request` - Represents a future invokable
-API request.
+- :class:`.Request` - API request representation.
 
-:class:`.RequestArray` - Represents a type of request
-whose response may contain multiple resources.
+- :class:`.RequestArray` - Request whose response may contain multiple resources.
 """
 import requests
 
@@ -26,24 +22,25 @@ from resources import Entry
 
 
 class Client(object):
-    """Allows connecting and retrieving of resources from the Contentful Delivery API.
+    """Interface for retrieving resources from the Contentful Delivery API.
 
-    Attributes:
-      dispatcher (Dispatcher): Dispatcher for invoking requests.
-      config (Config): :class:`.Config` instance.
+    **Attributes**:
+
+    - dispatcher (:class:`.Dispatcher`): Dispatcher for invoking requests.
+    - config (:class:`.Config`): Configuration container.
     """
     def __init__(self, space_id, access_token, custom_entries=None, secure=True, endpoint=None, resolve_links=True):
         """Client constructor.
 
-        :param space_id: Space ID.
-        :param access_token: Access Token.
-        :param custom_entries: Optional list of subclasses of the :class:`.resources.Entry` class. Provide
-          this parameter in order to register custom Entry subclasses to be instantiated by the client
-          when Entries of the given Content Type are retrieved from the server.
-        :param secure: Indicates whether the connection should be encrypted or not.
-        :param endpoint: Allows configuring a custom remote API endpoint.
-        :param resolve_links: Indicates whether or not to resolve links automatically.
-        :return: Client instance.
+        :param space_id: (str) Space ID.
+        :param access_token: (str) Access Token.
+        :param custom_entries: (list) Optional list of :class:`.Entry` subclasses
+            used in order to register custom Entry subclasses to be instantiated by the client
+            when Entries of the given Content Type are retrieved from the server.
+        :param secure: (bool) Indicates whether the connection should be encrypted or not.
+        :param endpoint: (str) Custom remote API endpoint.
+        :param resolve_links: (bool) Indicates whether or not to resolve links automatically.
+        :return: :class:`Client` instance.
         """
         super(Client, self).__init__()
         config = Config(space_id, access_token, custom_entries, secure, endpoint, resolve_links)
@@ -53,12 +50,12 @@ class Client(object):
 
     @staticmethod
     def validate_config(config):
-        """Validate the given Config parameter for sane values.
+        """Verify sanity for a :class:`.Config` instance.
 
-        This will complete silently if validations pass, otherwise will raise
-        an exception.
+        This will raise an exception in case conditions are not met, otherwise
+        will complete silently.
 
-        :param config: Configuration container as passed to the constructor.
+        :param config: (:class:`.Config`) Configuration container.
         """
         non_null_params = ['space_id', 'access_token']
         for param in non_null_params:
@@ -73,18 +70,19 @@ class Client(object):
                 raise Exception('Cannot register "Entry" as a custom entry class.')
 
     def fetch(self, resource_class):
-        """Return a :class:`.Request` according to the given parameters.
+        """Construct a :class:`.Request` for the given resource type.
 
-        If used with a custom Entry class the Content Type ID will be inferred and provided with the request.
+        Provided an :class:`.Entry` subclass, the Content Type ID will be inferred and requested explicitly.
 
-        Examples:
-          client.fetch(Asset)
-          client.fetch(Entry)
-          client.fetch(ContentType)
-          client.fetch(CustomEntryClass)
+        Examples::
+
+            client.fetch(Asset)
+            client.fetch(Entry)
+            client.fetch(ContentType)
+            client.fetch(CustomEntryClass)
 
         :param resource_class: The type of resource to be fetched.
-        :return: Request instance.
+        :return: :class:`.Request` instance.
         """
         if issubclass(resource_class, Entry):
             params = None
@@ -104,22 +102,22 @@ class Client(object):
     def fetch_space(self):
         """Fetch the Space associated with this client.
 
-        :return: :class:`.resources.Space` result instance.
+        :return: :class:`.Space` result instance.
         """
         return Request(self.dispatcher, '').invoke()
 
     def resolve(self, link_resource_type, resource_id, array=None):
         """Resolve a link to a CDA resource.
 
-        Given an `array` argument, attempt to retrieve the resource from the `mapped_items`
+        Provided an `array` argument, attempt to retrieve the resource from the `mapped_items`
         section of that array (containing both included and regular resources), in case the
-        resource cannot be found in the array or if no `array` is provided - attempt to fetch
+        resource cannot be found in the array (or if no `array` was provided) - attempt to fetch
         the resource from the API by issuing a network request.
 
-        :param link_resource_type: Resource type as str.
-        :param resource_id: Remote ID of the linked resource.
-        :param array: Optional array resource to attempt fetching the item from.
-        :return: Resource object, None if it cannot be retrieved.
+        :param link_resource_type: (str) Resource type as str.
+        :param resource_id: (str) Remote ID of the linked resource.
+        :param array: (:class:`.Array`) Optional array resource.
+        :return: :class:`.Resource` subclass, `None` if it cannot be retrieved.
         """
         result = None
 
@@ -136,40 +134,40 @@ class Client(object):
     def resolve_resource_link(self, resource_link, array=None):
         """Convenience method for resolving links given a :class:`.resources.ResourceLink` object.
 
-        Extract the proper values and pass those to the `resolve` method of this class.
+        Extract link values and pass to the :func:`.resolve` method of this class.
 
-        :param resource_link: ResourceLink instance.
-        :param array: Optional array resource to attempt fetching the item from.
-        :return: Resource object, None if it cannot be retrieved.
+        :param resource_link: (:class:`.ResourceLink`) instance.
+        :param array: (:class:`.Array`) Optional array resource.
+        :return: :class:`.Resource` subclass, `None` if it cannot be retrieved.
         """
         return self.resolve(resource_link.link_type, resource_link.resource_id, array)
 
     def resolve_dict_link(self, dct, array=None):
         """Convenience method for resolving links given a dict object.
 
-        Extract the proper values and pass those to the `resolve` method of this class.
+        Extract link values and pass to the :func:`.resolve` method of this class.
 
-        :param dct: Dictionary with the link data.
-        :param array: Optional array resource to attempt fetching the item from.
-        :return: Resource object, None if it cannot be retrieved.
+        :param dct: (dict) Dictionary with the link data.
+        :param array: (:class:`.Array`) Optional array resource.
+        :return: :class:`.Resource` subclass, `None` if it cannot be retrieved.
         """
         sys = dct.get('sys')
         return self.resolve(sys['linkType'], sys['id'], array) if sys is not None else None
 
 
 class Config(object):
-    """Configuration container to provide when creating :class:`.Client` objects."""
+    """Configuration container for :class:`.Client` objects."""
     def __init__(self, space_id, access_token, custom_entries, secure, endpoint, resolve_links):
         """Config constructor.
 
-        :param space_id: Space ID.
-        :param access_token: Access Token.
-        :param custom_entries: Optional list of subclasses of the :class:`.resources.Entry` class. Provide
-          this parameter in order to register custom Entry subclasses to be instantiated by the client
-          when Entries of the given Content Type are retrieved from the server.
-        :param secure: Indicates whether the connection should be encrypted or not.
-        :param endpoint: Allows configuring a custom remote API endpoint.
-        :param resolve_links: Indicates whether or not to resolve links automatically.
+        :param space_id: (str) Space ID.
+        :param access_token: (str) Access Token.
+        :param custom_entries: (list) Optional list of :class:`.Entry` subclasses
+            used in order to register custom Entry subclasses to be instantiated by the client
+            when Entries of the given Content Type are retrieved from the server.
+        :param secure: (bool) Indicates whether the connection should be encrypted or not.
+        :param endpoint: (str) Custom remote API endpoint.
+        :param resolve_links: (bool) Indicates whether or not to resolve links automatically.
         :return: Config instance.
         """
         super(Config, self).__init__()
@@ -184,17 +182,19 @@ class Config(object):
 class Dispatcher(object):
     """Responsible for invoking :class:`.Request` instances and delegating result processing.
 
-    Attributes:
-      config (Config): Configuration settings.
-      resource_factory (ResourceFactory): Factory to use for generating resources out of JSON responses.
-      base_url (str): Base URL of the remote endpoint.
+    **Attributes**:
+
+    - config (:class:`.Config`): Configuration settings.
+    - resource_factory (:class:`.ResourceFactory`): Factory to use for generating resources out of JSON responses.
+    - httpclient (module): HTTP client module.
+    - base_url (str): Base URL of the remote endpoint.
     """
     def __init__(self, config, httpclient):
         """Dispatcher constructor.
 
-        :param config: Configuration settings.
+        :param config: Configuration container.
         :param httpclient: HTTP client.
-        :return: Dispatcher instance.
+        :return: :class:`.Dispatcher` instance.
         """
         super(Dispatcher, self).__init__()
         self.config = config
@@ -205,11 +205,10 @@ class Dispatcher(object):
         self.base_url = '{0}://{1}/spaces/{2}'.format(scheme, config.endpoint, config.space_id)
 
     def invoke(self, request):
-        """Invoke a given :class:`.Request` using the associated :class:`.Dispatcher`
+        """Invoke the given :class:`.Request` instance using the associated :class:`.Dispatcher`.
 
-        :param request: Request instance to invoke.
-        :return: Result object, depending on the request type, could either
-          be a :class:`.Array` or a single resource.
+        :param request: :class:`.Request` instance to invoke.
+        :return: :class:`.Resource` subclass.
         """
         url = '{0}/{1}'.format(self.base_url, request.remote_path)
         r = self.httpclient.get(url, params=request.params, headers=self.get_headers())
@@ -224,20 +223,20 @@ class Dispatcher(object):
     def get_headers(self):
         """Create and return a base set of headers to be carried with all requests.
 
-        :return: Dictionary containing header values.
+        :return: dict containing header values.
         """
         return {'Authorization': 'Bearer {0}'.format(self.config.access_token)}
 
 
 class Request(object):
-    """Represents a single request, later to be invoked by a :class:`.Dispatcher` instance."""
+    """Represents a single request, later to be invoked by a :class:`.Dispatcher`."""
     def __init__(self, dispatcher, remote_path, params=None):
         """Request constructor.
 
-        :param dispatcher: Dispatcher instance.
-        :param remote_path: str representing the API path to point this request to.
-        :param params: Optional dictionary of query parameters to provide with the request.
-        :return: Request instance.
+        :param dispatcher: (:class:`.Dispatcher`) Dispatcher.
+        :param remote_path: (str) API path.
+        :param params: Optional dictionary of query parameters.
+        :return: :class:`.Request` instance.
         """
         super(Request, self).__init__()
         self.dispatcher = dispatcher
@@ -245,15 +244,15 @@ class Request(object):
         self.params = params or {}
 
     def invoke(self):
-        """Invoke request instance using the associated Dispatcher.
+        """Invoke :class:`.Request` instance using the associated :class:`.Dispatcher`.
 
-        :return: Result instance as returned by the Dispatcher.
+        :return: Result instance as returned by the :class:`.Dispatcher`.
         """
         return self.dispatcher.invoke(self)
 
 
 class RequestArray(Request):
-    """Represents a single request for retrieving multiple resources from the Delivery API."""
+    """Represents a single request for retrieving multiple resources from the API."""
 
     def __init__(self, dispatcher, remote_path, resolve_links, params=None):
         super(RequestArray, self).__init__(dispatcher, remote_path, params)
@@ -262,7 +261,7 @@ class RequestArray(Request):
     def all(self):
         """Attempt to retrieve all available resources matching this request.
 
-        :return: Result instance as returned by the Dispatcher.
+        :return: Result instance as returned by the :class:`.Dispatcher`.
         """
         result = self.invoke()
         if self.resolve_links:
@@ -273,17 +272,17 @@ class RequestArray(Request):
     def first(self):
         """Attempt to retrieve only the first resource matching this request.
 
-        :return: Result resource, or None if there are no matching resources.
+        :return: Result instance, or `None` if there are no matching resources.
         """
         self.params['limit'] = 1
         result = self.invoke()
         return result.items[0] if result.total > 0 else None
 
     def where(self, params):
-        """Set a dict of parameters to be passed to the Delivery API when invoking this request.
+        """Set a dict of parameters to be passed to the API when invoking this request.
 
-        :param params: dict containing a collection of key-value properties to pass with this request.
-        :return: this RequestArray instance for convenience.
+        :param params: (dict) query parameters.
+        :return: this :class:`.RequestArray` instance for convenience.
         """
         self.params = dict(params.items() + self.params.items())  # TODO check for conflicts
         return self

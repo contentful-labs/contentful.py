@@ -2,33 +2,33 @@
 
 Classes provided include:
 
-:class:`.Field` - Class representing a single Entry field.
+- :class:`.Field` - An Entry field.
 
-:class:`.FieldOwner` - meta-class enabling usage of Field-type fields.
+- :class:`.FieldOwner` - Meta-class to enable usage of :class:`.Field`-typed fields.
 
-:class:`.FieldType` - Class representing a type of a field.
+- :class:`.FieldType` - Type of a field.
 
-:class:`.Boolean` - Field holding a boolean value.
+- :class:`.Boolean` - Field holding a boolean value.
 
-:class:`.Date` - Field holding a date value.
+- :class:`.Date` - Field holding a date value.
 
-:class:`.Link` - Field holding a link value.
+- :class:`.Link` - Field holding a link value.
 
-:class:`.Location` - Field holding a location value.
+- :class:`.Location` - Field holding a location value.
 
-:class:`.Number` - Field holding a numeric value.
+- :class:`.Number` - Field holding a numeric value.
 
-:class:`.Object` - Field holding an object value.
+- :class:`.Object` - Field holding an object value.
 
-:class:`.Symbol` - Field holding a symbol value.
+- :class:`.Symbol` - Field holding a symbol value.
 
-:class:`.Text` - Field holding a text value.
+- :class:`.Text` - Field holding a text value.
 
-:class:`.List` - Field holding a list value.
+- :class:`.List` - Field holding a list value.
 
-:class:`.MultipleAssets` - Field holding multiple Assets as a value.
+- :class:`.MultipleAssets` - Field holding multiple Assets as a value.
 
-:class:`.MultipleEntries` - Field holding multiple Entries as a value.
+- :class:`.MultipleEntries` - Field holding multiple Entries as a value.
 """
 
 
@@ -36,11 +36,11 @@ class Field(object):
     """Class representing a single Entry field."""
 
     def __init__(self, field_type, field_id=None):
-        """
+        """Field constructor.
 
-        :param field_type: :class:`.FieldType` type of field.
-        :param field_id: Custom ID to set for this field, by default this will
-          be inferred by the name of the attribute.
+        :param field_type: (:class:`.FieldType`) type of field.
+        :param field_id: (str) Custom ID to set for this field, by default this will
+            be inferred by the name of the attribute.
         :return: Field instance.
         """
         self.field_type = field_type
@@ -64,12 +64,12 @@ class Field(object):
 
 
 class FieldOwner(type):
-    """Metaclass for the :class:`.resources.Entry` class.
+    """Metaclass for the :class:`.Entry` class.
 
     For any subclass (i.e. representing a custom Entry class), ensure the extending class has
     a valid `__content_type__` attribute specified, otherwise raise an exception.
-    In addition, iterate through all of the class attributes, identify any :class:`.Field` typed
-    attributes and keep those in a dictionary under the class's `__entry_fields__` attribute.
+    In addition, iterate through all of the class attributes, identify any :class:`.Field`-typed
+    attributes and keep those in a dict under the class's `__entry_fields__` attribute.
     """
     def __new__(mcs, name, bases, attrs):
         is_custom = name != 'Entry'
