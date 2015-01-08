@@ -74,7 +74,7 @@ Custom queries can be provided by invoking the ``where()`` method of a ``Request
 Defining Models
 ---------------
 
-Custom Entry classes can be declared by providing a Content Type ID value and by defining a set of fields. Consider the `Cat` Content Type from the official demo space, which looks like this (sans some properties for brevity):
+Custom Entry classes can be declared by providing a Content Type ID value and by defining a set of fields. Consider the ``Cat`` Content Type from the official demo space, which looks like this (sans some properties for brevity):
 
 .. code-block:: json
 
@@ -130,8 +130,8 @@ If at any point it is desired to fetch only resources of that type, it can be pa
 Link Resolution
 ---------------
 
-Unless specified otherwise, a `Client` is configured to attempt and resolve links automatically when requesting resource arrays.
-Be mindful about providing the `includes` parameter properly, since only if the linked resources are contained within the response they will be resolved automatically. In case a link is not resolved, expect a `ResourceLink` object as the field's value, which could later be resolved by invoking the `resolve_resource_link()` method of a `Client`, which issues a network request per the resource ID.
+Unless specified otherwise, a ``Client`` is configured to attempt and resolve links automatically when requesting resource arrays.
+Be mindful about providing the ``includes`` parameter properly, since only if the linked resources are contained within the response they will be resolved automatically. In case a link is not resolved, expect a ``ResourceLink`` object as the field's value, which could later be resolved by invoking the ``resolve_resource_link()`` method of a ``Client``, which issues a network request per the resource ID.
 
 **Automatic link resolution:**
 
