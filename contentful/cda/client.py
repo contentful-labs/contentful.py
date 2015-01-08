@@ -17,12 +17,12 @@ API request.
 whose response may contain multiple resources.
 """
 import requests
+
 import const
 from contentful.cda import utils
-from contentful.cda.fields import MultipleAssets, MultipleEntries
 from errors import ErrorMapping, ApiError
 from serialization import ResourceFactory
-from resources import Entry, ResourceLink
+from resources import Entry
 
 
 class Client(object):

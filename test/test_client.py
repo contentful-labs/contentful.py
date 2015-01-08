@@ -2,7 +2,7 @@ from datetime import date
 from mock import Mock
 
 from contentful.cda import const
-from contentful.cda.client import Client, Config
+from contentful.cda.client import Client
 from contentful.cda.errors import ApiError, Unauthorized
 from contentful.cda.resources import Entry, Asset, ContentType, ResourceLink, Space
 from test import BaseTestCase
