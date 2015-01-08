@@ -23,7 +23,7 @@ Usage
 
 The `Client` class manages all your interaction with the Contentful Delivery API, creating one is as simple as:
 ```python
-client = Client(Config('space-id', 'access-token'))
+client = Client('space-id', 'access-token')
 ```
 
 ### Fetching Resources
@@ -102,7 +102,7 @@ class Cat(Entry):
 The class also has to be registered when creating a `Client`:
 
 ```python
-client = Client(Config('cfexampleapi', 'b4c0n73n7fu1', custom_entries=[Cat])
+client = Client('cfexampleapi', 'b4c0n73n7fu1', custom_entries=[Cat])
 ```
 
 Whenever this `Client` will attempt to create an `Entry` with a Content Type that matches the one defined in the class, an instance of the `Cat` class will be created, and the fields will be set accordingly, and can later be easily accessed as instance attributes:

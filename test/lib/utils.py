@@ -1,4 +1,4 @@
-from contentful.cda.client import Config
+from contentful.cda.client import Config, Client
 from contentful.cda.fields import Field, Text, Number, List, Date, Link
 from contentful.cda.resources import Asset, ContentType, Entry
 
@@ -9,14 +9,14 @@ SDK_SPACE_ID = 'bada85bjrczm'
 SDK_ACCESS_TOKEN = '5476537f4690baefad813b3b0f2e151693d57b1ac150d45b89df310ec097812b'
 
 
-class DemoConfig(Config):
+class DemoClient(Client):
     def __init__(self, custom_entries=None, secure=True, endpoint=None):
-        super(DemoConfig, self).__init__(DEMO_SPACE_ID, DEMO_ACCESS_TOKEN, custom_entries, secure, endpoint)
+        super(DemoClient, self).__init__(DEMO_SPACE_ID, DEMO_ACCESS_TOKEN, custom_entries, secure, endpoint)
 
 
-class SDKSpaceConfig(Config):
+class SDKClient(Client):
     def __init__(self, custom_entries=None, secure=True, endpoint=None):
-        super(SDKSpaceConfig, self).__init__(SDK_SPACE_ID, SDK_ACCESS_TOKEN, custom_entries, secure, endpoint)
+        super(SDKClient, self).__init__(SDK_SPACE_ID, SDK_ACCESS_TOKEN, custom_entries, secure, endpoint)
 
 
 def assert_resource(test_case, resource, resource_type):

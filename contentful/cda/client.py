@@ -31,15 +31,16 @@ class Client(object):
     Attributes:
       dispatcher (Dispatcher): Dispatcher for invoking requests.
     """
-    def __init__(self, config):
+    def __init__(self, space_id, access_token, custom_entries=None, secure=True, endpoint=None):
         """Client constructor.
 
         :param config: Configuration settings.
         :return: Client instance.
         """
         super(Client, self).__init__()
-        self.validate_config(config)
-        self.dispatcher = Dispatcher(config, requests)
+        cfg = Config(space_id, access_token, custom_entries, secure, endpoint)
+        self.validate_config(cfg)
+        self.dispatcher = Dispatcher(cfg, requests)
 
     @staticmethod
     def validate_config(config):
@@ -50,9 +51,6 @@ class Client(object):
 
         :param config: Configuration container as passed to the constructor.
         """
-        if config is None:
-            raise Exception('Config parameter must not be empty.')
-
         non_null_params = ['space_id', 'access_token']
         for param in non_null_params:
             if getattr(config, param) is None:
