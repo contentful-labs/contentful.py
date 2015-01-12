@@ -18,7 +18,7 @@ Classes provided include:
 """
 
 from enum import Enum
-from fields import FieldOwner, MultipleAssets, MultipleEntries
+from .fields import FieldOwner, MultipleAssets, MultipleEntries
 
 
 class Resource(object):
@@ -157,7 +157,7 @@ class ContentType(Resource):
         self.fields = {}
 
 
-class Entry(Resource):
+class Entry(Resource, metaclass=FieldOwner):
     """CDA resource of type Entry.
 
     **Attributes**:

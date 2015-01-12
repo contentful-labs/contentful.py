@@ -1,8 +1,7 @@
 """Utilities module."""
 
-
-from contentful.cda import const
-from contentful.cda.resources import ResourceType, Asset, ContentType, Entry, Space
+from . import const
+from .resources import ResourceType, Asset, ContentType, Entry, Space
 
 
 def path_for_class(clz):

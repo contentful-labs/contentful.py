@@ -12,7 +12,7 @@ class ResourcesTestCase(BaseTestCase):
             exception = e
 
         self.assertIsNotNone(exception)
-        self.assertEqual('Class BadEntry does not have a __content_type__ specified.', exception.message)
+        self.assertEqual('Class BadEntry does not have a __content_type__ specified.', str(exception))
 
     def test_repr(self):
         for clz in [Asset, ContentType, Entry, Space]:

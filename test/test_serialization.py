@@ -27,9 +27,9 @@ class ResourceFactoryTests(BaseTestCase):
         self.assertEqual(808000, dt.microsecond)
 
     def test_convert_number(self):
-        value = long(1234567890)
+        value = int(1234567890)
         num = ResourceFactory.convert_value(str(value), Field(Number))
-        self.assertIsInstance(num, long)
+        self.assertIsInstance(num, int)
         self.assertEqual(value, num)
 
     def test_convert_object(self):

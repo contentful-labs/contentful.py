@@ -4,11 +4,11 @@ Classes provided include:
 
 :class:`ResourceFactory` - Factory for generating :class:`.resources.Resource` subclasses out of JSON data.
 """
+from .fields import Boolean, Date, Number, Object, Symbol, Text, List, MultipleAssets, MultipleEntries
+from .resources import ResourceType, Array, Entry, Asset, Space, ContentType, ResourceLink
+from dateutil import parser
 import ast
 import copy
-from dateutil import parser
-from fields import Boolean, Date, Number, Object, Symbol, Text, List, MultipleAssets, MultipleEntries
-from resources import ResourceType, Array, Entry, Asset, Space, ContentType, ResourceLink
 
 
 class ResourceFactory(object):
@@ -165,7 +165,7 @@ class ResourceFactory(object):
 
         elif clz is Number:
             if not isinstance(value, int):
-                return long(value)
+                return int(value)
 
         elif clz is Object:
             if not isinstance(value, dict):
