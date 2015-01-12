@@ -18,6 +18,7 @@ Classes provided include:
 """
 
 from enum import Enum
+from six import with_metaclass
 from .fields import FieldOwner, MultipleAssets, MultipleEntries
 
 
@@ -157,7 +158,7 @@ class ContentType(Resource):
         self.fields = {}
 
 
-class Entry(Resource, metaclass=FieldOwner):
+class Entry(with_metaclass(FieldOwner, Resource)):
     """CDA resource of type Entry.
 
     **Attributes**:
@@ -182,8 +183,6 @@ class Entry(Resource, metaclass=FieldOwner):
         inferred from the field's, as in the other fields).
 
     """
-    __metaclass__ = FieldOwner
-
     def __init__(self, sys=None):
         """Entry constructor.
 

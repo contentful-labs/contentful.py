@@ -31,7 +31,8 @@ deps = [
     'requests==2.4.3',
     'six==1.8.0',
     'wrapt==1.10.2',
-    'python-dateutil==2.3'
+    'python-dateutil==2.3',
+    'six==1.8.0'
 ]
 
 test_deps = [

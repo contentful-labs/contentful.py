@@ -283,5 +283,5 @@ class RequestArray(Request):
         :param params: (dict) query parameters.
         :return: this :class:`.RequestArray` instance for convenience.
         """
-        self.params = dict(params, **self.params)   # self.params overrides params
+        self.params = dict(self.params, **params)   # params overrides self.params
         return self
