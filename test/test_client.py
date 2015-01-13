@@ -135,7 +135,7 @@ class ClientTestCase(BaseTestCase):
     def test_resolve_list_of_links(self):
         cli = SDKClient()
 
-        with self.use_cassette('test_resolve_list_of_links') as cass:
+        with self.use_cassette('test_resolve_list_of_links'):
             result = cli.fetch(Entry).where({'sys.id': '399PKHUiJOsMuOGAcAsWmg'}).all()
             self.assertIsInstance(result[0].fields['entries'][0], Entry)
 

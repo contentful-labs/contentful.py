@@ -26,6 +26,13 @@ class ResourceFactoryTests(BaseTestCase):
         self.assertEqual(37, dt.second)
         self.assertEqual(808000, dt.microsecond)
 
+    def test_convert_date_num(self):
+        dt = ResourceFactory.convert_value(20130101, Field(Date))
+        self.assertIsInstance(dt, date)
+        self.assertEqual(2013, dt.year)
+        self.assertEqual(1, dt.month)
+        self.assertEqual(1, dt.day)
+
     def test_convert_number(self):
         value = int(1234567890)
         num = ResourceFactory.convert_value(str(value), Field(Number))

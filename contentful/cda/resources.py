@@ -95,9 +95,6 @@ class Array(Resource):
          No network calls will be performed.
         """
         for resource in self.items_mapped['Entry'].values():
-            if not issubclass(type(resource), Entry):
-                continue
-
             for dct in [getattr(resource, '_cf_cda', {}), resource.fields]:
                 for k, v in dct.items():
                     if isinstance(v, ResourceLink):

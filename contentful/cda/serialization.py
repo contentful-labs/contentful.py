@@ -197,9 +197,9 @@ class ResourceFactory(object):
             key = None
             processed = self.from_json(item)
 
-            if issubclass(type(processed), Asset):
+            if isinstance(processed, Asset):
                 key = 'Asset'
-            elif issubclass(type(processed), Entry):
+            elif isinstance(processed, Entry):
                 key = 'Entry'
 
             if key is not None:
