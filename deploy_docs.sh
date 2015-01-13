@@ -7,18 +7,18 @@ DIR=sphinx_tmp
 ROOT=`pwd`
 
 function cleanup {
-    cd $ROOT/docs
+    cd ${ROOT}/docs
     make clean
-    rm -rf $DIR
+    rm -rf ${DIR}
     cd ../
 }
 
 trap cleanup EXIT
 cd docs
 make clean html
-rm -rf $DIR
-git clone $REPO $DIR
-cd $DIR
+rm -rf ${DIR}
+git clone ${REPO} ${DIR}
+cd ${DIR}
 git checkout -t origin/gh-pages
 rm -rf *
 cp -R ../_build/html/* .
