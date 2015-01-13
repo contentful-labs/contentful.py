@@ -39,6 +39,13 @@ class ClientTestCase(BaseTestCase):
         self.assertRaisesRegexp(Exception, '^Invalid resource type \\\"<(type|class) \\\'int\\\'>\\\".',
                                 self.client.fetch, int)
 
+    def test_user_agent(self):
+        pattern = '^contentful\\.py/[0-9\\w\\.]+$'
+        headers = self.client.dispatcher.get_headers()
+        items = [self.client.dispatcher.user_agent, headers['User-Agent']]
+        for i in items:
+            self.assertRegexpMatches(i, pattern)
+
     def test_asset_all(self):
         utils.fetch_array_and_assert(self, Asset, 'asset_all', const.PATH_ASSETS)
 

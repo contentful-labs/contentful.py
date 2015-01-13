@@ -2,6 +2,10 @@ from setuptools import setup
 from setuptools.command.test import test as TestCommand
 import sys
 
+version_ns = {}
+with open('contentful/cda/version.py') as f:
+    exec(f.read(), version_ns)
+
 
 class PyTest(TestCommand):
     user_options = [('pytest-args=', 'a', "Arguments to pass to py.test")]
@@ -45,7 +49,7 @@ test_deps = [
 
 setup(
     name='contentful.py',
-    version='0.9.0',
+    version=version_ns['__version__'],
     packages=['test', 'test.lib', 'contentful', 'contentful.cda'],
     url='https://github.com/contentful/contentful.py',
     license='Apache 2.0',

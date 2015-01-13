@@ -17,6 +17,7 @@ from . import const
 from .errors import ErrorMapping, ApiError
 from .serialization import ResourceFactory
 from .resources import Entry
+from .version import __version__
 import requests
 
 
@@ -187,6 +188,7 @@ class Dispatcher(object):
     - resource_factory (:class:`.ResourceFactory`): Factory to use for generating resources out of JSON responses.
     - httpclient (module): HTTP client module.
     - base_url (str): Base URL of the remote endpoint.
+    - user_agent (str): ``User-Agent`` header to pass with requests.
     """
     def __init__(self, config, httpclient):
         """Dispatcher constructor.
@@ -199,6 +201,7 @@ class Dispatcher(object):
         self.config = config
         self.resource_factory = ResourceFactory(config.custom_entries)
         self.httpclient = httpclient
+        self.user_agent = 'contentful.py/{0}'.format(__version__)
 
         scheme = 'https' if config.secure else 'http'
         self.base_url = '{0}://{1}/spaces/{2}'.format(scheme, config.endpoint, config.space_id)
@@ -224,7 +227,7 @@ class Dispatcher(object):
 
         :return: dict containing header values.
         """
-        return {'Authorization': 'Bearer {0}'.format(self.config.access_token)}
+        return {'Authorization': 'Bearer {0}'.format(self.config.access_token), 'User-Agent': self.user_agent}
 
 
 class Request(object):
