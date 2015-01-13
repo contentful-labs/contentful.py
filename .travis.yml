@@ -6,7 +6,9 @@ python:
   - "3.4"
 install:
   - python setup.py install
+  - pip install pytest-cov
+  - pip install python-coveralls
 script:
-  - python setup.py test
-#after_success:
-#  - coveralls
+  - python setup.py test -a '--cov contentful/ --cov-report term-missing'
+after_success:
+  - coveralls

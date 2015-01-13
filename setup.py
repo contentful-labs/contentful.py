@@ -5,7 +5,6 @@ import sys
 
 class PyTest(TestCommand):
     user_options = [('pytest-args=', 'a', "Arguments to pass to py.test")]
-    # default_args = ['--cov', 'contentful/', '--cov-report', 'term-missing', 'test/']
     default_args = ['test/']
 
     def initialize_options(self):
@@ -20,7 +19,7 @@ class PyTest(TestCommand):
     def run_tests(self):
         # import here, cause outside the eggs aren't loaded
         import pytest
-        errno = pytest.main(self.default_args + self.pytest_args)
+        errno = pytest.main(self.default_args + self.pytest_args.split())
         sys.exit(errno)
 
 deps = [
