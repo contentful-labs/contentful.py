@@ -18,7 +18,8 @@ Classes provided include:
 """
 
 from enum import Enum
-from fields import FieldOwner, MultipleAssets, MultipleEntries
+from six import with_metaclass
+from .fields import FieldOwner, MultipleAssets, MultipleEntries
 
 
 class Resource(object):
@@ -94,9 +95,6 @@ class Array(Resource):
          No network calls will be performed.
         """
         for resource in self.items_mapped['Entry'].values():
-            if not issubclass(type(resource), Entry):
-                continue
-
             for dct in [getattr(resource, '_cf_cda', {}), resource.fields]:
                 for k, v in dct.items():
                     if isinstance(v, ResourceLink):
@@ -157,7 +155,7 @@ class ContentType(Resource):
         self.fields = {}
 
 
-class Entry(Resource):
+class Entry(with_metaclass(FieldOwner, Resource)):
     """CDA resource of type Entry.
 
     **Attributes**:
@@ -182,8 +180,6 @@ class Entry(Resource):
         inferred from the field's, as in the other fields).
 
     """
-    __metaclass__ = FieldOwner
-
     def __init__(self, sys=None):
         """Entry constructor.
 

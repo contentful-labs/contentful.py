@@ -1,1 +1,1 @@
-from cda.client import Client
+from .cda.client import Client

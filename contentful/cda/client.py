@@ -12,13 +12,12 @@ Classes provided include:
 
 - :class:`.RequestArray` - Request whose response may contain multiple resources.
 """
+from . import utils
+from . import const
+from .errors import ErrorMapping, ApiError
+from .serialization import ResourceFactory
+from .resources import Entry
 import requests
-
-import const
-from contentful.cda import utils
-from errors import ErrorMapping, ApiError
-from serialization import ResourceFactory
-from resources import Entry
 
 
 class Client(object):
@@ -284,5 +283,5 @@ class RequestArray(Request):
         :param params: (dict) query parameters.
         :return: this :class:`.RequestArray` instance for convenience.
         """
-        self.params = dict(params.items() + self.params.items())  # TODO check for conflicts
+        self.params = dict(self.params, **params)   # params overrides self.params
         return self

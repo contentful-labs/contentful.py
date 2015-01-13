@@ -1,5 +1,6 @@
 from datetime import date
-from mock import Mock
+from mock import patch
+from requests import Response
 
 from contentful.cda import const
 from contentful.cda.client import Client
@@ -35,7 +36,8 @@ class ClientTestCase(BaseTestCase):
         self.client = DemoClient()
 
     def test_fails_fetch_invalid_resource(self):
-        self.assertRaisesRegexp(Exception, '^Invalid resource type \\\"<type \\\'int\\\'>\\\".', self.client.fetch, int)
+        self.assertRaisesRegexp(Exception, '^Invalid resource type \\\"<(type|class) \\\'int\\\'>\\\".',
+                                self.client.fetch, int)
 
     def test_asset_all(self):
         utils.fetch_array_and_assert(self, Asset, 'asset_all', const.PATH_ASSETS)
@@ -133,7 +135,7 @@ class ClientTestCase(BaseTestCase):
     def test_resolve_list_of_links(self):
         cli = SDKClient()
 
-        with self.use_cassette('test_resolve_list_of_links') as cass:
+        with self.use_cassette('test_resolve_list_of_links'):
             result = cli.fetch(Entry).where({'sys.id': '399PKHUiJOsMuOGAcAsWmg'}).all()
             self.assertIsInstance(result[0].fields['entries'][0], Entry)
 
@@ -143,11 +145,14 @@ class ClientTestCase(BaseTestCase):
         self.assertEqual('Contentful Example API', space.name)
         self.assertIsNotNone(space.sys)
 
-    def test_raises_mapped_apierror(self):
-        cli = Client('', '')
-        self.assertRaises(Unauthorized, cli.fetch_space)
+    @patch('requests.get')
+    def test_raises_mapped_apierror(self, get_mock):
+        get_mock.return_value = Response()
+        get_mock.return_value.status_code = 401
+        self.assertRaises(Unauthorized, self.client.fetch_space)
 
-    def test_raises_general_apierror(self):
-        cli = Client('', '')
-        cli.dispatcher.httpclient = Mock(side_effect=Exception('...'))
-        self.assertRaises(ApiError, cli.fetch_space)
+    @patch('requests.get')
+    def test_raises_general_apierror(self, get_mock):
+        get_mock.return_value = Response()
+        get_mock.return_value.status_code = 504
+        self.assertRaises(ApiError, self.client.fetch_space)

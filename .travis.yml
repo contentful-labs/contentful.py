@@ -1,11 +1,17 @@
 language: python
 python:
   - "2.7"
+  - "3.2"
+  - "3.3"
+  - "3.4"
+branches:
+  except:
+    - gh-pages
 install:
-  - "pip install -r requirements.txt"
-before_script:
-  - pip install -r test_requirements.txt --use-mirrors
+  - python setup.py install
+  - pip install pytest-cov
+  - pip install python-coveralls
 script:
-  - py.test --cov contentful/ --cov-report term-missing test/
+  - python setup.py test -a '--cov contentful/ --cov-report term-missing'
 after_success:
   - coveralls
