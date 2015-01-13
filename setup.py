@@ -36,8 +36,6 @@ deps = [
 
 test_deps = [
     'mock==1.0.1',
-    # 'pytest-cov==1.8.1',
-    # 'python-coveralls==2.4.3',
     'vcrpy==1.1.3',
     'pytest==2.6.4'
 ]
