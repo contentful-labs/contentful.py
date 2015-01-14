@@ -1,0 +1,17 @@
+language: python
+python:
+  - "2.7"
+  - "3.2"
+  - "3.3"
+  - "3.4"
+branches:
+  except:
+    - gh-pages
+install:
+  - python setup.py install
+  - pip install pytest-cov
+  - pip install python-coveralls
+script:
+  - python setup.py test -a '--cov contentful/ --cov-report term-missing'
+after_success:
+  - coveralls
