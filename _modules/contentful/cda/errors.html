@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>contentful.cda.errors &mdash; .  documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title=".  documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">.  documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for contentful.cda.errors</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;errors module.&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="ErrorMapping"><a class="viewcode-back" href="../../../package.details.html#contentful.cda.errors.ErrorMapping">[docs]</a><span class="k">class</span> <span class="nc">ErrorMapping</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Holds a mapping of HTTP status codes and :class:`.ApiError` subclasses.&quot;&quot;&quot;</span>
+    <span class="n">mapping</span> <span class="o">=</span> <span class="p">{}</span>
+
+</div>
+<div class="viewcode-block" id="ApiError"><a class="viewcode-back" href="../../../package.details.html#contentful.cda.errors.ApiError">[docs]</a><span class="k">class</span> <span class="nc">ApiError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class representing an error returned by the API.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;ApiError constructor.</span>
+
+<span class="sd">        :param result: Raw result object.</span>
+<span class="sd">        :param message: (str) Optional message.</span>
+<span class="sd">        :return: :class:`.ApiError` instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="n">result</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ApiError</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span>
+            <span class="n">message</span> <span class="ow">or</span> <span class="n">result</span><span class="o">.</span><span class="n">text</span> <span class="ow">or</span> <span class="s">&#39;Request failed with status </span><span class="se">\&quot;</span><span class="s">{0}</span><span class="se">\&quot;</span><span class="s">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">status_code</span><span class="p">))</span>
+
+</div>
+<div class="viewcode-block" id="api_exception"><a class="viewcode-back" href="../../../package.details.html#contentful.cda.errors.api_exception">[docs]</a><span class="k">def</span> <span class="nf">api_exception</span><span class="p">(</span><span class="n">http_code</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convenience decorator to associate HTTP status codes with :class:`.ApiError` subclasses.</span>
+
+<span class="sd">    :param http_code: (int) HTTP status code.</span>
+<span class="sd">    :return: wrapper function.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="n">code</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">ErrorMapping</span><span class="o">.</span><span class="n">mapping</span><span class="p">[</span><span class="n">http_code</span><span class="p">]</span> <span class="o">=</span> <span class="n">code</span>
+        <span class="k">return</span> <span class="n">code</span>
+    <span class="k">return</span> <span class="n">wrapper</span>
+
+</div>
+<span class="nd">@api_exception</span><span class="p">(</span><span class="mi">400</span><span class="p">)</span>
+<div class="viewcode-block" id="BadRequest"><a class="viewcode-back" href="../../../package.details.html#contentful.cda.errors.BadRequest">[docs]</a><span class="k">class</span> <span class="nc">BadRequest</span><span class="p">(</span><span class="n">ApiError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Bad Request&quot;&quot;&quot;</span>
+
+</div>
+<span class="nd">@api_exception</span><span class="p">(</span><span class="mi">401</span><span class="p">)</span>
+<div class="viewcode-block" id="Unauthorized"><a class="viewcode-back" href="../../../package.details.html#contentful.cda.errors.Unauthorized">[docs]</a><span class="k">class</span> <span class="nc">Unauthorized</span><span class="p">(</span><span class="n">ApiError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Unauthorized&quot;&quot;&quot;</span>
+
+</div>
+<span class="nd">@api_exception</span><span class="p">(</span><span class="mi">403</span><span class="p">)</span>
+<div class="viewcode-block" id="AccessDenied"><a class="viewcode-back" href="../../../package.details.html#contentful.cda.errors.AccessDenied">[docs]</a><span class="k">class</span> <span class="nc">AccessDenied</span><span class="p">(</span><span class="n">ApiError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Access Denied&quot;&quot;&quot;</span>
+
+</div>
+<span class="nd">@api_exception</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+<div class="viewcode-block" id="NotFound"><a class="viewcode-back" href="../../../package.details.html#contentful.cda.errors.NotFound">[docs]</a><span class="k">class</span> <span class="nc">NotFound</span><span class="p">(</span><span class="n">ApiError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Not Found&quot;&quot;&quot;</span>
+
+</div>
+<span class="nd">@api_exception</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span>
+<div class="viewcode-block" id="ServerError"><a class="viewcode-back" href="../../../package.details.html#contentful.cda.errors.ServerError">[docs]</a><span class="k">class</span> <span class="nc">ServerError</span><span class="p">(</span><span class="n">ApiError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Internal Server Error&quot;&quot;&quot;</span>
+
+</div>
+<span class="nd">@api_exception</span><span class="p">(</span><span class="mi">503</span><span class="p">)</span>
+<div class="viewcode-block" id="ServiceUnavailable"><a class="viewcode-back" href="../../../package.details.html#contentful.cda.errors.ServiceUnavailable">[docs]</a><span class="k">class</span> <span class="nc">ServiceUnavailable</span><span class="p">(</span><span class="n">ApiError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Service Unavailable Error&quot;&quot;&quot;</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">.  documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Author.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>contentful.cda.fields &mdash; .  documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title=".  documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">.  documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for contentful.cda.fields</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;fields module.</span>
+
+<span class="sd">Classes provided include:</span>
+
+<span class="sd">- :class:`.Field` - An Entry field.</span>
+
+<span class="sd">- :class:`.FieldOwner` - Meta-class to enable usage of :class:`.Field`-typed fields.</span>
+
+<span class="sd">- :class:`.FieldType` - Type of a field.</span>
+
+<span class="sd">- :class:`.Boolean` - Field holding a boolean value.</span>
+
+<span class="sd">- :class:`.Date` - Field holding a date value.</span>
+
+<span class="sd">- :class:`.Link` - Field holding a link value.</span>
+
+<span class="sd">- :class:`.Location` - Field holding a location value.</span>
+
+<span class="sd">- :class:`.Number` - Field holding a numeric value.</span>
+
+<span class="sd">- :class:`.Object` - Field holding an object value.</span>
+
+<span class="sd">- :class:`.Symbol` - Field holding a symbol value.</span>
+
+<span class="sd">- :class:`.Text` - Field holding a text value.</span>
+
+<span class="sd">- :class:`.List` - Field holding a list value.</span>
+
+<span class="sd">- :class:`.MultipleAssets` - Field holding multiple Assets as a value.</span>
+
+<span class="sd">- :class:`.MultipleEntries` - Field holding multiple Entries as a value.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="Field"><a class="viewcode-back" href="../../../package.details.html#contentful.cda.fields.Field">[docs]</a><span class="k">class</span> <span class="nc">Field</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class representing a single Entry field.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_type</span><span class="p">,</span> <span class="n">field_id</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Field constructor.</span>
+
+<span class="sd">        :param field_type: (:class:`.FieldType`) type of field.</span>
+<span class="sd">        :param field_id: (str) Custom ID to set for this field, by default this will</span>
+<span class="sd">            be inferred by the name of the attribute.</span>
+<span class="sd">        :return: Field instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">field_type</span> <span class="o">=</span> <span class="n">field_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">field_id</span> <span class="o">=</span> <span class="n">field_id</span>
+
+    <span class="k">def</span> <span class="nf">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">owner</span><span class="p">):</span>
+        <span class="n">dct</span> <span class="o">=</span> <span class="n">Field</span><span class="o">.</span><span class="n">dict_for_instance</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">None</span> <span class="k">if</span> <span class="n">dct</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">dct</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">field_id</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__set__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">dct</span> <span class="o">=</span> <span class="n">Field</span><span class="o">.</span><span class="n">dict_for_instance</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">dct</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">instance</span><span class="o">.</span><span class="n">_cf_cda</span> <span class="o">=</span> <span class="n">dct</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">dct</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">field_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Field.dict_for_instance"><a class="viewcode-back" href="../../../package.details.html#contentful.cda.fields.Field.dict_for_instance">[docs]</a>    <span class="k">def</span> <span class="nf">dict_for_instance</span><span class="p">(</span><span class="n">instance</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="s">&#39;_cf_cda&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="FieldOwner"><a class="viewcode-back" href="../../../package.details.html#contentful.cda.fields.FieldOwner">[docs]</a><span class="k">class</span> <span class="nc">FieldOwner</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Metaclass for the :class:`.Entry` class.</span>
+
+<span class="sd">    For any subclass (i.e. representing a custom Entry class), ensure the extending class has</span>
+<span class="sd">    a valid `__content_type__` attribute specified, otherwise raise an exception.</span>
+<span class="sd">    In addition, iterate through all of the class attributes, identify any :class:`.Field`-typed</span>
+<span class="sd">    attributes and keep those in a dict under the class&#39;s `__entry_fields__` attribute.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">mcs</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">attrs</span><span class="p">):</span>
+        <span class="n">is_custom</span> <span class="o">=</span> <span class="n">name</span> <span class="o">!=</span> <span class="s">&#39;Entry&#39;</span>
+        <span class="n">content_type_id</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">attrs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Field</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">field_id</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">v</span><span class="o">.</span><span class="n">field_id</span> <span class="o">=</span> <span class="n">n</span>
+                <span class="n">fields</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">elif</span> <span class="n">is_custom</span> <span class="ow">and</span> <span class="n">n</span> <span class="o">==</span> <span class="s">&#39;__content_type__&#39;</span><span class="p">:</span>
+                <span class="n">content_type_id</span> <span class="o">=</span> <span class="n">v</span>
+
+        <span class="k">if</span> <span class="n">is_custom</span> <span class="ow">and</span> <span class="n">content_type_id</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s">&#39;Class {0} does not have a __content_type__ specified.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+
+        <span class="n">attrs</span><span class="p">[</span><span class="s">&#39;__entry_fields__&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fields</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">FieldOwner</span><span class="p">,</span> <span class="n">mcs</span><span class="p">)</span><span class="o">.</span><span class="n">__new__</span><span class="p">(</span><span class="n">mcs</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">attrs</span><span class="p">)</span>
+
+
+<span class="c"># Field Types</span></div>
+<div class="viewcode-block" id="FieldType"><a class="viewcode-back" href="../../../package.details.html#contentful.cda.fields.FieldType">[docs]</a><span class="k">class</span> <span class="nc">FieldType</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base field type.&quot;&quot;&quot;</span>
+
+</div>
+<div class="viewcode-block" id="Boolean"><a class="viewcode-back" href="../../../package.details.html#contentful.cda.fields.Boolean">[docs]</a><span class="k">class</span> <span class="nc">Boolean</span><span class="p">(</span><span class="n">FieldType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Boolean typed field&quot;&quot;&quot;</span>
+
+</div>
+<div class="viewcode-block" id="Date"><a class="viewcode-back" href="../../../package.details.html#contentful.cda.fields.Date">[docs]</a><span class="k">class</span> <span class="nc">Date</span><span class="p">(</span><span class="n">FieldType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Date typed field.&quot;&quot;&quot;</span>
+
+</div>
+<div class="viewcode-block" id="Link"><a class="viewcode-back" href="../../../package.details.html#contentful.cda.fields.Link">[docs]</a><span class="k">class</span> <span class="nc">Link</span><span class="p">(</span><span class="n">FieldType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Link typed field.&quot;&quot;&quot;</span>
+
+</div>
+<div class="viewcode-block" id="Location"><a class="viewcode-back" href="../../../package.details.html#contentful.cda.fields.Location">[docs]</a><span class="k">class</span> <span class="nc">Location</span><span class="p">(</span><span class="n">FieldType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Location typed field.&quot;&quot;&quot;</span>
+
+</div>
+<div class="viewcode-block" id="Number"><a class="viewcode-back" href="../../../package.details.html#contentful.cda.fields.Number">[docs]</a><span class="k">class</span> <span class="nc">Number</span><span class="p">(</span><span class="n">FieldType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Number typed field.&quot;&quot;&quot;</span>
+
+</div>
+<div class="viewcode-block" id="Object"><a class="viewcode-back" href="../../../package.details.html#contentful.cda.fields.Object">[docs]</a><span class="k">class</span> <span class="nc">Object</span><span class="p">(</span><span class="n">FieldType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Object typed field.&quot;&quot;&quot;</span>
+
+</div>
+<div class="viewcode-block" id="Symbol"><a class="viewcode-back" href="../../../package.details.html#contentful.cda.fields.Symbol">[docs]</a><span class="k">class</span> <span class="nc">Symbol</span><span class="p">(</span><span class="n">FieldType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Symbol typed field.&quot;&quot;&quot;</span>
+
+</div>
+<div class="viewcode-block" id="Text"><a class="viewcode-back" href="../../../package.details.html#contentful.cda.fields.Text">[docs]</a><span class="k">class</span> <span class="nc">Text</span><span class="p">(</span><span class="n">FieldType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Text typed field.&quot;&quot;&quot;</span>
+
+</div>
+<div class="viewcode-block" id="List"><a class="viewcode-back" href="../../../package.details.html#contentful.cda.fields.List">[docs]</a><span class="k">class</span> <span class="nc">List</span><span class="p">(</span><span class="n">FieldType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;List typed field.&quot;&quot;&quot;</span>
+
+</div>
+<div class="viewcode-block" id="MultipleAssets"><a class="viewcode-back" href="../../../package.details.html#contentful.cda.fields.MultipleAssets">[docs]</a><span class="k">class</span> <span class="nc">MultipleAssets</span><span class="p">(</span><span class="n">FieldType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Multiple Assets typed field.&quot;&quot;&quot;</span>
+
+</div>
+<div class="viewcode-block" id="MultipleEntries"><a class="viewcode-back" href="../../../package.details.html#contentful.cda.fields.MultipleEntries">[docs]</a><span class="k">class</span> <span class="nc">MultipleEntries</span><span class="p">(</span><span class="n">FieldType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Multiple Entries typed field.&quot;&quot;&quot;</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">.  documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Author.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

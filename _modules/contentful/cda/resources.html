@@ -1,0 +1,323 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>contentful.cda.resources &mdash; .  documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title=".  documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">.  documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for contentful.cda.resources</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;resources module.</span>
+
+<span class="sd">Classes provided include:</span>
+
+<span class="sd">- :class:`Resource` - Base CDA resource.</span>
+
+<span class="sd">- :class:`Array` - Collection of multiple :class:`.Resource` instances.</span>
+
+<span class="sd">- :class:`Asset` - CDA Asset.</span>
+
+<span class="sd">- :class:`ContentType` - CDA Content Type.</span>
+
+<span class="sd">- :class:`Entry` - CDA Entry.</span>
+
+<span class="sd">- :class:`Space` - CDA Space.</span>
+
+<span class="sd">- :class:`ResourceType` - Enum of CDA resource types.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">six</span> <span class="kn">import</span> <span class="n">with_metaclass</span>
+<span class="kn">from</span> <span class="nn">.fields</span> <span class="kn">import</span> <span class="n">FieldOwner</span><span class="p">,</span> <span class="n">MultipleAssets</span><span class="p">,</span> <span class="n">MultipleEntries</span>
+
+
+<div class="viewcode-block" id="Resource"><a class="viewcode-back" href="../../../package.details.html#contentful.cda.resources.Resource">[docs]</a><span class="k">class</span> <span class="nc">Resource</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base CDA resource class.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Resource constructor.</span>
+
+<span class="sd">        :param sys: (dict) resource system attributes.</span>
+<span class="sd">        :return: :class:`.Resource` instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Resource</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sys</span> <span class="o">=</span> <span class="n">sys</span> <span class="ow">or</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Custom representation.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">          &lt;Asset(sys.id=xxx)&gt;</span>
+<span class="sd">          &lt;Entry(sys.id=xxx)&gt;</span>
+<span class="sd">          &lt;ContentType(sys.id=xxx)&gt;</span>
+<span class="sd">          &lt;Space(sys.id=xxx)&gt;</span>
+
+<span class="sd">        :return: representation string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">suffix</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="k">if</span> <span class="s">&#39;id&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="p">:</span>
+            <span class="n">suffix</span> <span class="o">=</span> <span class="s">&#39;(sys.id={0})&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="s">&#39;&lt;{0}{1}&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="s">&#39;&#39;</span> <span class="k">if</span> <span class="n">suffix</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">suffix</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="Array"><a class="viewcode-back" href="../../../package.details.html#contentful.cda.resources.Array">[docs]</a><span class="k">class</span> <span class="nc">Array</span><span class="p">(</span><span class="n">Resource</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Collection of multiple :class:`.Resource` instances.</span>
+
+<span class="sd">    **Attributes**:</span>
+
+<span class="sd">    - limit (int): `limit` parameter.</span>
+<span class="sd">    - skip (int): `skip` parameter.</span>
+<span class="sd">    - total (int): Total number of resources returned from the API.</span>
+<span class="sd">    - items (list): Resources contained within the response.</span>
+<span class="sd">    - items_mapped (dict): All contained resources mapped by Assets/Entries using the resource ID.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Array constructor.</span>
+
+<span class="sd">        :param sys: (dict) resource system attributes.</span>
+<span class="sd">        :return: :class:`.Array` instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Array</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">sys</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">limit</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">skip</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">total</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">items_mapped</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># Proxy to the `items` attribute</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="c"># Proxy to the `items` attribute</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_resolve_resource_link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">items_mapped</span><span class="p">[</span><span class="n">link</span><span class="o">.</span><span class="n">link_type</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">link</span><span class="o">.</span><span class="n">resource_id</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Array.resolve_links"><a class="viewcode-back" href="../../../package.details.html#contentful.cda.resources.Array.resolve_links">[docs]</a>    <span class="k">def</span> <span class="nf">resolve_links</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Attempt to resolve all internal links (locally).</span>
+
+<span class="sd">         In case the linked resources are found either as members of the array or within</span>
+<span class="sd">         the `includes` element, those will be replaced and reference the actual resources.</span>
+<span class="sd">         No network calls will be performed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">resource</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items_mapped</span><span class="p">[</span><span class="s">&#39;Entry&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">dct</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">resource</span><span class="p">,</span> <span class="s">&#39;_cf_cda&#39;</span><span class="p">,</span> <span class="p">{}),</span> <span class="n">resource</span><span class="o">.</span><span class="n">fields</span><span class="p">]:</span>
+                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">dct</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">ResourceLink</span><span class="p">):</span>
+                        <span class="n">resolved</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_resource_link</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">resolved</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                            <span class="n">dct</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">resolved</span>
+                    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="n">MultipleAssets</span><span class="p">,</span> <span class="n">MultipleEntries</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+                        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">ele</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+                            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ele</span><span class="p">,</span> <span class="n">ResourceLink</span><span class="p">):</span>
+                                <span class="k">break</span>
+
+                            <span class="n">resolved</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_resource_link</span><span class="p">(</span><span class="n">ele</span><span class="p">)</span>
+                            <span class="k">if</span> <span class="n">resolved</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                                <span class="n">v</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">resolved</span>
+
+</div></div>
+<div class="viewcode-block" id="Asset"><a class="viewcode-back" href="../../../package.details.html#contentful.cda.resources.Asset">[docs]</a><span class="k">class</span> <span class="nc">Asset</span><span class="p">(</span><span class="n">Resource</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;CDA resource of type Asset.</span>
+
+<span class="sd">    **Attributes**:</span>
+
+<span class="sd">    - fields (dict): Raw field values as returned from the API.</span>
+<span class="sd">    - url (str): URL.</span>
+<span class="sd">    - mimeType (str): MIME type.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Asset constructor.</span>
+
+<span class="sd">        :param sys: (dict) resource system attributes.</span>
+<span class="sd">        :return: :class:`.Asset` instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Asset</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">sys</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mimeType</span> <span class="o">=</span> <span class="bp">None</span>
+
+</div>
+<div class="viewcode-block" id="ContentType"><a class="viewcode-back" href="../../../package.details.html#contentful.cda.resources.ContentType">[docs]</a><span class="k">class</span> <span class="nc">ContentType</span><span class="p">(</span><span class="n">Resource</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;CDA resource of type Content Type.</span>
+
+<span class="sd">    **Attributes**:</span>
+
+<span class="sd">    - display_field (str): Identifier of the field which should be displayed as a title for Entries.</span>
+<span class="sd">    - name (str): Name of the Content Type.</span>
+<span class="sd">    - user_description (str): Description of the Content Type.</span>
+<span class="sd">    - fields (dict): Content Type fields, mapped by field IDs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Content Type constructor.</span>
+
+<span class="sd">        :param sys: (dict) resource system attributes.</span>
+<span class="sd">        :return: :class:`.ContentType` instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ContentType</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">sys</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">display_field</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user_description</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span> <span class="o">=</span> <span class="p">{}</span>
+
+</div>
+<div class="viewcode-block" id="Entry"><a class="viewcode-back" href="../../../package.details.html#contentful.cda.resources.Entry">[docs]</a><span class="k">class</span> <span class="nc">Entry</span><span class="p">(</span><span class="n">with_metaclass</span><span class="p">(</span><span class="n">FieldOwner</span><span class="p">,</span> <span class="n">Resource</span><span class="p">)):</span>
+    <span class="sd">&quot;&quot;&quot;CDA resource of type Entry.</span>
+
+<span class="sd">    **Attributes**:</span>
+
+<span class="sd">    - fields (dict): Entry fields.</span>
+
+<span class="sd">    It is possible to define custom :class:`.Entry` models using the following syntax::</span>
+
+<span class="sd">        class Cat(Entry):</span>
+<span class="sd">            __content_type__ = &#39;cat&#39;</span>
+
+<span class="sd">            name = Field(Text)</span>
+<span class="sd">            color = Field(Text)</span>
+<span class="sd">            lives = Field(Number)</span>
+<span class="sd">            likes = Field(List)</span>
+<span class="sd">            birthday = Field(Date)</span>
+<span class="sd">            best_friend = Field(Link, field_id=&#39;bestFriend&#39;)</span>
+
+<span class="sd">    .. note::</span>
+
+<span class="sd">        `field_id` is set explicitly for the `best_friend` field (which otherwise would be</span>
+<span class="sd">        inferred from the field&#39;s, as in the other fields).</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Entry constructor.</span>
+
+<span class="sd">        :param sys: dict containing the resource&#39;s remote system attributes.</span>
+<span class="sd">        :return: Entry instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Entry</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">sys</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">raw_fields</span> <span class="o">=</span> <span class="p">{}</span>
+
+</div>
+<div class="viewcode-block" id="Space"><a class="viewcode-back" href="../../../package.details.html#contentful.cda.resources.Space">[docs]</a><span class="k">class</span> <span class="nc">Space</span><span class="p">(</span><span class="n">Resource</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;CDA resource of type Space.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">      name (str): Name of the Space.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Space constructor.</span>
+
+<span class="sd">        :param sys: dict containing the resource&#39;s remote system attributes.</span>
+<span class="sd">        :return: Space instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Space</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">sys</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">None</span>
+
+</div>
+<div class="viewcode-block" id="ResourceType"><a class="viewcode-back" href="../../../package.details.html#contentful.cda.resources.ResourceType">[docs]</a><span class="k">class</span> <span class="nc">ResourceType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Enum of CDA resource types.&quot;&quot;&quot;</span>
+    <span class="n">Array</span> <span class="o">=</span> <span class="s">&#39;Array&#39;</span>
+    <span class="n">Asset</span> <span class="o">=</span> <span class="s">&#39;Asset&#39;</span>
+    <span class="n">ContentType</span> <span class="o">=</span> <span class="s">&#39;ContentType&#39;</span>
+    <span class="n">Entry</span> <span class="o">=</span> <span class="s">&#39;Entry&#39;</span>
+    <span class="n">Link</span> <span class="o">=</span> <span class="s">&#39;Link&#39;</span>
+    <span class="n">Space</span> <span class="o">=</span> <span class="s">&#39;Space&#39;</span>
+
+</div>
+<div class="viewcode-block" id="ResourceLink"><a class="viewcode-back" href="../../../package.details.html#contentful.cda.resources.ResourceLink">[docs]</a><span class="k">class</span> <span class="nc">ResourceLink</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Represents a link to a CDA resource.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;ResourceLink constructor.</span>
+
+<span class="sd">        :param sys: dict containing the resource&#39;s remote system attributes.</span>
+<span class="sd">        :return: ResourceLink instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ResourceLink</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">resource_id</span> <span class="o">=</span> <span class="n">sys</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">link_type</span> <span class="o">=</span> <span class="n">sys</span><span class="p">[</span><span class="s">&#39;linkType&#39;</span><span class="p">]</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">.  documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Author.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

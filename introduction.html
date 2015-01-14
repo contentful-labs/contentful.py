@@ -1,0 +1,257 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>introduction &mdash; .  documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title=".  documentation" href="index.html" />
+    <link rel="next" title="package details" href="package.details.html" />
+    <link rel="prev" title="contentful-cda.py" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="package.details.html" title="package details"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="contentful-cda.py"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">.  documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="introduction">
+<h1>introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="contentful-py">
+<h2>contentful.py<a class="headerlink" href="#contentful-py" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://travis-ci.org/contentful/contentful.py/builds#"><img alt="travis" src="https://travis-ci.org/contentful/contentful.py.svg" /></a> <a class="reference external" href="https://coveralls.io/r/contentful/contentful.py?branch=master"><img alt="coveralls" src="https://img.shields.io/coveralls/contentful/contentful.py.svg" /></a></p>
+<p>Python SDK for <a class="reference external" href="https://www.contentful.com">Contentful</a>&#8216;s Content Delivery API.</p>
+<div class="section" id="setup">
+<h3>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h3>
+<p>Installation via <tt class="docutils literal"><span class="pre">pip</span></tt>:</p>
+<div class="highlight-bash"><div class="highlight"><pre>pip install contentful-cda
+</pre></div>
+</div>
+</div>
+<div class="section" id="usage">
+<h3>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="creating-a-client">
+<h4>Creating a Client<a class="headerlink" href="#creating-a-client" title="Permalink to this headline">¶</a></h4>
+<p>The <tt class="docutils literal"><span class="pre">Client</span></tt> class manages all your interaction with the Contentful Delivery API, creating one is as simple as:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="s">&#39;space-id&#39;</span><span class="p">,</span> <span class="s">&#39;access-token&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="fetching-resources">
+<h4>Fetching Resources<a class="headerlink" href="#fetching-resources" title="Permalink to this headline">¶</a></h4>
+<p>The simplest form of fetching resources follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">client</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">Asset</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>         <span class="c"># Returns an array of Assets</span>
+<span class="n">client</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">Asset</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>       <span class="c"># Returns the first Asset available</span>
+
+<span class="n">client</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">Entry</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>         <span class="c"># Returns an array of Entries</span>
+<span class="n">client</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">Entry</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>       <span class="c"># Returns the first Entry available</span>
+
+<span class="n">client</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">ContentType</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>   <span class="c"># Returns an array of Content Types</span>
+<span class="n">client</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">ContentType</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span> <span class="c"># Returns the first Content Type available</span>
+</pre></div>
+</div>
+<p>When used with the <tt class="docutils literal"><span class="pre">all()</span></tt> method, expect an <tt class="docutils literal"><span class="pre">Array</span></tt> object to be returned, which is iterable:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">resource</span> <span class="ow">in</span> <span class="n">array</span><span class="p">:</span>
+    <span class="n">dosomething</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>and sliceable:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">resource</span> <span class="ow">in</span> <span class="n">array</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]:</span>
+    <span class="n">dosomething</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="custom-queries">
+<h4>Custom Queries<a class="headerlink" href="#custom-queries" title="Permalink to this headline">¶</a></h4>
+<p>Custom queries can be provided by invoking the <tt class="docutils literal"><span class="pre">where()</span></tt> method of a <tt class="docutils literal"><span class="pre">Request</span></tt> object, for example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">client</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">Entry</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">({</span><span class="s">&#39;sys.id&#39;</span><span class="p">:</span> <span class="s">&#39;MyEntry&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="defining-models">
+<h4>Defining Models<a class="headerlink" href="#defining-models" title="Permalink to this headline">¶</a></h4>
+<p>Custom Entry classes can be declared by providing a Content Type ID value and by defining a set of fields. Consider the <tt class="docutils literal"><span class="pre">Cat</span></tt> Content Type from the official demo space, which looks like this (sans some properties for brevity):</p>
+<div class="highlight-json"><div class="highlight"><pre><span class="p">{</span>
+  <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Name&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Text&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;likes&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Likes&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Array&quot;</span><span class="p">,</span> <span class="nt">&quot;items&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Symbol&quot;</span> <span class="p">}},</span>
+    <span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;color&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Color&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Symbol&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;bestFriend&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Best Friend&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Link&quot;</span><span class="p">,</span> <span class="nt">&quot;linkType&quot;</span><span class="p">:</span> <span class="s2">&quot;Entry&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;birthday&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Birthday&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Date&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;lives&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Lives left&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Integer&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;image&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Image&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Link&quot;</span><span class="p">,</span> <span class="nt">&quot;linkType&quot;</span><span class="p">:</span> <span class="s2">&quot;Asset&quot;</span><span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Cat&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;displayField&quot;</span><span class="p">:</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Meow.&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>A custom Entry class for this Content Type can be defined as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Cat</span><span class="p">(</span><span class="n">Entry</span><span class="p">):</span>
+    <span class="n">__content_type__</span> <span class="o">=</span> <span class="s">&#39;cat&#39;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">Text</span><span class="p">)</span>
+    <span class="n">likes</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">List</span><span class="p">)</span>
+    <span class="n">color</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">Text</span><span class="p">)</span>
+    <span class="n">best_friend</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">Link</span><span class="p">,</span> <span class="n">field_id</span><span class="o">=</span><span class="s">&#39;bestFriend&#39;</span><span class="p">)</span>
+    <span class="n">birthday</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">Date</span><span class="p">)</span>
+    <span class="n">lives</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">Number</span><span class="p">)</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">Link</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The class also has to be registered when creating a <tt class="docutils literal"><span class="pre">Client</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="s">&#39;cfexampleapi&#39;</span><span class="p">,</span> <span class="s">&#39;b4c0n73n7fu1&#39;</span><span class="p">,</span> <span class="n">custom_entries</span><span class="o">=</span><span class="p">[</span><span class="n">Cat</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Whenever this <tt class="docutils literal"><span class="pre">Client</span></tt> will attempt to create an <tt class="docutils literal"><span class="pre">Entry</span></tt> with a Content Type that matches the one defined in the class, an instance of the <tt class="docutils literal"><span class="pre">Cat</span></tt> class will be created, and it&#8217;s fields will be set accordingly, and can later be easily accessed as instance attributes:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="s">&#39;Name of the Cat: {0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cat</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If at any point it is desired to fetch only resources of that type, it can be passed to the <tt class="docutils literal"><span class="pre">fetch()</span></tt> method and inferred by the client:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">client</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">Cat</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span> <span class="c"># Fetches all the Cats!</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="link-resolution">
+<h4>Link Resolution<a class="headerlink" href="#link-resolution" title="Permalink to this headline">¶</a></h4>
+<p>Unless specified otherwise, a <tt class="docutils literal"><span class="pre">Client</span></tt> is configured to attempt and resolve links automatically when requesting resource arrays.
+Be mindful about providing the <tt class="docutils literal"><span class="pre">includes</span></tt> parameter properly, since only if the linked resources are contained within the response they will be resolved automatically. In case a link is not resolved, expect a <tt class="docutils literal"><span class="pre">ResourceLink</span></tt> object as the field&#8217;s value, which could later be resolved by invoking the <tt class="docutils literal"><span class="pre">resolve_resource_link()</span></tt> method of a <tt class="docutils literal"><span class="pre">Client</span></tt>, which issues a network request per the resource ID.</p>
+<p><strong>Automatic link resolution:</strong></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">array</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">Cat</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">array</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">best_friend</span>
+<span class="c"># &lt;Cat(sys.id=nyancat)&gt;</span>
+</pre></div>
+</div>
+<p><strong>Manual link resolution:</strong></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">cat</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">Cat</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">cat</span><span class="o">.</span><span class="n">best_friend</span>
+<span class="c"># &lt;contentful.cda.resources.ResourceLink object at 0x1030df390&gt;</span>
+<span class="k">print</span> <span class="n">cli</span><span class="o">.</span><span class="n">resolve_resource_link</span><span class="p">(</span><span class="n">cat</span><span class="o">.</span><span class="n">best_friend</span><span class="p">)</span>
+<span class="c"># &lt;Cat(sys.id=nyancat)&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="license">
+<h3>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h3>
+<p>Copyright (c) 2015 Contentful GmbH. See <a class="reference external" href="https://github.com/contentful/contentful.py/blob/master/LICENSE.txt">LICENSE.txt</a> for further details.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">introduction</a><ul>
+<li><a class="reference internal" href="#contentful-py">contentful.py</a><ul>
+<li><a class="reference internal" href="#setup">Setup</a></li>
+<li><a class="reference internal" href="#usage">Usage</a><ul>
+<li><a class="reference internal" href="#creating-a-client">Creating a Client</a></li>
+<li><a class="reference internal" href="#fetching-resources">Fetching Resources</a></li>
+<li><a class="reference internal" href="#custom-queries">Custom Queries</a></li>
+<li><a class="reference internal" href="#defining-models">Defining Models</a></li>
+<li><a class="reference internal" href="#link-resolution">Link Resolution</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#license">License</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">contentful-cda.py</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="package.details.html"
+                        title="next chapter">package details</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/introduction.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="package.details.html" title="package details"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="contentful-cda.py"
+             >previous</a> |</li>
+        <li><a href="index.html">.  documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Author.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

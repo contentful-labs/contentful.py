@@ -1,0 +1,1215 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>package details &mdash; .  documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title=".  documentation" href="index.html" />
+    <link rel="prev" title="introduction" href="introduction.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="introduction"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">.  documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="package-details">
+<h1>package details<a class="headerlink" href="#package-details" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-contentful.cda.client">
+<span id="contentful-cda-client-module"></span><h2>contentful.cda.client module<a class="headerlink" href="#module-contentful.cda.client" title="Permalink to this headline">¶</a></h2>
+<p>Core client module.</p>
+<p>Classes provided include:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#contentful.cda.client.Client" title="contentful.cda.client.Client"><tt class="xref py py-class docutils literal"><span class="pre">Client</span></tt></a> - Interface for retrieving resources from the Contentful Delivery API.</li>
+<li><a class="reference internal" href="#contentful.cda.client.Config" title="contentful.cda.client.Config"><tt class="xref py py-class docutils literal"><span class="pre">Config</span></tt></a> - Configuration container for <a class="reference internal" href="#contentful.cda.client.Client" title="contentful.cda.client.Client"><tt class="xref py py-class docutils literal"><span class="pre">Client</span></tt></a> objects.</li>
+<li><a class="reference internal" href="#contentful.cda.client.Dispatcher" title="contentful.cda.client.Dispatcher"><tt class="xref py py-class docutils literal"><span class="pre">Dispatcher</span></tt></a> - Class responsible for invoking <a class="reference internal" href="#contentful.cda.client.Request" title="contentful.cda.client.Request"><tt class="xref py py-class docutils literal"><span class="pre">Request</span></tt></a> instances.</li>
+<li><a class="reference internal" href="#contentful.cda.client.Request" title="contentful.cda.client.Request"><tt class="xref py py-class docutils literal"><span class="pre">Request</span></tt></a> - API request representation.</li>
+<li><a class="reference internal" href="#contentful.cda.client.RequestArray" title="contentful.cda.client.RequestArray"><tt class="xref py py-class docutils literal"><span class="pre">RequestArray</span></tt></a> - Request whose response may contain multiple resources.</li>
+</ul>
+<dl class="class">
+<dt id="contentful.cda.client.Client">
+<em class="property">class </em><tt class="descclassname">contentful.cda.client.</tt><tt class="descname">Client</tt><big>(</big><em>space_id</em>, <em>access_token</em>, <em>custom_entries=None</em>, <em>secure=True</em>, <em>endpoint=None</em>, <em>resolve_links=True</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/client.html#Client"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.client.Client" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Interface for retrieving resources from the Contentful Delivery API.</p>
+<p><strong>Attributes</strong>:</p>
+<ul class="simple">
+<li>dispatcher (<a class="reference internal" href="#contentful.cda.client.Dispatcher" title="contentful.cda.client.Dispatcher"><tt class="xref py py-class docutils literal"><span class="pre">Dispatcher</span></tt></a>): Dispatcher for invoking requests.</li>
+<li>config (<a class="reference internal" href="#contentful.cda.client.Config" title="contentful.cda.client.Config"><tt class="xref py py-class docutils literal"><span class="pre">Config</span></tt></a>): Configuration container.</li>
+</ul>
+<p>Client constructor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>space_id</strong> &#8211; (str) Space ID.</li>
+<li><strong>access_token</strong> &#8211; (str) Access Token.</li>
+<li><strong>custom_entries</strong> &#8211; (list) Optional list of <a class="reference internal" href="#contentful.cda.resources.Entry" title="contentful.cda.resources.Entry"><tt class="xref py py-class docutils literal"><span class="pre">Entry</span></tt></a> subclasses
+used in order to register custom Entry subclasses to be instantiated by the client
+when Entries of the given Content Type are retrieved from the server.</li>
+<li><strong>secure</strong> &#8211; (bool) Indicates whether the connection should be encrypted or not.</li>
+<li><strong>endpoint</strong> &#8211; (str) Custom remote API endpoint.</li>
+<li><strong>resolve_links</strong> &#8211; (bool) Indicates whether or not to resolve links automatically.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#contentful.cda.client.Client" title="contentful.cda.client.Client"><tt class="xref py py-class docutils literal"><span class="pre">Client</span></tt></a> instance.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="contentful.cda.client.Client.fetch">
+<tt class="descname">fetch</tt><big>(</big><em>resource_class</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/client.html#Client.fetch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.client.Client.fetch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a <a class="reference internal" href="#contentful.cda.client.Request" title="contentful.cda.client.Request"><tt class="xref py py-class docutils literal"><span class="pre">Request</span></tt></a> for the given resource type.</p>
+<p>Provided an <a class="reference internal" href="#contentful.cda.resources.Entry" title="contentful.cda.resources.Entry"><tt class="xref py py-class docutils literal"><span class="pre">Entry</span></tt></a> subclass, the Content Type ID will be inferred and requested explicitly.</p>
+<p>Examples:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">client</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">Asset</span><span class="p">)</span>
+<span class="n">client</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">Entry</span><span class="p">)</span>
+<span class="n">client</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">ContentType</span><span class="p">)</span>
+<span class="n">client</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">CustomEntryClass</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>resource_class</strong> &#8211; The type of resource to be fetched.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference internal" href="#contentful.cda.client.Request" title="contentful.cda.client.Request"><tt class="xref py py-class docutils literal"><span class="pre">Request</span></tt></a> instance.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="contentful.cda.client.Client.fetch_space">
+<tt class="descname">fetch_space</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/contentful/cda/client.html#Client.fetch_space"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.client.Client.fetch_space" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetch the Space associated with this client.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference internal" href="#contentful.cda.resources.Space" title="contentful.cda.resources.Space"><tt class="xref py py-class docutils literal"><span class="pre">Space</span></tt></a> result instance.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="contentful.cda.client.Client.resolve">
+<tt class="descname">resolve</tt><big>(</big><em>link_resource_type</em>, <em>resource_id</em>, <em>array=None</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/client.html#Client.resolve"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.client.Client.resolve" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resolve a link to a CDA resource.</p>
+<p>Provided an <cite>array</cite> argument, attempt to retrieve the resource from the <cite>mapped_items</cite>
+section of that array (containing both included and regular resources), in case the
+resource cannot be found in the array (or if no <cite>array</cite> was provided) - attempt to fetch
+the resource from the API by issuing a network request.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>link_resource_type</strong> &#8211; (str) Resource type as str.</li>
+<li><strong>resource_id</strong> &#8211; (str) Remote ID of the linked resource.</li>
+<li><strong>array</strong> &#8211; (<a class="reference internal" href="#contentful.cda.resources.Array" title="contentful.cda.resources.Array"><tt class="xref py py-class docutils literal"><span class="pre">Array</span></tt></a>) Optional array resource.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#contentful.cda.resources.Resource" title="contentful.cda.resources.Resource"><tt class="xref py py-class docutils literal"><span class="pre">Resource</span></tt></a> subclass, <cite>None</cite> if it cannot be retrieved.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="contentful.cda.client.Client.resolve_dict_link">
+<tt class="descname">resolve_dict_link</tt><big>(</big><em>dct</em>, <em>array=None</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/client.html#Client.resolve_dict_link"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.client.Client.resolve_dict_link" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience method for resolving links given a dict object.</p>
+<p>Extract link values and pass to the <tt class="xref py py-func docutils literal"><span class="pre">resolve()</span></tt> method of this class.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>dct</strong> &#8211; (dict) Dictionary with the link data.</li>
+<li><strong>array</strong> &#8211; (<a class="reference internal" href="#contentful.cda.resources.Array" title="contentful.cda.resources.Array"><tt class="xref py py-class docutils literal"><span class="pre">Array</span></tt></a>) Optional array resource.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#contentful.cda.resources.Resource" title="contentful.cda.resources.Resource"><tt class="xref py py-class docutils literal"><span class="pre">Resource</span></tt></a> subclass, <cite>None</cite> if it cannot be retrieved.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="contentful.cda.client.Client.resolve_resource_link">
+<tt class="descname">resolve_resource_link</tt><big>(</big><em>resource_link</em>, <em>array=None</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/client.html#Client.resolve_resource_link"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.client.Client.resolve_resource_link" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience method for resolving links given a <a class="reference internal" href="#contentful.cda.resources.ResourceLink" title="contentful.cda.resources.ResourceLink"><tt class="xref py py-class docutils literal"><span class="pre">resources.ResourceLink</span></tt></a> object.</p>
+<p>Extract link values and pass to the <tt class="xref py py-func docutils literal"><span class="pre">resolve()</span></tt> method of this class.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>resource_link</strong> &#8211; (<a class="reference internal" href="#contentful.cda.resources.ResourceLink" title="contentful.cda.resources.ResourceLink"><tt class="xref py py-class docutils literal"><span class="pre">ResourceLink</span></tt></a>) instance.</li>
+<li><strong>array</strong> &#8211; (<a class="reference internal" href="#contentful.cda.resources.Array" title="contentful.cda.resources.Array"><tt class="xref py py-class docutils literal"><span class="pre">Array</span></tt></a>) Optional array resource.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#contentful.cda.resources.Resource" title="contentful.cda.resources.Resource"><tt class="xref py py-class docutils literal"><span class="pre">Resource</span></tt></a> subclass, <cite>None</cite> if it cannot be retrieved.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="contentful.cda.client.Client.validate_config">
+<em class="property">static </em><tt class="descname">validate_config</tt><big>(</big><em>config</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/client.html#Client.validate_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.client.Client.validate_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verify sanity for a <a class="reference internal" href="#contentful.cda.client.Config" title="contentful.cda.client.Config"><tt class="xref py py-class docutils literal"><span class="pre">Config</span></tt></a> instance.</p>
+<p>This will raise an exception in case conditions are not met, otherwise
+will complete silently.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>config</strong> &#8211; (<a class="reference internal" href="#contentful.cda.client.Config" title="contentful.cda.client.Config"><tt class="xref py py-class docutils literal"><span class="pre">Config</span></tt></a>) Configuration container.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="contentful.cda.client.Config">
+<em class="property">class </em><tt class="descclassname">contentful.cda.client.</tt><tt class="descname">Config</tt><big>(</big><em>space_id</em>, <em>access_token</em>, <em>custom_entries</em>, <em>secure</em>, <em>endpoint</em>, <em>resolve_links</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/client.html#Config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.client.Config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Configuration container for <a class="reference internal" href="#contentful.cda.client.Client" title="contentful.cda.client.Client"><tt class="xref py py-class docutils literal"><span class="pre">Client</span></tt></a> objects.</p>
+<p>Config constructor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>space_id</strong> &#8211; (str) Space ID.</li>
+<li><strong>access_token</strong> &#8211; (str) Access Token.</li>
+<li><strong>custom_entries</strong> &#8211; (list) Optional list of <a class="reference internal" href="#contentful.cda.resources.Entry" title="contentful.cda.resources.Entry"><tt class="xref py py-class docutils literal"><span class="pre">Entry</span></tt></a> subclasses
+used in order to register custom Entry subclasses to be instantiated by the client
+when Entries of the given Content Type are retrieved from the server.</li>
+<li><strong>secure</strong> &#8211; (bool) Indicates whether the connection should be encrypted or not.</li>
+<li><strong>endpoint</strong> &#8211; (str) Custom remote API endpoint.</li>
+<li><strong>resolve_links</strong> &#8211; (bool) Indicates whether or not to resolve links automatically.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Config instance.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="contentful.cda.client.Dispatcher">
+<em class="property">class </em><tt class="descclassname">contentful.cda.client.</tt><tt class="descname">Dispatcher</tt><big>(</big><em>config</em>, <em>httpclient</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/client.html#Dispatcher"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.client.Dispatcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Responsible for invoking <a class="reference internal" href="#contentful.cda.client.Request" title="contentful.cda.client.Request"><tt class="xref py py-class docutils literal"><span class="pre">Request</span></tt></a> instances and delegating result processing.</p>
+<p><strong>Attributes</strong>:</p>
+<ul class="simple">
+<li>config (<a class="reference internal" href="#contentful.cda.client.Config" title="contentful.cda.client.Config"><tt class="xref py py-class docutils literal"><span class="pre">Config</span></tt></a>): Configuration settings.</li>
+<li>resource_factory (<a class="reference internal" href="#contentful.cda.serialization.ResourceFactory" title="contentful.cda.serialization.ResourceFactory"><tt class="xref py py-class docutils literal"><span class="pre">ResourceFactory</span></tt></a>): Factory to use for generating resources out of JSON responses.</li>
+<li>httpclient (module): HTTP client module.</li>
+<li>base_url (str): Base URL of the remote endpoint.</li>
+<li>user_agent (str): <tt class="docutils literal"><span class="pre">User-Agent</span></tt> header to pass with requests.</li>
+</ul>
+<p>Dispatcher constructor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>config</strong> &#8211; Configuration container.</li>
+<li><strong>httpclient</strong> &#8211; HTTP client.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#contentful.cda.client.Dispatcher" title="contentful.cda.client.Dispatcher"><tt class="xref py py-class docutils literal"><span class="pre">Dispatcher</span></tt></a> instance.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="contentful.cda.client.Dispatcher.get_headers">
+<tt class="descname">get_headers</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/contentful/cda/client.html#Dispatcher.get_headers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.client.Dispatcher.get_headers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and return a base set of headers to be carried with all requests.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">dict containing header values.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="contentful.cda.client.Dispatcher.invoke">
+<tt class="descname">invoke</tt><big>(</big><em>request</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/client.html#Dispatcher.invoke"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.client.Dispatcher.invoke" title="Permalink to this definition">¶</a></dt>
+<dd><p>Invoke the given <a class="reference internal" href="#contentful.cda.client.Request" title="contentful.cda.client.Request"><tt class="xref py py-class docutils literal"><span class="pre">Request</span></tt></a> instance using the associated <a class="reference internal" href="#contentful.cda.client.Dispatcher" title="contentful.cda.client.Dispatcher"><tt class="xref py py-class docutils literal"><span class="pre">Dispatcher</span></tt></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>request</strong> &#8211; <a class="reference internal" href="#contentful.cda.client.Request" title="contentful.cda.client.Request"><tt class="xref py py-class docutils literal"><span class="pre">Request</span></tt></a> instance to invoke.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference internal" href="#contentful.cda.resources.Resource" title="contentful.cda.resources.Resource"><tt class="xref py py-class docutils literal"><span class="pre">Resource</span></tt></a> subclass.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="contentful.cda.client.Request">
+<em class="property">class </em><tt class="descclassname">contentful.cda.client.</tt><tt class="descname">Request</tt><big>(</big><em>dispatcher</em>, <em>remote_path</em>, <em>params=None</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/client.html#Request"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.client.Request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Represents a single request, later to be invoked by a <a class="reference internal" href="#contentful.cda.client.Dispatcher" title="contentful.cda.client.Dispatcher"><tt class="xref py py-class docutils literal"><span class="pre">Dispatcher</span></tt></a>.</p>
+<p>Request constructor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>dispatcher</strong> &#8211; (<a class="reference internal" href="#contentful.cda.client.Dispatcher" title="contentful.cda.client.Dispatcher"><tt class="xref py py-class docutils literal"><span class="pre">Dispatcher</span></tt></a>) Dispatcher.</li>
+<li><strong>remote_path</strong> &#8211; (str) API path.</li>
+<li><strong>params</strong> &#8211; Optional dictionary of query parameters.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#contentful.cda.client.Request" title="contentful.cda.client.Request"><tt class="xref py py-class docutils literal"><span class="pre">Request</span></tt></a> instance.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="contentful.cda.client.Request.invoke">
+<tt class="descname">invoke</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/contentful/cda/client.html#Request.invoke"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.client.Request.invoke" title="Permalink to this definition">¶</a></dt>
+<dd><p>Invoke <a class="reference internal" href="#contentful.cda.client.Request" title="contentful.cda.client.Request"><tt class="xref py py-class docutils literal"><span class="pre">Request</span></tt></a> instance using the associated <a class="reference internal" href="#contentful.cda.client.Dispatcher" title="contentful.cda.client.Dispatcher"><tt class="xref py py-class docutils literal"><span class="pre">Dispatcher</span></tt></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Result instance as returned by the <a class="reference internal" href="#contentful.cda.client.Dispatcher" title="contentful.cda.client.Dispatcher"><tt class="xref py py-class docutils literal"><span class="pre">Dispatcher</span></tt></a>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="contentful.cda.client.RequestArray">
+<em class="property">class </em><tt class="descclassname">contentful.cda.client.</tt><tt class="descname">RequestArray</tt><big>(</big><em>dispatcher</em>, <em>remote_path</em>, <em>resolve_links</em>, <em>params=None</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/client.html#RequestArray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.client.RequestArray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#contentful.cda.client.Request" title="contentful.cda.client.Request"><tt class="xref py py-class docutils literal"><span class="pre">contentful.cda.client.Request</span></tt></a></p>
+<p>Represents a single request for retrieving multiple resources from the API.</p>
+<dl class="method">
+<dt id="contentful.cda.client.RequestArray.all">
+<tt class="descname">all</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/contentful/cda/client.html#RequestArray.all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.client.RequestArray.all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attempt to retrieve all available resources matching this request.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Result instance as returned by the <a class="reference internal" href="#contentful.cda.client.Dispatcher" title="contentful.cda.client.Dispatcher"><tt class="xref py py-class docutils literal"><span class="pre">Dispatcher</span></tt></a>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="contentful.cda.client.RequestArray.first">
+<tt class="descname">first</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/contentful/cda/client.html#RequestArray.first"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.client.RequestArray.first" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attempt to retrieve only the first resource matching this request.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Result instance, or <cite>None</cite> if there are no matching resources.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="contentful.cda.client.RequestArray.where">
+<tt class="descname">where</tt><big>(</big><em>params</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/client.html#RequestArray.where"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.client.RequestArray.where" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set a dict of parameters to be passed to the API when invoking this request.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>params</strong> &#8211; (dict) query parameters.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">this <a class="reference internal" href="#contentful.cda.client.RequestArray" title="contentful.cda.client.RequestArray"><tt class="xref py py-class docutils literal"><span class="pre">RequestArray</span></tt></a> instance for convenience.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-contentful.cda.const">
+<span id="contentful-cda-const-module"></span><h2>contentful.cda.const module<a class="headerlink" href="#module-contentful.cda.const" title="Permalink to this headline">¶</a></h2>
+<p>Constants module.</p>
+</div>
+<div class="section" id="module-contentful.cda.errors">
+<span id="contentful-cda-errors-module"></span><h2>contentful.cda.errors module<a class="headerlink" href="#module-contentful.cda.errors" title="Permalink to this headline">¶</a></h2>
+<p>errors module.</p>
+<dl class="exception">
+<dt id="contentful.cda.errors.AccessDenied">
+<em class="property">exception </em><tt class="descclassname">contentful.cda.errors.</tt><tt class="descname">AccessDenied</tt><big>(</big><em>result</em>, <em>message=None</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/errors.html#AccessDenied"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.errors.AccessDenied" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#contentful.cda.errors.ApiError" title="contentful.cda.errors.ApiError"><tt class="xref py py-class docutils literal"><span class="pre">contentful.cda.errors.ApiError</span></tt></a></p>
+<p>Access Denied</p>
+<p>ApiError constructor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>result</strong> &#8211; Raw result object.</li>
+<li><strong>message</strong> &#8211; (str) Optional message.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#contentful.cda.errors.ApiError" title="contentful.cda.errors.ApiError"><tt class="xref py py-class docutils literal"><span class="pre">ApiError</span></tt></a> instance.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="exception">
+<dt id="contentful.cda.errors.ApiError">
+<em class="property">exception </em><tt class="descclassname">contentful.cda.errors.</tt><tt class="descname">ApiError</tt><big>(</big><em>result</em>, <em>message=None</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/errors.html#ApiError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.errors.ApiError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></p>
+<p>Class representing an error returned by the API.</p>
+<p>ApiError constructor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>result</strong> &#8211; Raw result object.</li>
+<li><strong>message</strong> &#8211; (str) Optional message.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#contentful.cda.errors.ApiError" title="contentful.cda.errors.ApiError"><tt class="xref py py-class docutils literal"><span class="pre">ApiError</span></tt></a> instance.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="exception">
+<dt id="contentful.cda.errors.BadRequest">
+<em class="property">exception </em><tt class="descclassname">contentful.cda.errors.</tt><tt class="descname">BadRequest</tt><big>(</big><em>result</em>, <em>message=None</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/errors.html#BadRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.errors.BadRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#contentful.cda.errors.ApiError" title="contentful.cda.errors.ApiError"><tt class="xref py py-class docutils literal"><span class="pre">contentful.cda.errors.ApiError</span></tt></a></p>
+<p>Bad Request</p>
+<p>ApiError constructor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>result</strong> &#8211; Raw result object.</li>
+<li><strong>message</strong> &#8211; (str) Optional message.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#contentful.cda.errors.ApiError" title="contentful.cda.errors.ApiError"><tt class="xref py py-class docutils literal"><span class="pre">ApiError</span></tt></a> instance.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="contentful.cda.errors.ErrorMapping">
+<em class="property">class </em><tt class="descclassname">contentful.cda.errors.</tt><tt class="descname">ErrorMapping</tt><a class="reference internal" href="_modules/contentful/cda/errors.html#ErrorMapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.errors.ErrorMapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Holds a mapping of HTTP status codes and <a class="reference internal" href="#contentful.cda.errors.ApiError" title="contentful.cda.errors.ApiError"><tt class="xref py py-class docutils literal"><span class="pre">ApiError</span></tt></a> subclasses.</p>
+<dl class="attribute">
+<dt id="contentful.cda.errors.ErrorMapping.mapping">
+<tt class="descname">mapping</tt><em class="property"> = {400: &lt;class 'contentful.cda.errors.BadRequest'&gt;, 401: &lt;class 'contentful.cda.errors.Unauthorized'&gt;, 403: &lt;class 'contentful.cda.errors.AccessDenied'&gt;, 404: &lt;class 'contentful.cda.errors.NotFound'&gt;, 503: &lt;class 'contentful.cda.errors.ServiceUnavailable'&gt;, 500: &lt;class 'contentful.cda.errors.ServerError'&gt;}</em><a class="headerlink" href="#contentful.cda.errors.ErrorMapping.mapping" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="contentful.cda.errors.NotFound">
+<em class="property">exception </em><tt class="descclassname">contentful.cda.errors.</tt><tt class="descname">NotFound</tt><big>(</big><em>result</em>, <em>message=None</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/errors.html#NotFound"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.errors.NotFound" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#contentful.cda.errors.ApiError" title="contentful.cda.errors.ApiError"><tt class="xref py py-class docutils literal"><span class="pre">contentful.cda.errors.ApiError</span></tt></a></p>
+<p>Not Found</p>
+<p>ApiError constructor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>result</strong> &#8211; Raw result object.</li>
+<li><strong>message</strong> &#8211; (str) Optional message.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#contentful.cda.errors.ApiError" title="contentful.cda.errors.ApiError"><tt class="xref py py-class docutils literal"><span class="pre">ApiError</span></tt></a> instance.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="exception">
+<dt id="contentful.cda.errors.ServerError">
+<em class="property">exception </em><tt class="descclassname">contentful.cda.errors.</tt><tt class="descname">ServerError</tt><big>(</big><em>result</em>, <em>message=None</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/errors.html#ServerError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.errors.ServerError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#contentful.cda.errors.ApiError" title="contentful.cda.errors.ApiError"><tt class="xref py py-class docutils literal"><span class="pre">contentful.cda.errors.ApiError</span></tt></a></p>
+<p>Internal Server Error</p>
+<p>ApiError constructor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>result</strong> &#8211; Raw result object.</li>
+<li><strong>message</strong> &#8211; (str) Optional message.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#contentful.cda.errors.ApiError" title="contentful.cda.errors.ApiError"><tt class="xref py py-class docutils literal"><span class="pre">ApiError</span></tt></a> instance.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="exception">
+<dt id="contentful.cda.errors.ServiceUnavailable">
+<em class="property">exception </em><tt class="descclassname">contentful.cda.errors.</tt><tt class="descname">ServiceUnavailable</tt><big>(</big><em>result</em>, <em>message=None</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/errors.html#ServiceUnavailable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.errors.ServiceUnavailable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#contentful.cda.errors.ApiError" title="contentful.cda.errors.ApiError"><tt class="xref py py-class docutils literal"><span class="pre">contentful.cda.errors.ApiError</span></tt></a></p>
+<p>Service Unavailable Error</p>
+<p>ApiError constructor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>result</strong> &#8211; Raw result object.</li>
+<li><strong>message</strong> &#8211; (str) Optional message.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#contentful.cda.errors.ApiError" title="contentful.cda.errors.ApiError"><tt class="xref py py-class docutils literal"><span class="pre">ApiError</span></tt></a> instance.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="exception">
+<dt id="contentful.cda.errors.Unauthorized">
+<em class="property">exception </em><tt class="descclassname">contentful.cda.errors.</tt><tt class="descname">Unauthorized</tt><big>(</big><em>result</em>, <em>message=None</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/errors.html#Unauthorized"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.errors.Unauthorized" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#contentful.cda.errors.ApiError" title="contentful.cda.errors.ApiError"><tt class="xref py py-class docutils literal"><span class="pre">contentful.cda.errors.ApiError</span></tt></a></p>
+<p>Unauthorized</p>
+<p>ApiError constructor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>result</strong> &#8211; Raw result object.</li>
+<li><strong>message</strong> &#8211; (str) Optional message.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#contentful.cda.errors.ApiError" title="contentful.cda.errors.ApiError"><tt class="xref py py-class docutils literal"><span class="pre">ApiError</span></tt></a> instance.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="contentful.cda.errors.api_exception">
+<tt class="descclassname">contentful.cda.errors.</tt><tt class="descname">api_exception</tt><big>(</big><em>http_code</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/errors.html#api_exception"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.errors.api_exception" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience decorator to associate HTTP status codes with <a class="reference internal" href="#contentful.cda.errors.ApiError" title="contentful.cda.errors.ApiError"><tt class="xref py py-class docutils literal"><span class="pre">ApiError</span></tt></a> subclasses.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>http_code</strong> &#8211; (int) HTTP status code.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">wrapper function.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-contentful.cda.fields">
+<span id="contentful-cda-fields-module"></span><h2>contentful.cda.fields module<a class="headerlink" href="#module-contentful.cda.fields" title="Permalink to this headline">¶</a></h2>
+<p>fields module.</p>
+<p>Classes provided include:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#contentful.cda.fields.Field" title="contentful.cda.fields.Field"><tt class="xref py py-class docutils literal"><span class="pre">Field</span></tt></a> - An Entry field.</li>
+<li><a class="reference internal" href="#contentful.cda.fields.FieldOwner" title="contentful.cda.fields.FieldOwner"><tt class="xref py py-class docutils literal"><span class="pre">FieldOwner</span></tt></a> - Meta-class to enable usage of <a class="reference internal" href="#contentful.cda.fields.Field" title="contentful.cda.fields.Field"><tt class="xref py py-class docutils literal"><span class="pre">Field</span></tt></a>-typed fields.</li>
+<li><a class="reference internal" href="#contentful.cda.fields.FieldType" title="contentful.cda.fields.FieldType"><tt class="xref py py-class docutils literal"><span class="pre">FieldType</span></tt></a> - Type of a field.</li>
+<li><a class="reference internal" href="#contentful.cda.fields.Boolean" title="contentful.cda.fields.Boolean"><tt class="xref py py-class docutils literal"><span class="pre">Boolean</span></tt></a> - Field holding a boolean value.</li>
+<li><a class="reference internal" href="#contentful.cda.fields.Date" title="contentful.cda.fields.Date"><tt class="xref py py-class docutils literal"><span class="pre">Date</span></tt></a> - Field holding a date value.</li>
+<li><a class="reference internal" href="#contentful.cda.fields.Link" title="contentful.cda.fields.Link"><tt class="xref py py-class docutils literal"><span class="pre">Link</span></tt></a> - Field holding a link value.</li>
+<li><a class="reference internal" href="#contentful.cda.fields.Location" title="contentful.cda.fields.Location"><tt class="xref py py-class docutils literal"><span class="pre">Location</span></tt></a> - Field holding a location value.</li>
+<li><a class="reference internal" href="#contentful.cda.fields.Number" title="contentful.cda.fields.Number"><tt class="xref py py-class docutils literal"><span class="pre">Number</span></tt></a> - Field holding a numeric value.</li>
+<li><a class="reference internal" href="#contentful.cda.fields.Object" title="contentful.cda.fields.Object"><tt class="xref py py-class docutils literal"><span class="pre">Object</span></tt></a> - Field holding an object value.</li>
+<li><a class="reference internal" href="#contentful.cda.fields.Symbol" title="contentful.cda.fields.Symbol"><tt class="xref py py-class docutils literal"><span class="pre">Symbol</span></tt></a> - Field holding a symbol value.</li>
+<li><a class="reference internal" href="#contentful.cda.fields.Text" title="contentful.cda.fields.Text"><tt class="xref py py-class docutils literal"><span class="pre">Text</span></tt></a> - Field holding a text value.</li>
+<li><a class="reference internal" href="#contentful.cda.fields.List" title="contentful.cda.fields.List"><tt class="xref py py-class docutils literal"><span class="pre">List</span></tt></a> - Field holding a list value.</li>
+<li><a class="reference internal" href="#contentful.cda.fields.MultipleAssets" title="contentful.cda.fields.MultipleAssets"><tt class="xref py py-class docutils literal"><span class="pre">MultipleAssets</span></tt></a> - Field holding multiple Assets as a value.</li>
+<li><a class="reference internal" href="#contentful.cda.fields.MultipleEntries" title="contentful.cda.fields.MultipleEntries"><tt class="xref py py-class docutils literal"><span class="pre">MultipleEntries</span></tt></a> - Field holding multiple Entries as a value.</li>
+</ul>
+<dl class="class">
+<dt id="contentful.cda.fields.Boolean">
+<em class="property">class </em><tt class="descclassname">contentful.cda.fields.</tt><tt class="descname">Boolean</tt><a class="reference internal" href="_modules/contentful/cda/fields.html#Boolean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.fields.Boolean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#contentful.cda.fields.FieldType" title="contentful.cda.fields.FieldType"><tt class="xref py py-class docutils literal"><span class="pre">contentful.cda.fields.FieldType</span></tt></a></p>
+<p>Boolean typed field</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="contentful.cda.fields.Date">
+<em class="property">class </em><tt class="descclassname">contentful.cda.fields.</tt><tt class="descname">Date</tt><a class="reference internal" href="_modules/contentful/cda/fields.html#Date"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.fields.Date" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#contentful.cda.fields.FieldType" title="contentful.cda.fields.FieldType"><tt class="xref py py-class docutils literal"><span class="pre">contentful.cda.fields.FieldType</span></tt></a></p>
+<p>Date typed field.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="contentful.cda.fields.Field">
+<em class="property">class </em><tt class="descclassname">contentful.cda.fields.</tt><tt class="descname">Field</tt><big>(</big><em>field_type</em>, <em>field_id=None</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/fields.html#Field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.fields.Field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Class representing a single Entry field.</p>
+<p>Field constructor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>field_type</strong> &#8211; (<a class="reference internal" href="#contentful.cda.fields.FieldType" title="contentful.cda.fields.FieldType"><tt class="xref py py-class docutils literal"><span class="pre">FieldType</span></tt></a>) type of field.</li>
+<li><strong>field_id</strong> &#8211; (str) Custom ID to set for this field, by default this will
+be inferred by the name of the attribute.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Field instance.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="staticmethod">
+<dt id="contentful.cda.fields.Field.dict_for_instance">
+<em class="property">static </em><tt class="descname">dict_for_instance</tt><big>(</big><em>instance</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/fields.html#Field.dict_for_instance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.fields.Field.dict_for_instance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="contentful.cda.fields.FieldOwner">
+<em class="property">class </em><tt class="descclassname">contentful.cda.fields.</tt><tt class="descname">FieldOwner</tt><a class="reference internal" href="_modules/contentful/cda/fields.html#FieldOwner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.fields.FieldOwner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">type</span></tt></p>
+<p>Metaclass for the <a class="reference internal" href="#contentful.cda.resources.Entry" title="contentful.cda.resources.Entry"><tt class="xref py py-class docutils literal"><span class="pre">Entry</span></tt></a> class.</p>
+<p>For any subclass (i.e. representing a custom Entry class), ensure the extending class has
+a valid <cite>__content_type__</cite> attribute specified, otherwise raise an exception.
+In addition, iterate through all of the class attributes, identify any <a class="reference internal" href="#contentful.cda.fields.Field" title="contentful.cda.fields.Field"><tt class="xref py py-class docutils literal"><span class="pre">Field</span></tt></a>-typed
+attributes and keep those in a dict under the class&#8217;s <cite>__entry_fields__</cite> attribute.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="contentful.cda.fields.FieldType">
+<em class="property">class </em><tt class="descclassname">contentful.cda.fields.</tt><tt class="descname">FieldType</tt><a class="reference internal" href="_modules/contentful/cda/fields.html#FieldType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.fields.FieldType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Base field type.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="contentful.cda.fields.Link">
+<em class="property">class </em><tt class="descclassname">contentful.cda.fields.</tt><tt class="descname">Link</tt><a class="reference internal" href="_modules/contentful/cda/fields.html#Link"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.fields.Link" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#contentful.cda.fields.FieldType" title="contentful.cda.fields.FieldType"><tt class="xref py py-class docutils literal"><span class="pre">contentful.cda.fields.FieldType</span></tt></a></p>
+<p>Link typed field.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="contentful.cda.fields.List">
+<em class="property">class </em><tt class="descclassname">contentful.cda.fields.</tt><tt class="descname">List</tt><a class="reference internal" href="_modules/contentful/cda/fields.html#List"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.fields.List" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#contentful.cda.fields.FieldType" title="contentful.cda.fields.FieldType"><tt class="xref py py-class docutils literal"><span class="pre">contentful.cda.fields.FieldType</span></tt></a></p>
+<p>List typed field.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="contentful.cda.fields.Location">
+<em class="property">class </em><tt class="descclassname">contentful.cda.fields.</tt><tt class="descname">Location</tt><a class="reference internal" href="_modules/contentful/cda/fields.html#Location"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.fields.Location" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#contentful.cda.fields.FieldType" title="contentful.cda.fields.FieldType"><tt class="xref py py-class docutils literal"><span class="pre">contentful.cda.fields.FieldType</span></tt></a></p>
+<p>Location typed field.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="contentful.cda.fields.MultipleAssets">
+<em class="property">class </em><tt class="descclassname">contentful.cda.fields.</tt><tt class="descname">MultipleAssets</tt><a class="reference internal" href="_modules/contentful/cda/fields.html#MultipleAssets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.fields.MultipleAssets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#contentful.cda.fields.FieldType" title="contentful.cda.fields.FieldType"><tt class="xref py py-class docutils literal"><span class="pre">contentful.cda.fields.FieldType</span></tt></a></p>
+<p>Multiple Assets typed field.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="contentful.cda.fields.MultipleEntries">
+<em class="property">class </em><tt class="descclassname">contentful.cda.fields.</tt><tt class="descname">MultipleEntries</tt><a class="reference internal" href="_modules/contentful/cda/fields.html#MultipleEntries"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.fields.MultipleEntries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#contentful.cda.fields.FieldType" title="contentful.cda.fields.FieldType"><tt class="xref py py-class docutils literal"><span class="pre">contentful.cda.fields.FieldType</span></tt></a></p>
+<p>Multiple Entries typed field.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="contentful.cda.fields.Number">
+<em class="property">class </em><tt class="descclassname">contentful.cda.fields.</tt><tt class="descname">Number</tt><a class="reference internal" href="_modules/contentful/cda/fields.html#Number"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.fields.Number" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#contentful.cda.fields.FieldType" title="contentful.cda.fields.FieldType"><tt class="xref py py-class docutils literal"><span class="pre">contentful.cda.fields.FieldType</span></tt></a></p>
+<p>Number typed field.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="contentful.cda.fields.Object">
+<em class="property">class </em><tt class="descclassname">contentful.cda.fields.</tt><tt class="descname">Object</tt><a class="reference internal" href="_modules/contentful/cda/fields.html#Object"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.fields.Object" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#contentful.cda.fields.FieldType" title="contentful.cda.fields.FieldType"><tt class="xref py py-class docutils literal"><span class="pre">contentful.cda.fields.FieldType</span></tt></a></p>
+<p>Object typed field.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="contentful.cda.fields.Symbol">
+<em class="property">class </em><tt class="descclassname">contentful.cda.fields.</tt><tt class="descname">Symbol</tt><a class="reference internal" href="_modules/contentful/cda/fields.html#Symbol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.fields.Symbol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#contentful.cda.fields.FieldType" title="contentful.cda.fields.FieldType"><tt class="xref py py-class docutils literal"><span class="pre">contentful.cda.fields.FieldType</span></tt></a></p>
+<p>Symbol typed field.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="contentful.cda.fields.Text">
+<em class="property">class </em><tt class="descclassname">contentful.cda.fields.</tt><tt class="descname">Text</tt><a class="reference internal" href="_modules/contentful/cda/fields.html#Text"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.fields.Text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#contentful.cda.fields.FieldType" title="contentful.cda.fields.FieldType"><tt class="xref py py-class docutils literal"><span class="pre">contentful.cda.fields.FieldType</span></tt></a></p>
+<p>Text typed field.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-contentful.cda.resources">
+<span id="contentful-cda-resources-module"></span><h2>contentful.cda.resources module<a class="headerlink" href="#module-contentful.cda.resources" title="Permalink to this headline">¶</a></h2>
+<p>resources module.</p>
+<p>Classes provided include:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#contentful.cda.resources.Resource" title="contentful.cda.resources.Resource"><tt class="xref py py-class docutils literal"><span class="pre">Resource</span></tt></a> - Base CDA resource.</li>
+<li><a class="reference internal" href="#contentful.cda.resources.Array" title="contentful.cda.resources.Array"><tt class="xref py py-class docutils literal"><span class="pre">Array</span></tt></a> - Collection of multiple <a class="reference internal" href="#contentful.cda.resources.Resource" title="contentful.cda.resources.Resource"><tt class="xref py py-class docutils literal"><span class="pre">Resource</span></tt></a> instances.</li>
+<li><a class="reference internal" href="#contentful.cda.resources.Asset" title="contentful.cda.resources.Asset"><tt class="xref py py-class docutils literal"><span class="pre">Asset</span></tt></a> - CDA Asset.</li>
+<li><a class="reference internal" href="#contentful.cda.resources.ContentType" title="contentful.cda.resources.ContentType"><tt class="xref py py-class docutils literal"><span class="pre">ContentType</span></tt></a> - CDA Content Type.</li>
+<li><a class="reference internal" href="#contentful.cda.resources.Entry" title="contentful.cda.resources.Entry"><tt class="xref py py-class docutils literal"><span class="pre">Entry</span></tt></a> - CDA Entry.</li>
+<li><a class="reference internal" href="#contentful.cda.resources.Space" title="contentful.cda.resources.Space"><tt class="xref py py-class docutils literal"><span class="pre">Space</span></tt></a> - CDA Space.</li>
+<li><a class="reference internal" href="#contentful.cda.resources.ResourceType" title="contentful.cda.resources.ResourceType"><tt class="xref py py-class docutils literal"><span class="pre">ResourceType</span></tt></a> - Enum of CDA resource types.</li>
+</ul>
+<dl class="class">
+<dt id="contentful.cda.resources.Array">
+<em class="property">class </em><tt class="descclassname">contentful.cda.resources.</tt><tt class="descname">Array</tt><big>(</big><em>sys=None</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/resources.html#Array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.resources.Array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#contentful.cda.resources.Resource" title="contentful.cda.resources.Resource"><tt class="xref py py-class docutils literal"><span class="pre">contentful.cda.resources.Resource</span></tt></a></p>
+<p>Collection of multiple <a class="reference internal" href="#contentful.cda.resources.Resource" title="contentful.cda.resources.Resource"><tt class="xref py py-class docutils literal"><span class="pre">Resource</span></tt></a> instances.</p>
+<p><strong>Attributes</strong>:</p>
+<ul class="simple">
+<li>limit (int): <cite>limit</cite> parameter.</li>
+<li>skip (int): <cite>skip</cite> parameter.</li>
+<li>total (int): Total number of resources returned from the API.</li>
+<li>items (list): Resources contained within the response.</li>
+<li>items_mapped (dict): All contained resources mapped by Assets/Entries using the resource ID.</li>
+</ul>
+<p>Array constructor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sys</strong> &#8211; (dict) resource system attributes.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference internal" href="#contentful.cda.resources.Array" title="contentful.cda.resources.Array"><tt class="xref py py-class docutils literal"><span class="pre">Array</span></tt></a> instance.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="contentful.cda.resources.Array.resolve_links">
+<tt class="descname">resolve_links</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/contentful/cda/resources.html#Array.resolve_links"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.resources.Array.resolve_links" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attempt to resolve all internal links (locally).</p>
+<p>In case the linked resources are found either as members of the array or within
+the <cite>includes</cite> element, those will be replaced and reference the actual resources.
+No network calls will be performed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="contentful.cda.resources.Asset">
+<em class="property">class </em><tt class="descclassname">contentful.cda.resources.</tt><tt class="descname">Asset</tt><big>(</big><em>sys=None</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/resources.html#Asset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.resources.Asset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#contentful.cda.resources.Resource" title="contentful.cda.resources.Resource"><tt class="xref py py-class docutils literal"><span class="pre">contentful.cda.resources.Resource</span></tt></a></p>
+<p>CDA resource of type Asset.</p>
+<p><strong>Attributes</strong>:</p>
+<ul class="simple">
+<li>fields (dict): Raw field values as returned from the API.</li>
+<li>url (str): URL.</li>
+<li>mimeType (str): MIME type.</li>
+</ul>
+<p>Asset constructor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sys</strong> &#8211; (dict) resource system attributes.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference internal" href="#contentful.cda.resources.Asset" title="contentful.cda.resources.Asset"><tt class="xref py py-class docutils literal"><span class="pre">Asset</span></tt></a> instance.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="contentful.cda.resources.ContentType">
+<em class="property">class </em><tt class="descclassname">contentful.cda.resources.</tt><tt class="descname">ContentType</tt><big>(</big><em>sys=None</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/resources.html#ContentType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.resources.ContentType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#contentful.cda.resources.Resource" title="contentful.cda.resources.Resource"><tt class="xref py py-class docutils literal"><span class="pre">contentful.cda.resources.Resource</span></tt></a></p>
+<p>CDA resource of type Content Type.</p>
+<p><strong>Attributes</strong>:</p>
+<ul class="simple">
+<li>display_field (str): Identifier of the field which should be displayed as a title for Entries.</li>
+<li>name (str): Name of the Content Type.</li>
+<li>user_description (str): Description of the Content Type.</li>
+<li>fields (dict): Content Type fields, mapped by field IDs.</li>
+</ul>
+<p>Content Type constructor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sys</strong> &#8211; (dict) resource system attributes.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference internal" href="#contentful.cda.resources.ContentType" title="contentful.cda.resources.ContentType"><tt class="xref py py-class docutils literal"><span class="pre">ContentType</span></tt></a> instance.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="contentful.cda.resources.Entry">
+<em class="property">class </em><tt class="descclassname">contentful.cda.resources.</tt><tt class="descname">Entry</tt><big>(</big><em>sys=None</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/resources.html#Entry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.resources.Entry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#contentful.cda.resources.Resource" title="contentful.cda.resources.Resource"><tt class="xref py py-class docutils literal"><span class="pre">contentful.cda.resources.Resource</span></tt></a></p>
+<p>CDA resource of type Entry.</p>
+<p><strong>Attributes</strong>:</p>
+<ul class="simple">
+<li>fields (dict): Entry fields.</li>
+</ul>
+<p>It is possible to define custom <a class="reference internal" href="#contentful.cda.resources.Entry" title="contentful.cda.resources.Entry"><tt class="xref py py-class docutils literal"><span class="pre">Entry</span></tt></a> models using the following syntax:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Cat</span><span class="p">(</span><span class="n">Entry</span><span class="p">):</span>
+    <span class="n">__content_type__</span> <span class="o">=</span> <span class="s">&#39;cat&#39;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">Text</span><span class="p">)</span>
+    <span class="n">color</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">Text</span><span class="p">)</span>
+    <span class="n">lives</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">Number</span><span class="p">)</span>
+    <span class="n">likes</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">List</span><span class="p">)</span>
+    <span class="n">birthday</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">Date</span><span class="p">)</span>
+    <span class="n">best_friend</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">Link</span><span class="p">,</span> <span class="n">field_id</span><span class="o">=</span><span class="s">&#39;bestFriend&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><cite>field_id</cite> is set explicitly for the <cite>best_friend</cite> field (which otherwise would be
+inferred from the field&#8217;s, as in the other fields).</p>
+</div>
+<p>Entry constructor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sys</strong> &#8211; dict containing the resource&#8217;s remote system attributes.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Entry instance.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="contentful.cda.resources.Resource">
+<em class="property">class </em><tt class="descclassname">contentful.cda.resources.</tt><tt class="descname">Resource</tt><big>(</big><em>sys=None</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/resources.html#Resource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.resources.Resource" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Base CDA resource class.</p>
+<p>Resource constructor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sys</strong> &#8211; (dict) resource system attributes.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference internal" href="#contentful.cda.resources.Resource" title="contentful.cda.resources.Resource"><tt class="xref py py-class docutils literal"><span class="pre">Resource</span></tt></a> instance.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="contentful.cda.resources.ResourceLink">
+<em class="property">class </em><tt class="descclassname">contentful.cda.resources.</tt><tt class="descname">ResourceLink</tt><big>(</big><em>sys</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/resources.html#ResourceLink"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.resources.ResourceLink" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Represents a link to a CDA resource.</p>
+<p>ResourceLink constructor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sys</strong> &#8211; dict containing the resource&#8217;s remote system attributes.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">ResourceLink instance.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="contentful.cda.resources.ResourceType">
+<em class="property">class </em><tt class="descclassname">contentful.cda.resources.</tt><tt class="descname">ResourceType</tt><a class="reference internal" href="_modules/contentful/cda/resources.html#ResourceType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.resources.ResourceType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></tt></p>
+<p>Enum of CDA resource types.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="contentful.cda.resources.Space">
+<em class="property">class </em><tt class="descclassname">contentful.cda.resources.</tt><tt class="descname">Space</tt><big>(</big><em>sys=None</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/resources.html#Space"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.resources.Space" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#contentful.cda.resources.Resource" title="contentful.cda.resources.Resource"><tt class="xref py py-class docutils literal"><span class="pre">contentful.cda.resources.Resource</span></tt></a></p>
+<p>CDA resource of type Space.</p>
+<dl class="docutils">
+<dt>Attributes:</dt>
+<dd>name (str): Name of the Space.</dd>
+</dl>
+<p>Space constructor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sys</strong> &#8211; dict containing the resource&#8217;s remote system attributes.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Space instance.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-contentful.cda.serialization">
+<span id="contentful-cda-serialization-module"></span><h2>contentful.cda.serialization module<a class="headerlink" href="#module-contentful.cda.serialization" title="Permalink to this headline">¶</a></h2>
+<p>serialization module.</p>
+<p>Classes provided include:</p>
+<p><a class="reference internal" href="#contentful.cda.serialization.ResourceFactory" title="contentful.cda.serialization.ResourceFactory"><tt class="xref py py-class docutils literal"><span class="pre">ResourceFactory</span></tt></a> - Factory for generating <a class="reference internal" href="#contentful.cda.resources.Resource" title="contentful.cda.resources.Resource"><tt class="xref py py-class docutils literal"><span class="pre">resources.Resource</span></tt></a> subclasses out of JSON data.</p>
+<dl class="class">
+<dt id="contentful.cda.serialization.ResourceFactory">
+<em class="property">class </em><tt class="descclassname">contentful.cda.serialization.</tt><tt class="descname">ResourceFactory</tt><big>(</big><em>custom_entries</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/serialization.html#ResourceFactory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.serialization.ResourceFactory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Factory for generating <a class="reference internal" href="#contentful.cda.resources.Resource" title="contentful.cda.resources.Resource"><tt class="xref py py-class docutils literal"><span class="pre">resources.Resource</span></tt></a> subclasses out of JSON data.</p>
+<dl class="docutils">
+<dt>Attributes:</dt>
+<dd>entries_mapping (dict): Mapping of Content Type IDs to custom Entry subclasses.</dd>
+</dl>
+<p>ResourceFactory constructor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>custom_entries</strong> &#8211; list of custom Entry subclasses.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">ResourceFactory instance.</td>
+</tr>
+</tbody>
+</table>
+<dl class="staticmethod">
+<dt id="contentful.cda.serialization.ResourceFactory.convert_value">
+<em class="property">static </em><tt class="descname">convert_value</tt><big>(</big><em>value</em>, <em>field</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/serialization.html#ResourceFactory.convert_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.serialization.ResourceFactory.convert_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a <a class="reference internal" href="#contentful.cda.fields.Field" title="contentful.cda.fields.Field"><tt class="xref py py-class docutils literal"><span class="pre">fields.Field</span></tt></a> and a value, ensure that the value matches the given type, otherwise
+attempt to convert it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>value</strong> &#8211; field value.</li>
+<li><strong>field</strong> &#8211; <a class="reference internal" href="#contentful.cda.fields.Field" title="contentful.cda.fields.Field"><tt class="xref py py-class docutils literal"><span class="pre">fields.Field</span></tt></a> instance.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Result value.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="contentful.cda.serialization.ResourceFactory.create_array">
+<tt class="descname">create_array</tt><big>(</big><em>json</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/serialization.html#ResourceFactory.create_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.serialization.ResourceFactory.create_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create <a class="reference internal" href="#contentful.cda.resources.Array" title="contentful.cda.resources.Array"><tt class="xref py py-class docutils literal"><span class="pre">resources.Array</span></tt></a> from JSON.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>json</strong> &#8211; JSON dict.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Array instance.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="contentful.cda.serialization.ResourceFactory.create_asset">
+<em class="property">static </em><tt class="descname">create_asset</tt><big>(</big><em>json</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/serialization.html#ResourceFactory.create_asset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.serialization.ResourceFactory.create_asset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create <a class="reference internal" href="#contentful.cda.resources.Asset" title="contentful.cda.resources.Asset"><tt class="xref py py-class docutils literal"><span class="pre">resources.Asset</span></tt></a> from JSON.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>json</strong> &#8211; JSON dict.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Asset instance.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="contentful.cda.serialization.ResourceFactory.create_content_type">
+<em class="property">static </em><tt class="descname">create_content_type</tt><big>(</big><em>json</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/serialization.html#ResourceFactory.create_content_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.serialization.ResourceFactory.create_content_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create <tt class="xref py py-class docutils literal"><span class="pre">resource.ContentType</span></tt> from JSON.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>json</strong> &#8211; JSON dict.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">ContentType instance.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="contentful.cda.serialization.ResourceFactory.create_entry">
+<tt class="descname">create_entry</tt><big>(</big><em>json</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/serialization.html#ResourceFactory.create_entry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.serialization.ResourceFactory.create_entry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create <a class="reference internal" href="#contentful.cda.resources.Entry" title="contentful.cda.resources.Entry"><tt class="xref py py-class docutils literal"><span class="pre">resources.Entry</span></tt></a> from JSON.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>json</strong> &#8211; JSON dict.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Entry instance.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="contentful.cda.serialization.ResourceFactory.create_space">
+<em class="property">static </em><tt class="descname">create_space</tt><big>(</big><em>json</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/serialization.html#ResourceFactory.create_space"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.serialization.ResourceFactory.create_space" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create <a class="reference internal" href="#contentful.cda.resources.Space" title="contentful.cda.resources.Space"><tt class="xref py py-class docutils literal"><span class="pre">resources.Space</span></tt></a> from JSON.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>json</strong> &#8211; JSON dict.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Space instance.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="contentful.cda.serialization.ResourceFactory.from_json">
+<tt class="descname">from_json</tt><big>(</big><em>json</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/serialization.html#ResourceFactory.from_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.serialization.ResourceFactory.from_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create resource out of JSON data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>json</strong> &#8211; JSON dict.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Resource with a type defined by the given JSON data.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="contentful.cda.serialization.ResourceFactory.process_array_includes">
+<tt class="descname">process_array_includes</tt><big>(</big><em>array</em>, <em>json</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/serialization.html#ResourceFactory.process_array_includes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.serialization.ResourceFactory.process_array_includes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterate through all <cite>includes</cite> and create a resource for every item.</p>
+<p>In addition map the resources under the <cite>items_mapped</cite> by the resource id and type.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>array</strong> &#8211; Array resource.</li>
+<li><strong>json</strong> &#8211; Raw JSON dictionary.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="contentful.cda.serialization.ResourceFactory.process_array_items">
+<tt class="descname">process_array_items</tt><big>(</big><em>array</em>, <em>json</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/serialization.html#ResourceFactory.process_array_items"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.serialization.ResourceFactory.process_array_items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterate through all <cite>items</cite> and create a resource for each.</p>
+<p>In addition map the resources under the <cite>items_mapped</cite> by the resource id and type.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>array</strong> &#8211; Array resource.</li>
+<li><strong>json</strong> &#8211; Raw JSON dictionary.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-contentful.cda.utils">
+<span id="contentful-cda-utils-module"></span><h2>contentful.cda.utils module<a class="headerlink" href="#module-contentful.cda.utils" title="Permalink to this headline">¶</a></h2>
+<p>Utilities module.</p>
+<dl class="function">
+<dt id="contentful.cda.utils.class_for_type">
+<tt class="descclassname">contentful.cda.utils.</tt><tt class="descname">class_for_type</tt><big>(</big><em>resource_type</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/utils.html#class_for_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.utils.class_for_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="contentful.cda.utils.path_for_class">
+<tt class="descclassname">contentful.cda.utils.</tt><tt class="descname">path_for_class</tt><big>(</big><em>clz</em><big>)</big><a class="reference internal" href="_modules/contentful/cda/utils.html#path_for_class"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#contentful.cda.utils.path_for_class" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-contentful.cda">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-contentful.cda" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">package details</a><ul>
+<li><a class="reference internal" href="#module-contentful.cda.client">contentful.cda.client module</a></li>
+<li><a class="reference internal" href="#module-contentful.cda.const">contentful.cda.const module</a></li>
+<li><a class="reference internal" href="#module-contentful.cda.errors">contentful.cda.errors module</a></li>
+<li><a class="reference internal" href="#module-contentful.cda.fields">contentful.cda.fields module</a></li>
+<li><a class="reference internal" href="#module-contentful.cda.resources">contentful.cda.resources module</a></li>
+<li><a class="reference internal" href="#module-contentful.cda.serialization">contentful.cda.serialization module</a></li>
+<li><a class="reference internal" href="#module-contentful.cda.utils">contentful.cda.utils module</a></li>
+<li><a class="reference internal" href="#module-contentful.cda">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="introduction.html"
+                        title="previous chapter">introduction</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/package.details.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="introduction"
+             >previous</a> |</li>
+        <li><a href="index.html">.  documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Author.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>
