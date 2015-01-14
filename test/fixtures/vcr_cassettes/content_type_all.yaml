@@ -1,0 +1,56 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Authorization: [Bearer b4c0n73n7fu1]
+      Connection: [keep-alive]
+      User-Agent: [python-requests/2.4.3 CPython/2.7.6 Darwin/14.0.0]
+    method: GET
+    uri: https://cdn.contentful.com:443/spaces/cfexampleapi/content_types
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA91YS3ObMBC+51e4nGuGV7DhljiPMk3b6dg9NJ0cZCM7Gp4BOY2b8X+vEAgkLGKS
+        TDtjc7H1Wq1W3+5+q+eTwUDJN7niDp7JX9LAmxSSlnKWZWCjkL7tx2IOTjAISf8pbeUBSklDo40Q
+        RQiTlq6VbYRhVAj8RQWWYsm0JYKh3/TzY3TjGER046/FbyGYfQryi346LvQzVWfwCYsjGXxYowwW
+        63C2hrUwepbyY3oJe09gjGEm230hGWH73yQLgFES99ShUuGO6VKffILwppYh3ApVMk/BorCQoDl/
+        d7XBasVQHAhK0duKg1l1x1MqkbcpmVBae7GETyBKQwhSVKCAfVuZLWvQTBJivxhT+Y3YSqSOHW++
+        WPqTwI40a+1NpznwPvPzMviI8sKQBEzc8kUGAYb+WQEyxdB0a6gZQ0Of6aZrGa5pqprm3PJy1qnf
+        Y0F1khoTio/yNASbqwKoNeLorGpObyx3IbYb472xLHhASJAXoj8U6EsQ5hzSu1EGGmc5PpDZZmA9
+        +JfIAd7Y+/7jGvy8Xlnf3gAyc6jZQ8Oc6Y6r2a7hqM7IfhFk8gW7IIP5IkMpjRcEzl9g8vtD4/RH
+        BcGOYFs6h8/ZQcA085GLrgm9XIV6Q19feVFRFIFVK/EwFb3dIS7z9FBBULAzagsx+yzPIW4iMovH
+        u9nkIllxuBJRdw6yYB/qmG7HFyN8zjIk4XFZx3gh65T+PZoZhmvZrm6qljPeFxAckqlmuuWahqvr
+        6tgc3bKbK+/tEPJKLwJV+nSIApgLfKLmNje7QwzvJdMUXOEdXsTYJ8+SyCWzzaabaJ6EexmNwLEq
+        RpSESYsasjgw2R1q7feO08kIl0S9OczxVYZg7Msv4JyMD2QTusPOO26BZ5mXMc5oJVF+XRy8tPIc
+        ZfjeJ5WHNCecS0fZCS4I6RPXve4EPVUM0bIb5WRoEMJlqx5hGnqEHq/aBcbrlBTsQugCmIf96xzm
+        po/dByBD//YAPa18qGl3wtNrKZ2rEytPgSoqqDYpu13ZHXz9R4pkzjvfmHYNdXxq9Eu7pksyrzVS
+        x7Z5gGm3Vc41bi+J/QfDpY+aIPz3iCUhTnvYz82eB6FWcVE/fJSZu3ggkaebzseGT+sINO9i8heW
+        4y007oXTi6WG2b/UsFTdJCGMW9B+4CK1SVlqnLq65hq2OtZJbcLeHuhvUXDcnWxP/gJKOOqc8hUA
+        AA==
+    headers:
+      accept-ranges: [bytes]
+      access-control-allow-headers: ['Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation']
+      access-control-allow-methods: ['GET,HEAD,OPTIONS']
+      access-control-allow-origin: ['*']
+      access-control-expose-headers: [Etag]
+      access-control-max-age: ['86400']
+      age: ['0']
+      cache-control: [max-age=0]
+      connection: [Keep-Alive]
+      content-encoding: [gzip]
+      content-length: ['913']
+      content-type: [application/vnd.contentful.delivery.v1+json]
+      date: ['Mon, 15 Dec 2014 16:55:28 GMT']
+      etag: ['"23331bafbfbf0bb27b38db0169e922a7"']
+      keep-alive: ['timeout=10, max=50']
+      server: [nginx]
+      vary: [Accept-Encoding]
+      via: [1.1 varnish]
+      x-cache: [MISS]
+      x-cache-hits: ['0']
+      x-contentful-request-id: [85f-1335266813]
+      x-served-by: [cache-fra1243-FRA]
+    status: {code: 200, message: OK}
+version: 1

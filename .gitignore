@@ -1,0 +1,6 @@
+.idea/
+*.pyc
+.coverage
+*.egg-info/
+release_notes.tmp
+dist/
