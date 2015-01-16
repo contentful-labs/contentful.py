@@ -48,7 +48,7 @@ function release_perform() {
     # Update version
     set_version ${version}
 
-    # Package
+    # Package & Upload to PyPi
     python setup.py sdist upload
 
     # Commit
