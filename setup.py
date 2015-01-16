@@ -30,14 +30,10 @@ class PyTest(TestCommand):
         sys.exit(errno)
 
 deps = [
-    'PyYAML==3.11',
-    'contextlib2==0.4.0',
     'enum34==1.0.4',
     'requests==2.4.3',
     'six==1.8.0',
-    'wrapt==1.10.2',
-    'python-dateutil==2.3',
-    'six==1.8.0'
+    'python-dateutil==2.3'
 ]
 
 test_deps = [
