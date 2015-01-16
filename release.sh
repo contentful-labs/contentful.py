@@ -4,12 +4,19 @@ REPO='git@github.com:contentful/contentful.py.git'
 CHANGES='CHANGES.rst'
 RELEASE_NOTES='release_notes.tmp'
 GITHUB_RELEASE='github-release'
+SPHINX_BUILD='sphinx-build'
+
 ROOT=`pwd`
 set -e
 
 # Validations
 if ! hash ${GITHUB_RELEASE} 2>/dev/null; then
     echo "Unable to find \"${GITHUB_RELEASE}\" in current PATH."
+    exit
+fi
+
+if ! hash ${SPHINX_BUILD} 2>/dev/null; then
+    echo "Unable to find \"${SPHINX_BUILD}\" in current PATH."
     exit
 fi
 
