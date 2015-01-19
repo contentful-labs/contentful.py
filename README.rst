@@ -116,7 +116,7 @@ Whenever this ``Client`` will attempt to create an ``Entry`` with a Content Type
 
 .. code-block:: python
 
-    print 'Name of the Cat: {0}'.format(cat.name)
+    print('Name of the Cat: {0}'.format(cat.name))
 
 If at any point it is desired to fetch only resources of that type, it can be passed to the ``fetch()`` method and inferred by the client:
 
@@ -136,7 +136,7 @@ Be mindful about providing the ``includes`` parameter properly, since only if th
 .. code-block:: python
 
     array = client.fetch(Cat).all()
-    print array[0].best_friend
+    print(array[0].best_friend)
     # <Cat(sys.id=nyancat)>
 
 **Manual link resolution:**
@@ -144,9 +144,9 @@ Be mindful about providing the ``includes`` parameter properly, since only if th
 .. code-block:: python
 
     cat = client.fetch(Cat).first()
-    print cat.best_friend
+    print(cat.best_friend)
     # <contentful.cda.resources.ResourceLink object at 0x1030df390>
-    print cli.resolve_resource_link(cat.best_friend)
+    print(cli.resolve_resource_link(cat.best_friend))
     # <Cat(sys.id=nyancat)>
 
 License
