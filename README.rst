@@ -146,7 +146,7 @@ Be mindful about providing the ``includes`` parameter properly, since only if th
     cat = client.fetch(Cat).first()
     print(cat.best_friend)
     # <contentful.cda.resources.ResourceLink object at 0x1030df390>
-    print(cli.resolve_resource_link(cat.best_friend))
+    print(client.resolve_resource_link(cat.best_friend))
     # <Cat(sys.id=nyancat)>
 
 License
