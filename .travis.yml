@@ -16,3 +16,6 @@ script:
   - python setup.py test -a '--cov contentful/ --cov-report term-missing'
 after_success:
   - coveralls
+notifications:
+  slack:
+    - secure: dYxV7GVMdGmlaj2CRbXCpFFGA1a0lKVt1mrDSZxnZh6Rp3wMya3WC4SeTOClI5IiF9jJ/V9syNHbV//e/x16cMdEKaHapr+slpJs9IqU4ln2bNxh44GAyNFcfDftcMPbAduuDTiGUNoQY1K73GNtzRo86mvNmY2n2wlPwGCsJCQ= 
