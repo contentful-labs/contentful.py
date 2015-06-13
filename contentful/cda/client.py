@@ -277,7 +277,7 @@ class RequestArray(Request):
         :return: Result instance, or `None` if there are no matching resources.
         """
         self.params['limit'] = 1
-        result = self.invoke()
+        result = self.all()
         return result.items[0] if result.total > 0 else None
 
     def where(self, params):

@@ -89,9 +89,9 @@ class ClientTestCase(BaseTestCase):
         self.assertEqual('cheezburger', result.likes[0])
         self.assertIsInstance(result.birthday, date)
 
-        self.assertIsInstance(result.best_friend, ResourceLink)
-        self.assertEqual('nyancat', result.best_friend.resource_id)
-        self.assertEqual('Entry', result.best_friend.link_type)
+        self.assertIsInstance(result.best_friend, Cat)
+        self.assertEqual('Nyan Cat', result.best_friend.name)
+        self.assertIs(result, result.best_friend.best_friend)
 
     def test_mapped_items(self):
         result = utils.fetch_array_and_assert(self, Entry, 'mapped_items', const.PATH_ENTRIES, query={'limit': '2'})
@@ -106,10 +106,12 @@ class ClientTestCase(BaseTestCase):
             
     def test_resolve_resource_link(self):
         cli = DemoClient([Cat])
-        result = utils.fetch_first_and_assert(self, Cat, 'resolve_resource_link', const.PATH_ENTRIES, cli)
-        best_friend = result.best_friend
-        self.assertIsInstance(best_friend, ResourceLink)
-        self.assertIsInstance(self.client.resolve_resource_link(best_friend), Entry)
+        with self.use_cassette('resolve_resource_link'):
+            result = cli.fetch(Cat).where({'include': '0', 'sys.id': 'nyancat'}).first()
+            self.assertIsNotNone(result)
+            self.assertIsInstance(result, Cat)
+            self.assertIsInstance(result.best_friend, ResourceLink)
+            self.assertIsInstance(self.client.resolve_resource_link(result.best_friend), Entry)
 
     def test_resolve_dict_link(self):
         dct = {'sys': {'linkType': 'Entry', 'type': 'Link', 'id': 'nyancat'}}
@@ -142,7 +144,7 @@ class ClientTestCase(BaseTestCase):
     def test_resolve_list_of_links(self):
         cli = SDKClient()
 
-        with self.use_cassette('test_resolve_list_of_links'):
+        with self.use_cassette('resolve_list_of_links'):
             result = cli.fetch(Entry).where({'sys.id': '399PKHUiJOsMuOGAcAsWmg'}).all()
             self.assertIsInstance(result[0].fields['entries'][0], Entry)
 
