@@ -128,8 +128,8 @@ If at any point it is desired to fetch only resources of that type, it can be pa
 Link Resolution
 ---------------
 
-Unless specified otherwise, a ``Client`` is configured to attempt and resolve links automatically when requesting resource arrays.
-Be mindful about providing the ``includes`` parameter properly, since only if the linked resources are contained within the response they will be resolved automatically. In case a link is not resolved, expect a ``ResourceLink`` object as the field's value, which could later be resolved by invoking the ``resolve_resource_link()`` method of a ``Client``, which issues a network request per the resource ID.
+Unless specified otherwise, a ``Client`` is configured to resolve links automatically when fetching resources.
+Be mindful about providing the ``include`` parameter properly, since only if the linked resources are contained within the response they will be resolved automatically. In case a link is not resolved, expect a ``ResourceLink`` value, which can be resolved by invoking the ``resolve_resource_link()`` method of a ``Client`` (issues a network request per the resource ID).
 
 **Automatic link resolution:**
 
@@ -143,7 +143,7 @@ Be mindful about providing the ``includes`` parameter properly, since only if th
 
 .. code-block:: python
 
-    cat = client.fetch(Cat).first()
+    cat = client.fetch(Cat).where({'sys.id': 'nyancat', 'include': 0}).first()
     print(cat.best_friend)
     # <contentful.cda.resources.ResourceLink object at 0x1030df390>
     print(client.resolve_resource_link(cat.best_friend))
