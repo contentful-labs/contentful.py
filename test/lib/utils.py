@@ -35,6 +35,8 @@ def assert_asset(test_case, asset):
     test_case.assertTrue(asset.url is not None)
     test_case.assertTrue(asset.mimeType is not None)
     test_case.assertTrue(asset.mimeType.startswith('image/'))
+    test_case.assertIsNotNone(asset.fields)
+    test_case.assertTrue(len(asset.fields) > 0)
 
 
 def assert_content_type(test_case, content_type):

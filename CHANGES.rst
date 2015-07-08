@@ -5,6 +5,7 @@ Release History
 ++++++++++++++++++++++
 
 - Auto-resolve links when using `first()`.
+- Add missing asset metadata (`fields` attribute).
 
 0.9.1 (2015-01-16)
 ++++++++++++++++++
