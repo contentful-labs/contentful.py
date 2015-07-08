@@ -1,8 +1,13 @@
 Release History
 ===============
 
-0.9.2 (in-development)
+0.9.3 (in-development)
 ++++++++++++++++++++++
+
+- TBD.
+
+0.9.2 (2015-07-08)
+++++++++++++++++++
 
 - Auto-resolve links when using `first()`.
 - Add missing asset metadata (`fields` attribute).
