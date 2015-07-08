@@ -13,20 +13,20 @@ from test.lib.utils import Cat, DemoClient, SDKClient
 
 class ClientConfigTestCase(BaseTestCase):
     def test_fails_empty_space_id(self):
-        self.assertRaisesRegexp(Exception, '^Configuration for "space_id" must not be empty\\.$', Client, None, 'token')
+        self.assertRaisesRegex(Exception, '^Configuration for "space_id" must not be empty\\.$', Client, None, 'token')
 
     def test_fails_empty_access_token(self):
-        self.assertRaisesRegexp(Exception, '^Configuration for "access_token" must not be empty\\.$', Client,
+        self.assertRaisesRegex(Exception, '^Configuration for "access_token" must not be empty\\.$', Client,
                                 'space_id', None)
 
     def test_fails_wrong_custom_entry_class(self):
         class BadClass(object):
             pass
-        self.assertRaisesRegexp(Exception, '^Provided class \\\"BadClass\\\" must be a subclass of Entry\\.$', Client,
+        self.assertRaisesRegex(Exception, '^Provided class \\\"BadClass\\\" must be a subclass of Entry\\.$', Client,
                                 'space_id', 'token', [BadClass])
 
     def test_fails_entry_class_as_custom(self):
-        self.assertRaisesRegexp(Exception, '^Cannot register \\\"Entry\\\" as a custom entry class\\.$', Client,
+        self.assertRaisesRegex(Exception, '^Cannot register \\\"Entry\\\" as a custom entry class\\.$', Client,
                                 'space_id', 'token', [Entry])
 
 
@@ -36,7 +36,7 @@ class ClientTestCase(BaseTestCase):
         self.client = DemoClient()
 
     def test_fails_fetch_invalid_resource(self):
-        self.assertRaisesRegexp(Exception, '^Invalid resource type \\\"<(type|class) \\\'int\\\'>\\\".',
+        self.assertRaisesRegex(Exception, '^Invalid resource type \\\"<(type|class) \\\'int\\\'>\\\".',
                                 self.client.fetch, int)
 
     def test_user_agent(self):
