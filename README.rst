@@ -2,7 +2,7 @@
 contentful.py
 *************
 
-|travis| |coveralls|
+|travis|
 
 Python SDK for `Contentful`_'s Content Delivery API.
 
@@ -160,6 +160,3 @@ Copyright (c) 2015 Contentful GmbH. See `LICENSE.txt`_ for further details.
 
 .. |travis| image:: https://travis-ci.org/contentful/contentful.py.svg
     :target: https://travis-ci.org/contentful/contentful.py/builds#
-    
-.. |coveralls| image:: https://img.shields.io/coveralls/contentful/contentful.py.svg
-    :target: https://coveralls.io/r/contentful/contentful.py?branch=master

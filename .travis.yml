@@ -10,10 +10,8 @@ branches:
 sudo: false
 install:
   - python setup.py install
-  - pip install pytest-cov
-  - pip install python-coveralls
 script:
-  - python setup.py test -a '--cov contentful/ --cov-report term-missing'
+  - python setup.py test
 after_success:
   - coveralls
 notifications:
