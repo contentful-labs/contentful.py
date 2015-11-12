@@ -12,7 +12,7 @@ Installation via ``pip``:
 
 .. code-block:: bash
 
-    pip install contentful-cda
+    pip install contentful.py
 
 Usage
 =====
