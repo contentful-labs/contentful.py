@@ -30,7 +30,7 @@ class PyTest(TestCommand):
         sys.exit(errno)
 
 deps = [
-    'enum34==1.0.4',
+    'enum34==1.1.1',
     'requests==2.4.3',
     'six==1.8.0',
     'python-dateutil==2.3'
