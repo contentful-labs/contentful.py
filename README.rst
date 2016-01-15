@@ -156,7 +156,7 @@ Copyright (c) 2015 Contentful GmbH. See `LICENSE.txt`_ for further details.
 
 
 .. _Contentful: https://www.contentful.com
-.. _LICENSE.txt: https://github.com/contentful/contentful.py/blob/master/LICENSE.txt
+.. _LICENSE.txt: https://github.com/contentful-labs/contentful.py/blob/master/LICENSE.txt
 
-.. |travis| image:: https://travis-ci.org/contentful/contentful.py.svg
-    :target: https://travis-ci.org/contentful/contentful.py/builds#
+.. |travis| image:: https://travis-ci.org/contentful-labs/contentful.py.svg
+    :target: https://travis-ci.org/contentful-labs/contentful.py/builds#

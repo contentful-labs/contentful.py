@@ -49,7 +49,7 @@ setup(
     name='contentful.py',
     version=version_ns['__version__'],
     packages=['contentful', 'contentful.cda'],
-    url='https://github.com/contentful/contentful.py',
+    url='https://github.com/contentful-labs/contentful.py',
     license='Apache 2.0',
     author='Contentful GmbH',
     author_email='python@contentful.com',

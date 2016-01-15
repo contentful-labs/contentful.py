@@ -1,6 +1,6 @@
 #!/bin/bash
 
-REPO='git@github.com:contentful/contentful.py.git'
+REPO='git@github.com:contentful-labs/contentful.py.git'
 CHANGES='CHANGES.rst'
 RELEASE_NOTES='release_notes.tmp'
 GITHUB_RELEASE='github-release'
