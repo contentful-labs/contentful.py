@@ -2,7 +2,7 @@
 
 set -ex
 
-REPO="git@github.com:contentful/contentful.py.git"
+REPO="git@github.com:contentful-labs/contentful.py.git"
 DIR=sphinx_tmp
 ROOT=`pwd`
 
