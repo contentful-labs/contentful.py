@@ -4,9 +4,12 @@ python:
   - "3.2"
   - "3.3"
   - "3.4"
+  - "3.5"
 branches:
   except:
     - gh-pages
+matrix:
+  fast_finish: true
 sudo: false
 install:
   - python setup.py install

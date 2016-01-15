@@ -4,7 +4,7 @@ Release History
 0.9.3 (in-development)
 ++++++++++++++++++++++
 
-- TBD.
+- Compatability with Python 3.5.
 
 0.9.2 (2015-07-08)
 ++++++++++++++++++
