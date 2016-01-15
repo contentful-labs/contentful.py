@@ -66,7 +66,7 @@ function release_perform() {
 
     # Create a new release
     ${GITHUB_RELEASE} release \
-        --user contentful \
+        --user contentful-labs \
         --repo contentful.py \
         --tag "v${version}" \
         --name "v${version}" \
