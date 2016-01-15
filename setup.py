@@ -37,8 +37,8 @@ deps = [
 ]
 
 test_deps = [
-    'mock==1.0.1',
-    'vcrpy==1.1.3',
+    'mock',
+    'vcrpy==1.7.4',
     'pytest==2.6.4'
 ]
 
@@ -66,6 +66,7 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.2',
         'Programming Language :: Python :: 3.3',
-        'Programming Language :: Python :: 3.4'
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5'
     ]
 )
