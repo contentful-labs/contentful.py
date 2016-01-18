@@ -1,8 +1,11 @@
 Release History
 ===============
 
-0.9.3 (in-development)
+0.9.4 (in-development)
 ++++++++++++++++++++++
+
+0.9.3 (2016-01-18)
+++++++++++++++++++
 
 - Compatability with Python 3.5.
 
