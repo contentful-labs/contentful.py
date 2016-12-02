@@ -6,6 +6,8 @@ contentful.py
 
 Python SDK for `Contentful`_'s Content Delivery API.
 
+    This project is unofficial and currently unsupported, the official SDK can be found here: https://github.com/contentful/contentful.py
+
 Setup
 =====
 Installation via ``pip``:
