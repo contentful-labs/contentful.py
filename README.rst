@@ -29,6 +29,13 @@ The ``Client`` class manages all your interaction with the Contentful Delivery A
 
     client = Client('space-id', 'access-token')
 
+The constructor also takes the following keyword arguments:
+
+- ``custom_entries`` (list) Optional list of `Entry` subclasses (see below)
+- ``secure`` (bool) Indicates whether the connection should be encrypted or not, default: ``True``
+- ``endpoint`` (str) Custom remote API endpoint, default: ``cdn.contentful.com``
+- ``resolve_links`` (bool) Indicates whether or not to resolve links automatically, default: ``True``
+
 ------------------
 Fetching Resources
 ------------------
