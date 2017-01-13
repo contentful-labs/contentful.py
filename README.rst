@@ -27,6 +27,8 @@ The ``Client`` class manages all your interaction with the Contentful Delivery A
 
 .. code-block:: python
 
+    from contentful import Client
+
     client = Client('space-id', 'access-token')
 
 ------------------
@@ -36,6 +38,8 @@ Fetching Resources
 The simplest form of fetching resources follows:
 
 .. code-block:: python
+
+    from contentful.cda.resources import Asset, ContentType, Entry
 
     client.fetch(Asset).all()         # Returns an array of Assets
     client.fetch(Asset).first()       # Returns the first Asset available
@@ -96,6 +100,9 @@ Custom Entry classes can be declared by providing a Content Type ID value and by
 A custom Entry class for this Content Type can be defined as follows:
 
 .. code-block:: python
+
+    from contentful.cda.fields import Date, Field, Link, List, Number, Text
+    from contentful.cda.resources import Asset, ContentType, Entry
 
     class Cat(Entry):
         __content_type__ = 'cat'
