@@ -30,11 +30,13 @@ class PyTest(TestCommand):
         sys.exit(errno)
 
 deps = [
-    'enum34==1.1.1',
     'requests==2.4.3',
     'six==1.10.0',
-    'python-dateutil==2.3'
+    'python-dateutil>=2.3'
 ]
+
+if sys.version_info < (3, 5):
+    deps.append('enum34==1.1.1')
 
 test_deps = [
     'mock',
