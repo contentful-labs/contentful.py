@@ -31,7 +31,7 @@ class PyTest(TestCommand):
 
 deps = [
     'enum34==1.1.1',
-    'requests==2.4.3',
+    'requests==2.32.4',
     'six==1.10.0',
     'python-dateutil==2.3'
 ]
